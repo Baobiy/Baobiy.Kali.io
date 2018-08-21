@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Hello World｜undefined
+        Kali 中安装Vega时报错的解决办法｜undefined
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2018/08/21/hello-world/">
+    <link rel="canonical" href="http://yoursite.com/2018/08/21/KaliFixedBug/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -119,14 +119,13 @@
 <!--only post-->
 
 
-<img class="wechat-title-img"
-     src="">
+<img class="wechat-title-img" src="http://img.ivsky.com/img/tupian/pre/201709/14/beijing_xuhua-010.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('')
+        background-image: url('http://img.ivsky.com/img/tupian/pre/201709/14/beijing_xuhua-010.jpg');
     }
 
     
@@ -137,7 +136,9 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Hello World</h1>
+                    <h1>Kali 中安装Vega时报错的解决办法</h1>
+                    
+                    <h2 class="subheading">About Kali Linux</h2>
                     
                     <span class="meta">
                          作者 Baobiy
@@ -147,6 +148,12 @@
                     </span>
                     <div class="tags text-center">
                         
+                        <a class="tag" href="/tags/#Linux"
+                           title="Linux">Linux</a>
+                        
+                        <a class="tag" href="/tags/#Vulnerability Scanner"
+                           title="Vulnerability Scanner">Vulnerability Scanner</a>
+                        
                     </div>
                 </div>
             </div>
@@ -154,7 +161,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Hello World
+            Kali 中安装Vega时报错的解决办法
         </span>
     </div>
 </header>
@@ -165,15 +172,29 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+                <h1 id="关于Kali-中安装Vega时报错的解决办法"><a href="#关于Kali-中安装Vega时报错的解决办法" class="headerlink" title="关于Kali 中安装Vega时报错的解决办法"></a>关于Kali 中安装Vega时报错的解决办法</h1><p>报错信息：</p>
+<p>!SESSION 2018-08-19 23:38:06.308 ———————————————–<br>eclipse.buildId=unknown<br>java.version=9.0.4<br>java.vendor=Oracle Corporation<br>BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_GB<br>Command-line arguments:  -os linux -ws gtk -arch x86_64</p>
+<p>!ENTRY org.eclipse.equinox.simpleconfigurator 4 0 2018-08-19 23:38:09.723<br>!MESSAGE FrameworkEvent ERROR<br>!STACK 0<br>org.osgi.framework.BundleException: The bundle “org.eclipse.equinox.simpleconfigurator_1.0.300.v20110815-1744 [1]” could not be resolved. Reason: Missing Constraint: Bundle-RequiredExecutionEnvironment: CDC-1.1/Foundation-1.1,J2SE-1.4<br>    at org.eclipse.osgi.framework.internal.core.AbstractBundle.getResolverError(AbstractBundle.java:1332)<br>    at org.eclipse.osgi.framework.internal.core.AbstractBundle.getResolutionFailureException(AbstractBundle.java:1316)<br>    at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:323)<br>    at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:390)<br>    at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1177)<br>    at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)<br>    at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)<br>    at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)<br>    at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)<br>    at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)<br>    at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)<br>    at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)<br>    at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)</p>
+<p>!ENTRY org.eclipse.osgi 4 0 2018-08-19 23:38:09.749<br>!MESSAGE Bundle initial@reference:file:plugins/org.eclipse.equinox.simpleconfigurator_1.0.300.v20110815-1744.jar was not resolved.</p>
+<p>!ENTRY org.eclipse.osgi 2 0 2018-08-19 23:38:09.761<br>!MESSAGE One or more bundles are not resolved because the following root constraints are not resolved:<br>!SUBENTRY 1 org.eclipse.osgi 2 0 2018-08-19 23:38:09.761<br>!MESSAGE Bundle initial@reference:file:plugins/org.eclipse.equinox.simpleconfigurator_1.0.300.v20110815-1744.jar was not resolved.<br>!SUBENTRY 2 org.eclipse.equinox.simpleconfigurator 2 0 2018-08-19 23:38:09.761<br>!MESSAGE Missing required capability Require-Capability: osgi.ee; filter=”(|(&amp;(osgi.ee=CDC/Foundation)(version=1.1))(&amp;(osgi.ee=JavaSE)(version=1.4)))”.</p>
+<p>!ENTRY org.eclipse.osgi 2 0 2018-08-19 23:38:09.763<br>!MESSAGE The following is a complete list of bundles which are not resolved, see the prior log entry for the root cause if it exists:<br>!SUBENTRY 1 org.eclipse.osgi 2 0 2018-08-19 23:38:09.763<br>!MESSAGE Bundle org.eclipse.equinox.simpleconfigurator_1.0.300.v20110815-1744 [1] was not resolved.<br>!SUBENTRY 2 org.eclipse.equinox.simpleconfigurator 2 0 2018-08-19 23:38:09.763<br>!MESSAGE Missing required capability Require-Capability: osgi.ee; filter=”(|(&amp;(osgi.ee=CDC/Foundation)(version=1.1))(&amp;(osgi.ee=JavaSE)(version=1.4)))”.</p>
+<p>!ENTRY org.eclipse.osgi 4 0 2018-08-19 23:38:09.764<br>!MESSAGE Application error<br>!STACK 1<br>java.lang.IllegalStateException: Unable to acquire application service. Ensure that the org.eclipse.core.runtime bundle is resolved and started (see config.ini).<br>    at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:74)<br>    at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)<br>    at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)<br>    at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)<br>    at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)<br>    at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)<br>    at java.base/java.lang.reflect.Method.invoke(Method.java:564)<br>    at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:629)<br>    at org.eclipse.equinox.launcher.Main.basicRun(Main.java:584)<br>    at org.eclipse.equinox.launcher.Main.run(Main.java:1438)<br>    at org.eclipse.equinox.launcher.Main.main(Main.java:1414)</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>百度搜到最靠谱的原因是因为，java版本的不匹配，ecplise适配java版本为8，而Kali2018自带java版本为“9.0.4”</p>
+<blockquote>
+<p>java -version<br>openjdk version “9.0.4”<br>OpenJDK Runtime Environment (build 9.0.4+12-Debian-3)<br>OpenJDK 64-Bit Server VM (build 9.0.4+12-Debian-3, mixed mode)</p>
+</blockquote>
+<p>多方查阅：<br>最终解决方式：<br>执行</p>
+<blockquote>
+<p>sudo update-alternatives –config java<br>出现信息：<br>There are 2 choices for the alternative java (providing /usr/bin/java).<br>  Selection    Path                                            Priority   Status<br>  0            /usr/lib/jvm/java-9-openjdk-amd64/bin/java       1091      auto mode</p>
+<ul>
+<li>1            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      manual mode<br>2            /usr/lib/jvm/java-9-openjdk-amd64/bin/java       1091      manual mode<br>Press <enter> to keep the current choice[*], or type selection number:<br>输入1，选择java-8版本</enter></li>
+</ul>
+</blockquote>
+<p>然后再进入vega安装目录，执行./Vega，则成功运行页面。</p>
+<p>注：如果没有java8信息，则下载安装，执行如下命令即可，再执行上调命令即可：</p>
+<blockquote>
+<p>sudo apt install openjdk-8-jdk</p>
+</blockquote>
 
                 <hr>
                 
@@ -181,10 +202,15 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018/08/21/KaliFixedBug/" data-toggle="tooltip" data-placement="top"
-                           title="Kali 中安装Vega时报错的解决办法">&larr; Previous Post</a>
+                        <a href="/2018/08/21/KaliVulnerabilityScanner/" data-toggle="tooltip" data-placement="top"
+                           title="Kali 部分漏洞扫描工具的使用总结">&larr; Previous Post</a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/2018/08/21/hello-world/" data-toggle="tooltip" data-placement="top"
+                           title="Hello World">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
@@ -202,7 +228,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#关于Kali-中安装Vega时报错的解决办法"><span class="toc-text">关于Kali 中安装Vega时报错的解决办法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#解决"><span class="toc-text">解决</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
