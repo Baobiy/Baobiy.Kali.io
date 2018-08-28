@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My personal blog">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Baobiy" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2018/08/28/loganalyzer+rsyslog+mysql搭建/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Baobiy
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1></h1>
+                    
+                    <span class="meta">
+                         作者 Baobiy
+                        <span>
+                          日期 2018-08-28
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>Centos7 搭建 LogAnalyzer4.1.5 - 开源日志服务器</p>
+<p>#一、环境准备</p>
+<p>###1、关闭selinux</p>
+<blockquote>
+<p>vi  /etc/selinux/config</p>
+</blockquote>
+<p>修改文件</p>
+<blockquote>
+<p>SELINUX=disabled</p>
+</blockquote>
+<p>这一步骤还可以使用命令直接修改</p>
+<blockquote>
+<p>sed -i ‘s#SELINUX=enforcing#SELINUX=disabled#g’ /etc/selinux/config</p>
+</blockquote>
+<p>临时关闭</p>
+<blockquote>
+<p>setenforce 0</p>
+</blockquote>
+<p>###2、关闭firewall</p>
+<blockquote>
+<p>systemctl stop firewalld.service</p>
+</blockquote>
+<blockquote>
+<p>systemctl disable firewalld.servic</p>
+</blockquote>
+<p>###3、时间同步</p>
+<blockquote>
+<p>ntpdate cn.ntp.org.cn</p>
+</blockquote>
+<blockquote>
+<p>hwclock -w</p>
+</blockquote>
+<p>写进计划任务</p>
+<blockquote>
+<p>vi /etc/crontab</p>
+</blockquote>
+<p>添加</p>
+<blockquote>
+<p>00 11 <em> </em> * root ntpdate cn.ntp.org.cn</p>
+</blockquote>
+<blockquote>
+<p>00 11 <em> </em> * root hwclock -w</p>
+</blockquote>
+<p>#二、搭建LAMP环境</p>
+<p>###1、安装mysql</p>
+<blockquote>
+<p>mkdir /home/rsyslog_server/tools -p </p>
+<p>cd /home/rsyslog_server/tools</p>
+</blockquote>
+<blockquote>
+<p>yum install wget -y</p>
+</blockquote>
+<blockquote>
+<p>wget –no-check-certificate <a href="http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm" target="_blank" rel="noopener">http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm</a>  </p>
+</blockquote>
+<blockquote>
+<p>rpm -Uvh mysql57-community-release-el7-8.noarch.rpm</p>
+</blockquote>
+<blockquote>
+<p>yum install mysql-community-server -y</p>
+</blockquote>
+<blockquote>
+<p>systemctl start mysqld.service</p>
+</blockquote>
+<blockquote>
+<p>systemctl status mysqld.service</p>
+</blockquote>
+<blockquote>
+<p>grep ‘temporary password’ /var/log/mysqld.log 查看初始密码 新版本的MYSQL默认密码不为空了</p>
+</blockquote>
+<blockquote>
+<p> mysql -u root -p</p>
+</blockquote>
+<blockquote>
+<p>ALTER USER ‘root‘@’localhost’ IDENTIFIED BY ‘Zheshimima2!’;                //更改初始密码，密码要符合复杂度要求</p>
+</blockquote>
+<p>###2、安装Apache及PHP</p>
+<blockquote>
+<p>yum install httpd -y</p>
+</blockquote>
+<blockquote>
+<p>yum install php php-gd php-xml php-mysql -y</p>
+</blockquote>
+<p>###3、启动服务和加开机启动</p>
+<blockquote>
+<p>systemctl start httpd.service</p>
+</blockquote>
+<blockquote>
+<p>systemctl enable httpd.service</p>
+</blockquote>
+<blockquote>
+<p>systemctl start mysqld.service</p>
+</blockquote>
+<blockquote>
+<p>systemctl enable mysqld.service</p>
+</blockquote>
+<p>###4、测试PHP环境</p>
+<blockquote>
+<p>cd /var/www/html</p>
+</blockquote>
+<blockquote>
+<p>vi index.php</p>
+</blockquote>
+<blockquote>
+<p>&lt;?php</p>
+</blockquote>
+<blockquote>
+<p>   phpinfo()</p>
+</blockquote>
+<blockquote>
+<p>?&gt;</p>
+</blockquote>
+<p>保存，然后浏览器访问改IP</p>
+<p><img src="https://i.imgur.com/XXTESCp.png" alt=""></p>
+<p>#三、安装相关日志软件及配置</p>
+<p>###1、查看一下是否有rsyslog</p>
+<blockquote>
+<p>rpm -qa rsyslog</p>
+</blockquote>
+<p>Centos7 默认是有的</p>
+<p>安装rsyslog 连接MySQL数据库的模块</p>
+<blockquote>
+<p>yum install rsyslog-mysql -y</p>
+</blockquote>
+<p>查看库是否建立成功</p>
+<blockquote>
+<p>rpm -ql rsyslog-mysql</p>
+</blockquote>
+<p><img src="https://i.imgur.com/URnPbZI.png" alt=""></p>
+<p>导入rsyslog-mysql 数据库文件</p>
+<blockquote>
+<p>cd /usr/share/doc/syslog-8.24.0/</p>
+</blockquote>
+<blockquote>
+<p> mysql -uroot -p&lt;mysql-createDB.sql</p>
+</blockquote>
+<blockquote>
+<p>Enter password:</p>
+</blockquote>
+<p>登录数据库查看</p>
+<blockquote>
+<p>mysql -u root -p</p>
+</blockquote>
+<blockquote>
+<p>mysql&gt; show databases;</p>
+</blockquote>
+<p><img src="https://i.imgur.com/AGwGGGX.png" alt=""></p>
+<blockquote>
+<p>mysql&gt; use Syslog;</p>
+</blockquote>
+<blockquote>
+<p>mysql&gt; show tables;</p>
+</blockquote>
+<p><img src="https://i.imgur.com/wso70d2.png" alt=""></p>
+<p>导入数据库操作创建了Syslog 库并在该库中创建了两张空表SystemEvents 和SystemEventsProperties</p>
+<p>###2、在MySQL下创建rsyslog用户并授权</p>
+<p>mysql&gt; grant all on Syslog.* to rsyslog@’localhost’ identified by ‘Zheshimima2!’;</p>
+<p>mysql&gt; flush privileges;</p>
+<p>mysql&gt; exit</p>
+<p>配置服务端支持rsyslog-mysql 模块，并开启UDP服务端口获取网内其他LINUX系统日志</p>
+<blockquote>
+<p> vi /etc/rsyslog.conf</p>
+</blockquote>
+<p>添加或修改如下配置</p>
+<blockquote>
+<p>$Modload ommysql</p>
+</blockquote>
+<blockquote>
+<p><em>.</em> :ommysql:localhost,Syslog,rsyslog,Zheshimima2! </p>
+</blockquote>
+<blockquote>
+<p>$ModLoad immark</p>
+</blockquote>
+<blockquote>
+<p>$ModLoad imudp</p>
+</blockquote>
+<blockquote>
+<p>$UDPServerRun 514</p>
+</blockquote>
+<p> 重启rsyslog服务</p>
+<blockquote>
+<p>systemctl restart rsyslog.service</p>
+</blockquote>
+<p>###3、客户端的配置（LOG服务器本身可以不搭）</p>
+<p>####1、检查客户端有没有安装rsyslog</p>
+<blockquote>
+<p>rpm -qa rsyslog</p>
+</blockquote>
+<p>配置rsyslog客户端发送本地日志到服务端</p>
+<blockquote>
+<p>vi /etc/rsyslog.conf </p>
+</blockquote>
+<blockquote>
+<p><em>.</em> @192.168.253.160:514        #在文件结尾处增加此内容</p>
+</blockquote>
+<p>重启rsyslog服务</p>
+<blockquote>
+<p>systemctl restart rsyslog.service</p>
+</blockquote>
+<p>编辑/etc/bashrc，将客户端执行的所有命令写入系统日志/var/log/messages中</p>
+<blockquote>
+<p>vi /etc/bashrc </p>
+</blockquote>
+<blockquote>
+<p>export PROMPT_COMMAND=’{ msg=$(history 1 | { read x y; echo $y; });logger “[euid=$(whoami)]”:$(who am i):[<code>pwd</code>]”$msg”; }’                #在结尾处加上此内容</p>
+</blockquote>
+<blockquote>
+<p>source /etc/bashrc </p>
+</blockquote>
+<p>####2、测试是否可以接收到日志</p>
+<blockquote>
+<p>cd /tmp</p>
+</blockquote>
+<blockquote>
+<p>touch test</p>
+</blockquote>
+<blockquote>
+<p>rm -rf test</p>
+</blockquote>
+<blockquote>
+<p>cat /var/log/messages //查看一下刚才的操作是否有记录</p>
+</blockquote>
+<p>####3、安装LogAnalyzer</p>
+<blockquote>
+<p>cd /home/rsyslog_server/tools/</p>
+</blockquote>
+<blockquote>
+<p>wget <a href="http://download.adiscon.com/loganalyzer/loganalyzer-4.1.5.tar.gz" target="_blank" rel="noopener">http://download.adiscon.com/loganalyzer/loganalyzer-4.1.5.tar.gz</a></p>
+</blockquote>
+<blockquote>
+<p>tar zxf loganalyzer-4.1.5.tar.gz</p>
+</blockquote>
+<blockquote>
+<p>cd loganalyzer-4.1.5/</p>
+</blockquote>
+<blockquote>
+<p>mkdir -p /var/www/html/loganalyzer</p>
+</blockquote>
+<blockquote>
+<p>cp -a src/* /var/www/html/loganalyzer/</p>
+</blockquote>
+<p>####4、在浏览器中打开<br><a href="http://192.168.99.96/loganalyzer/" target="_blank" rel="noopener">http://192.168.99.96/loganalyzer/</a></p>
+<p><img src="https://i.imgur.com/pDFTmlN.png" alt=""></p>
+<p><img src="https://i.imgur.com/dfjyKY4.png" alt=""></p>
+<p>此处提示了./config.php文件不存在，我们需要生成一下</p>
+<blockquote>
+<p>cd contrib/</p>
+</blockquote>
+<blockquote>
+<p>cp configure.sh /var/www/html/loganalyzer/</p>
+</blockquote>
+<blockquote>
+<p>cd /var/www/html/loganalyzer/</p>
+</blockquote>
+<blockquote>
+<p>sh configure.sh</p>
+</blockquote>
+<p>完成后在点击recheck一下</p>
+<p><img src="https://i.imgur.com/6h2FRRd.png" alt=""></p>
+<p>继续下一步<br>配置数据库</p>
+<p><img src="https://i.imgur.com/Km3wC2M.png" alt=""></p>
+<p><img src="https://i.imgur.com/PPdwgHD.png" alt=""></p>
+<p><img src="https://i.imgur.com/4CpWS0X.png" alt=""></p>
+<p><img src="https://i.imgur.com/vtS0zgI.png" alt=""></p>
+<p><img src="https://i.imgur.com/oOtOq4V.png" alt=""><br>OK了</p>
+<p>注：若出现问题提示：could not find the configured table, maybe misspelled or the table names are case sensitive</p>
+<p>解决办法，查看并修改 /var/www/html/loganalyzer/config.php 文件下，<br>DBTableName 的值，是否与数据库中一致。</p>
+<p>具体描述见链接：<a href="https://nolabnoparty.com/en/install-rsyslog-loganalyzer/" target="_blank" rel="noopener">https://nolabnoparty.com/en/install-rsyslog-loganalyzer/</a></p>
+<p>#四、LogAnalyzer汉化</p>
+<p>汉化操作可以直接用我网盘里的汉化包，然后上传到/var/www/html/loganalyzer/lang目录下，然后在管理页面选择语言即可。</p>
+<pre><code>https://pan.baidu.com/s/1k0I7HhOQmTvr3hqG5JkyHQ
+</code></pre><p>#五、故障处理篇</p>
+<p>长时间运行LogAnalyzer日志服务器，由于数据库中的数据量太大，会造成访问卡顿的现象，此时我们需要删除不用的数据以减小日志量。</p>
+<p>管理员登录，选择 管理中心-数据源-删除按钮</p>
+<p>三个删除选项，根据自己需求删除即可</p>
+<p>转载自：Centos7 搭建 LogAnalyzer4.1.5 - 开源日志服务器_ 服务器开源_ 如果宅|网络工程师培训_ 网络工程师|网络工程师培训学校|软件安装步骤-手把手教你学!  <a href="http://www.ifzhai.com/article.php?id=9" target="_blank" rel="noopener">http://www.ifzhai.com/article.php?id=9</a></p>
+<p>相关其他文章：<br>rsyslog 存储到 mysql - GETTOLIVE - 博客园  <a href="https://www.cnblogs.com/gettolive/p/9193228.html" target="_blank" rel="noopener">https://www.cnblogs.com/gettolive/p/9193228.html</a></p>
+<p>rsyslog日志系统 - CSDN博客  <a href="https://blog.csdn.net/u014695188/article/details/51039182" target="_blank" rel="noopener">https://blog.csdn.net/u014695188/article/details/51039182</a></p>
+<p><a href="https://www.cnblogs.com/drgcaosheng/p/5832697.html" target="_blank" rel="noopener">https://www.cnblogs.com/drgcaosheng/p/5832697.html</a></p>
+<p>CentOS 6.5下利用Rsyslog+LogAnalyzer+MySQL部署日志服务器 - David_Tang - 博客园  <a href="http://www.cnblogs.com/mchina/p/linux-centos-rsyslog-loganalyzer-mysql-log-server.html" target="_blank" rel="noopener">http://www.cnblogs.com/mchina/p/linux-centos-rsyslog-loganalyzer-mysql-log-server.html</a></p>
+<p>实验：用loganalyzer实现web浏览器访问日志 - CSDN博客  <a href="https://blog.csdn.net/OH_ON/article/details/78368597" target="_blank" rel="noopener">https://blog.csdn.net/OH_ON/article/details/78368597</a></p>
+<p><a href="https://www.cnblogs.com/xyzdw/archive/2011/08/11/2135227.html" target="_blank" rel="noopener">https://www.cnblogs.com/xyzdw/archive/2011/08/11/2135227.html</a></p>
+<p>在cenOS下安装apache出现-bash: /etc/init.d/httpd: 没有那个文件或目录 - 杰杰顺利 - 博客园  <a href="http://www.cnblogs.com/zhaoshunjie/p/5824922.html" target="_blank" rel="noopener">http://www.cnblogs.com/zhaoshunjie/p/5824922.html</a></p>
+<p>centOS7 (64) MariaDB无法启动　跪求解决方法 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区  <a href="http://bbs.51cto.com/thread-1138460-1.html" target="_blank" rel="noopener">http://bbs.51cto.com/thread-1138460-1.html</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/08/21/KaliFixedBug/" data-toggle="tooltip" data-placement="top"
+                           title="Kali 中安装Vega时报错的解决办法">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Baobiy 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>
