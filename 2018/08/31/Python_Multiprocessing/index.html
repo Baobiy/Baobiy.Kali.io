@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My personal blog">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Baobiy" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        多进程 Multiprocessing 模块｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2018/08/31/Python_Multiprocessing/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Baobiy
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://img.ivsky.com/img/tupian/pre/201709/14/beijing_xuhua-010.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://img.ivsky.com/img/tupian/pre/201709/14/beijing_xuhua-010.jpg');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>多进程 Multiprocessing 模块</h1>
+                    
+                    <h2 class="subheading">About Python </h2>
+                    
+                    <span class="meta">
+                         作者 Baobiy
+                        <span>
+                          日期 2018-08-31
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Python"
+                           title="Python">Python</a>
+                        
+                        <a class="tag" href="/tags/#Multiprocessing"
+                           title="Multiprocessing">Multiprocessing</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            多进程 Multiprocessing 模块
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="多进程-Multiprocessing-模块"><a href="#多进程-Multiprocessing-模块" class="headerlink" title="多进程 Multiprocessing 模块"></a>多进程 Multiprocessing 模块</h1><p><a href="https://docs.python.org/3.5/library/multiprocessing.html" title="multiprocessing 模块官方说明文档" target="_blank" rel="noopener">multiprocessing 模块官方说明文档</a></p>
+<h2 id="Process-类"><a href="#Process-类" class="headerlink" title="Process 类"></a>Process 类</h2><p>Process 类用来描述一个进程对象。创建子进程的时候，只需要传入一个执行函数和函数的参数即可完成 Process 示例的创建。</p>
+<ul>
+<li>star() 方法启动进程，</li>
+<li>join() 方法实现进程间的同步，等待所有进程退出。</li>
+<li>close() 用来阻止多余的进程涌入进程池 Pool 造成进程阻塞。</li>
+</ul>
+<blockquote>
+<p>multiprocessing.Process(group=None, target=None, name=None, args=(), kwargs={}, *, daemon=None)</p>
+</blockquote>
+<ul>
+<li>target 是函数名字，需要调用的函数</li>
+<li>args 函数需要的参数，以 tuple 的形式传入</li>
+</ul>
+<p>示例：</p>
+<pre><code>import multiprocessing
+import os
+
+def run_proc(name):
+    print(&apos;Child process {0} {1} Running &apos;.format(name, os.getpid()))
+
+if __name__ == &apos;__main__&apos;:
+    print(&apos;Parent process {0} is Running&apos;.format(os.getpid()))
+    for i in range(5):
+        p = multiprocessing.Process(target=run_proc, args=(str(i),))
+        print(&apos;process start&apos;)
+        p.start()
+    p.join()
+    print(&apos;Process close&apos;)
+</code></pre><p>结果：</p>
+<pre><code>Parent process 809 is Running
+process start
+process start
+process start
+process start
+process start
+Child process 0 810 Running 
+Child process 1 811 Running 
+Child process 2 812 Running 
+Child process 3 813 Running 
+Child process 4 814 Running 
+Process close
+</code></pre><h2 id="Pool"><a href="#Pool" class="headerlink" title="Pool"></a>Pool</h2><p>Pool 可以提供指定数量的进程供用户使用，默认是 CPU 核数。当有新的请求提交到 Poll 的时候，如果池子没有满，会创建一个进程来执行，否则就会让该请求等待。 </p>
+<ul>
+<li>Pool 对象调用 join 方法会等待所有的子进程执行完毕</li>
+<li>调用 join 方法之前，必须调用 close </li>
+<li>调用 close 之后就不能继续添加新的 Process 了</li>
+</ul>
+<h3 id="pool-apply-async"><a href="#pool-apply-async" class="headerlink" title="pool.apply_async"></a>pool.apply_async</h3><p>apply_async 方法用来同步执行进程，允许多个进程同时进入池子。</p>
+<pre><code>import multiprocessing
+import os
+import time
+
+def run_task(name):
+    print(&apos;Task {0} pid {1} is running, parent id is {2}&apos;.format(name, os.getpid(), os.getppid()))
+    time.sleep(1)
+    print(&apos;Task {0} end.&apos;.format(name))
+
+if __name__ == &apos;__main__&apos;:
+    print(&apos;current process {0}&apos;.format(os.getpid()))
+    p = multiprocessing.Pool(processes=3)
+    for i in range(6):
+        p.apply_async(run_task, args=(i,))
+    print(&apos;Waiting for all subprocesses done...&apos;)
+    p.close()
+    p.join()
+    print(&apos;All processes done!&apos;)
+</code></pre><p>结果：</p>
+<pre><code>current process 921
+Waiting for all subprocesses done...
+Task 0 pid 922 is running, parent id is 921
+Task 1 pid 923 is running, parent id is 921
+Task 2 pid 924 is running, parent id is 921
+Task 0 end.
+Task 3 pid 922 is running, parent id is 921
+Task 1 end.
+Task 4 pid 923 is running, parent id is 921
+Task 2 end.
+Task 5 pid 924 is running, parent id is 921
+Task 3 end.
+Task 4 end.
+Task 5 end.
+All processes done!    
+</code></pre><h3 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h3><pre><code>apply(func[, args[, kwds]])
+</code></pre><p>该方法只能允许一个进程进入池子，在一个进程结束之后，另外一个进程才可以进入池子。</p>
+<pre><code>import multiprocessing
+import os
+import time
+
+def run_task(name):
+    print(&apos;Task {0} pid {1} is running, parent id is {2}&apos;.format(name, os.getpid(), os.getppid()))
+    time.sleep(1)
+    print(&apos;Task {0} end.&apos;.format(name))
+
+if __name__ == &apos;__main__&apos;:
+    print(&apos;current process {0}&apos;.format(os.getpid()))
+    p = multiprocessing.Pool(processes=3)
+    for i in range(6):
+        p.apply(run_task, args=(i,))
+    print(&apos;Waiting for all subprocesses done...&apos;)
+    p.close()
+    p.join()
+    print(&apos;All processes done!&apos;)
+</code></pre><p>结果：</p>
+<pre><code>Task 0 pid 928 is running, parent id is 927
+Task 0 end.
+Task 1 pid 929 is running, parent id is 927
+Task 1 end.
+Task 2 pid 930 is running, parent id is 927
+Task 2 end.
+Task 3 pid 928 is running, parent id is 927
+Task 3 end.
+Task 4 pid 929 is running, parent id is 927
+Task 4 end.
+Task 5 pid 930 is running, parent id is 927
+Task 5 end.
+Waiting for all subprocesses done...
+All processes done!
+</code></pre><h2 id="Queue-进程间通信"><a href="#Queue-进程间通信" class="headerlink" title="Queue 进程间通信"></a>Queue 进程间通信</h2><p>Queue 用来在多个进程间通信。Queue 有两个方法，get 和 put。</p>
+<h3 id="put方法"><a href="#put方法" class="headerlink" title="put方法"></a>put方法</h3><p>Put 方法用来插入数据到队列中，有两个可选参数，blocked 和 timeout。 </p>
+<ul>
+<li>blocked = True（默认值），timeout 为正</li>
+</ul>
+<blockquote>
+<p>该方法会阻塞 timeout 指定的时间，直到该队列有剩余空间。如果超时，抛出 Queue.Full 异常。</p>
+</blockquote>
+<ul>
+<li>blocked = False </li>
+</ul>
+<blockquote>
+<p>如果 Queue 已满，立刻抛出 Queue.Full 异常</p>
+</blockquote>
+<h3 id="get方法"><a href="#get方法" class="headerlink" title="get方法"></a>get方法</h3><p>get 方法用来从队列中读取并删除一个元素。有两个参数可选，blocked 和 timeout </p>
+<ul>
+<li>blocked = False （默认），timeout 正值</li>
+</ul>
+<blockquote>
+<p>等待时间内，没有取到任何元素，会抛出 Queue.Empty 异常。</p>
+</blockquote>
+<ul>
+<li>blocked = True </li>
+</ul>
+<blockquote>
+<p>Queue 有一个值可用，立刻返回改值；Queue 没有任何元素</p>
+</blockquote>
+<pre><code>from multiprocessing import Process, Queue
+import os, time, random
+# 写数据进程执行的代码:
+def proc_write(q,urls):
+    print(&apos;Process(%s) is writing...&apos; % os.getpid())
+    for url in urls:
+        q.put(url)
+        print(&apos;Put %s to queue...&apos; % url)
+        time.sleep(random.random())
+# 读数据进程执行的代码:
+def proc_read(q):
+    print(&apos;Process(%s) is reading...&apos; % os.getpid())
+    while True:
+        url = q.get(True)
+        print(&apos;Get %s from queue.&apos; % url)
+if __name__==&apos;__main__&apos;:
+    # 父进程创建Queue，并传给各个子进程：
+    q = Queue()
+    proc_writer1 = Process(target=proc_write, args=(q,[&apos;url_1&apos;, &apos;url_2&apos;, &apos;url_3&apos;]))
+    proc_writer2 = Process(target=proc_write, args=(q,[&apos;url_4&apos;,&apos;url_5&apos;,&apos;url_6&apos;]))
+    proc_reader = Process(target=proc_read, args=(q,))
+    # 启动子进程proc_writer，写入:
+    proc_writer1.start()
+    proc_writer2.start()
+    # 启动子进程proc_reader，读取:
+    proc_reader.start()
+    # 等待proc_writer结束:
+    proc_writer1.join()
+    proc_writer2.join()
+    # proc_reader进程里是死循环，无法等待其结束，只能强行终止:
+    proc_reader.terminate()
+</code></pre><p>结果：</p>
+<pre><code>Process(1083) is writing...
+Put url_1 to queue...
+Process(1084) is writing...
+Put url_4 to queue...
+Process(1085) is reading...
+Get url_1 from queue.
+Get url_4 from queue.
+Put url_5 to queue...
+Get url_5 from queue.
+Put url_2 to queue...
+Get url_2 from queue.
+Put url_6 to queue...
+Get url_6 from queue.
+Put url_3 to queue...
+Get url_3 from queue.
+</code></pre><h2 id="Pipe进程间通信"><a href="#Pipe进程间通信" class="headerlink" title="Pipe进程间通信"></a>Pipe进程间通信</h2><p>常用来在两个进程间通信，两个进程分别位于管道的两端。</p>
+<pre><code>multiprocessing.Pipe([duplex])
+</code></pre><blockquote>
+<p>示例一和示例二，也是网上找的别人的例子，尝试理解并增加了注释而已。网上的例子，大多是例子一和例子二在一起的，这里分开来看，比较容易理解。</p>
+</blockquote>
+<p>示例一：</p>
+<pre><code>from multiprocessing import Process, Pipe
+
+def send(pipe):
+    pipe.send([&apos;spam&apos;] + [42, &apos;egg&apos;])   # send 传输一个列表
+    pipe.close()
+
+if __name__ == &apos;__main__&apos;:
+    (con1, con2) = Pipe()                            # 创建两个 Pipe 实例
+    sender = Process(target=send, args=(con1, ))     # 函数的参数，args 一定是实例化之后的 Pip 变量，不能直接写 args=(Pip(),)
+    sender.start()                                   # Process 类启动进程
+    print(&quot;con2 got: %s&quot; % con2.recv())              # 管道的另一端 con2 从send收到消息
+    con2.close()                                     # 关闭管道
+</code></pre><p>结果：</p>
+<pre><code>con2 got: [&apos;spam&apos;, 42, &apos;egg&apos;]
+</code></pre><p>示例二：</p>
+<pre><code>from multiprocessing import Process, Pipe
+
+def talk(pipe):
+    pipe.send(dict(name=&apos;Bob&apos;, spam=42))            # 传输一个字典
+    reply = pipe.recv()                             # 接收传输的数据
+    print(&apos;talker got:&apos;, reply)
+
+if __name__ == &apos;__main__&apos;:
+    (parentEnd, childEnd) = Pipe()                  # 创建两个 Pipe() 实例，也可以改成 conf1， conf2
+    child = Process(target=talk, args=(childEnd,))  # 创建一个 Process 进程，名称为 child
+    child.start()                                   # 启动进程
+    print(&apos;parent got:&apos;, parentEnd.recv())          # parentEnd 是一个 Pip() 管道，可以接收 child Process 进程传输的数据
+    parentEnd.send({x * 2 for x in &apos;spam&apos;})         # parentEnd 是一个 Pip() 管道，可以使用 send 方法来传输数据
+    child.join()                                    # 传输的数据被 talk 函数内的 pip 管道接收，并赋值给 reply
+    print(&apos;parent exit&apos;)
+</code></pre><p>结果:</p>
+<pre><code>parent got: {&apos;name&apos;: &apos;Bob&apos;, &apos;spam&apos;: 42}
+talker got: {&apos;ss&apos;, &apos;aa&apos;, &apos;pp&apos;, &apos;mm&apos;}
+parent exit
+</code></pre><p>转载自：</p>
+<p>python3 学习笔记 多进程 multiprocessing 模块 - CSDN博客  <a href="https://blog.csdn.net/cityzenoldwang/article/details/78584175" target="_blank" rel="noopener">https://blog.csdn.net/cityzenoldwang/article/details/78584175</a></p>
+<p>相关链接教程：</p>
+<p>python进程池：multiprocessing.pool - jihite - 博客园  <a href="https://www.cnblogs.com/kaituorensheng/p/4465768.html" target="_blank" rel="noopener">https://www.cnblogs.com/kaituorensheng/p/4465768.html</a></p>
+<p>python进程池：multiprocessing.pool - kevinchou - 博客园  <a href="https://www.cnblogs.com/kevinchou/p/5591130.html" target="_blank" rel="noopener">https://www.cnblogs.com/kevinchou/p/5591130.html</a></p>
+<p>Python多进程之multiprocessing模块和进程池的实现 - 蜗牛仔 - 博客园  <a href="https://www.cnblogs.com/xiaobeibei26/p/6484849.html" target="_blank" rel="noopener">https://www.cnblogs.com/xiaobeibei26/p/6484849.html</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/08/26/loganalyzer+rsyslog+mysql搭建/" data-toggle="tooltip" data-placement="top"
+                           title="Centos7 搭建 LogAnalyzer4.1.5 - 开源日志服务器">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#多进程-Multiprocessing-模块"><span class="toc-text">多进程 Multiprocessing 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Process-类"><span class="toc-text">Process 类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pool"><span class="toc-text">Pool</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pool-apply-async"><span class="toc-text">pool.apply_async</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#apply"><span class="toc-text">apply</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Queue-进程间通信"><span class="toc-text">Queue 进程间通信</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#put方法"><span class="toc-text">put方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get方法"><span class="toc-text">get方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pipe进程间通信"><span class="toc-text">Pipe进程间通信</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Baobiy 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>
