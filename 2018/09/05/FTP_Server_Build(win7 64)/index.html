@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My personal blog">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Baobiy" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        win7下利用IIS搭建FTP服务器(转载)｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2018/09/05/FTP_Server_Build(win7 64)/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Baobiy
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://img.ivsky.com/img/tupian/pre/201709/14/beijing_xuhua-010.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://img.ivsky.com/img/tupian/pre/201709/14/beijing_xuhua-010.jpg');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>win7下利用IIS搭建FTP服务器(转载)</h1>
+                    
+                    <h2 class="subheading">FTP Server </h2>
+                    
+                    <span class="meta">
+                         作者 Baobiy
+                        <span>
+                          日期 2018-09-05
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#FTP"
+                           title="FTP">FTP</a>
+                        
+                        <a class="tag" href="/tags/#FTP Server Build"
+                           title="FTP Server Build">FTP Server Build</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            win7下利用IIS搭建FTP服务器(转载)
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>配置一个完整的FTP服务器比较复杂，可以使用Windows系统自带的FTP服务（默认情况下Windows自带的Web和FTP服务是关闭的）。前段时间，为了与他人共享文件，为创建一个FTP服务器而纠结，摸索了很久，终于成功建立FTP服务器，分享如下，不足之处请继续补充~</p>
+<p>###系统：win7</p>
+<p>#方法/步骤</p>
+<h2 id="安装FTP组件"><a href="#安装FTP组件" class="headerlink" title="安装FTP组件"></a>安装FTP组件</h2><p>由于Win7默认没有安装FTP组件，故FTP的设置第一步就是安装FTP组件</p>
+<p>点击：在开始菜单里 → 控制面板 → 程序和功能 → 打开或关闭Windows功能。勾选“FTP服务器”及“FTP服务““FTP扩展性”；”Web管理工具“选项下的所有，点击“确定”，安装FTP组件。如下图所示</p>
+<p><img src="https://i.imgur.com/a3VAFrk.png" alt=""></p>
+<p><img src="https://i.imgur.com/1bHZi9g.png" alt=""></p>
+<h2 id="添加FTP站点"><a href="#添加FTP站点" class="headerlink" title="添加FTP站点"></a>添加FTP站点</h2><p>点击：右击“计算机”—》 管理—》点击“服务和应用程序”选中“Internet信息服务(IIS)管理器”—》单击选中“网站”，并且在其上右击“网站”—》点击“添加FTP站点”，出现“站点信息”界面，如图：</p>
+<p><img src="https://i.imgur.com/Iv4NM9U.png" alt=""></p>
+<p> 添加FTP站点名称，以及设置FTP站点的物理路径，点击“下一步”，出现“绑定和SSL设置”界面，如下图所示</p>
+<p><img src="https://i.imgur.com/n5b3xLt.png" alt=""></p>
+<p>IP设置为本机的IP地址，端口用FTP默认的21，SSL勾选“无”。点击“下一步”，出现“身份验证和授权信息”界面，如下图所示：</p>
+<p><img src="https://i.imgur.com/C857GaL.png" alt=""></p>
+<p>如果只是想设置简单的FTP，则“身份验证”和“授权”都勾选“匿名”，并且给匿名设置相应的权限。本例中，还要给FTP配置帐号，以及帐号的权限，故“身份验证”勾选“基本”，“授权”勾选“未选定”，点击“完成”，完成FTP站点的设置。</p>
+<p><img src="https://i.imgur.com/w7TyVLH.png" alt=""></p>
+<h2 id="设置FTP帐号以及权限"><a href="#设置FTP帐号以及权限" class="headerlink" title="设置FTP帐号以及权限"></a>设置FTP帐号以及权限</h2><p>由于Win7下的FTP帐号是Windows用户帐号。所以，先得添加两个用户帐号，一个是ftpuser，可以浏览、下载FTP内容；一个是admin，完全控制FTP。</p>
+<p>1、点击：右击“计算机”—》 管理—》计算机管理。在计算机管理的界面的左侧，点击：系统工具—》本地用户和组—》用户，右侧显示所有用户。如下图所示：</p>
+<p>2、在“用户”上右击，出现“新用户”，如下所示：   </p>
+<p>3、 在用户名中输入ftpuser，设置好密码，去掉勾选“用户下次登陆时须更改密码”，勾选“用户不能更改密码”和“密码永不过期”。点击“创建”，完成用户ftpuser的创建。</p>
+<p>同样的步骤，创建admin用户。由于Windows默认将用户添加到Users组，你可以将刚才的两个用户从Users组中删除。方法是在“计算机管理”中点击“组”，在右侧的列表中找到Users，双击之，出现如下界面，点中用户ftpuser，点“删除”，点中用户admin，点“删除”。将两个用户从Users组中删除。</p>
+<p><img src="https://i.imgur.com/djyQgLF.png" alt=""></p>
+<p><img src="https://i.imgur.com/ciM8pzW.png" alt=""></p>
+<p>接下来，在FTP站点中，给View和Admin添加权限。</p>
+<p>　　点击：右击“计算机”—》 管理—》点击“服务和应用程序”—》“Internet信息服务(IIS)管理器”。点中刚才新建的FTP站点。点中“FTP授权规则”。如下图所示：</p>
+<p><img src="https://i.imgur.com/1SjdOro.png" alt=""></p>
+<p>1、点击右侧的“编辑权限”，对FTP站点文件夹添加用户权限。在弹出的窗口中，点击“安全”标签。，如下图所示：</p>
+<p>2、点“编辑”，出现权限的窗口，如下：  </p>
+<p>3、点“添加”，在“输入对象名称来选择”中输入ftpuser，点“确定”，添加ftpuser用户。如下所示：</p>
+<p>4、添加的ftpuser用户，默认是只有读取、列出的权限。在依法添加admin用户，给admin用户添加完全控制的权限。如下所示：</p>
+<p><img src="https://i.imgur.com/56moyP7.png" alt=""></p>
+<p><img src="https://i.imgur.com/TLurfjg.png" alt=""></p>
+<p><img src="https://i.imgur.com/lvYfj5C.png" alt=""></p>
+<p>1、再回到“Internet信息服务(IIS)管理器”窗口，双击刚才选中的“FTP授权规则”，在FTP站点中对ftpuser和admin授权。如下所示：</p>
+<p>2、点击右侧的“添加允许规则”，在弹出的窗口中，勾选“指定的用户”，输入ftpuser，在下方的“权限”中，勾选“读取”。如下所示：</p>
+<p><img src="https://i.imgur.com/Fv5Xo37.png" alt=""></p>
+<p><img src="https://i.imgur.com/dvajoTZ.png" alt=""></p>
+<p>点“确定”，给FTP站点添加ftpuser用户，相应的权限是读取。再给FTP站点添加admin用户，相应的权限是读取和写入。      </p>
+<p>3、至此，FTP的站点设置就完成了。站点文件夹是F:\FTP，ftpuser用户有读取（浏览和下载）的权限，admin用户有读取和写入（上传和删除）的权限。当然，还可以根据实际的情况添加用户及相应的权限，也可以将用户添加进组，再给组设置权限。还可以添加匿名用户等等，不一而足了。</p>
+<p>4、但是，事情远远没有结束。如果，你急于做测试的话。会发现，在本机上测试正常，但是用别的机器测试FTP的话，会发现连接不上。问题出在Win7下的防火墙。如果你把防火墙关掉，你会发现FTP恢复了正常，但你也不能因为要用FTP，就把Win7的防火墙关掉。要想在Win7开着防火墙的时候还要正常使用，还必须得在防火墙中进行一番设置</p>
+<h2 id="Win7的防火墙设置"><a href="#Win7的防火墙设置" class="headerlink" title="Win7的防火墙设置"></a>Win7的防火墙设置</h2><p>1、点击：控制面板—》Windows防火墙。点击左侧的“允许程序或功能通过Windows防火墙”，选中“FTP服务器”，将后面的两个框都勾选，如下所示：<br><img src="https://i.imgur.com/oOoP8Pk.png" alt=""></p>
+<p>2、 点击下方的“允许运行另一程序”，在弹出窗口里，点“浏览”，然后右上方，在Windows目录下搜索”inetinfo.exe“，找到有好几个”inetinfo.exe“在不同的路径，都添加进去，也就是上图中的Internet Infomation Services。将后面的两个框也都选中。因为在Win7下，FTP是IIS的一个组件，因此也必须在防火墙中将IIS设置为允许。而IIS又不在默认的列表中，因此得手动添加。</p>
+<p><img src="https://i.imgur.com/0pYqvX9.png" alt=""></p>
+<p>3、由于FTP用的是21端口，因此在防火墙中还得添加出站和入站的端口规则。</p>
+<p>4、在Windows防火墙窗口里，点击左侧的“高级设置”，弹出高级安全防火墙窗口，点击左侧的“入站规则”</p>
+<p>5、点击右侧的“新建规则”，出现向导界面，勾选“端口”</p>
+<p><img src="https://i.imgur.com/usjxFCP.png" alt=""></p>
+<p>6、点击“下一步”，勾选TCP（FTP用的是TCP协议），再勾选特定本地端口，输入21（FTP用的是21端口）</p>
+<p><img src="https://i.imgur.com/HvSURw8.png" alt=""><br>7、点击“下一步”，勾选“允许连接”</p>
+<p><img src="https://i.imgur.com/osh2y8r.png" alt=""></p>
+<p>8、点击“下一步”，默认的都选上，<br><img src="https://i.imgur.com/GC8UBve.png" alt=""></p>
+<p>9、点击“下一步”，在名称里输入名字，本例中是21</p>
+<p><img src="https://i.imgur.com/WnZBuwT.png" alt=""><br>点击“完成”，完成入站规则的设置，在用同样的方法，完成出站规则的设置，同样是21端口。至此，在Win7的防火墙就已经设置好了，此时测试基本上就正常了。</p>
+<p>注：以上的内容都是网上搜集来的，加上本人的亲测~若FTP设置上还有什么问题，欢迎交流~</p>
+<p>相关链接：win7下利用IIS搭建FTP服务器_百度经验  <a href="https://jingyan.baidu.com/article/48b37f8d06fb851a64648802.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/48b37f8d06fb851a64648802.html</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/08/31/Python_Multiprocessing/" data-toggle="tooltip" data-placement="top"
+                           title="多进程 Multiprocessing 模块">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装FTP组件"><span class="toc-text">安装FTP组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加FTP站点"><span class="toc-text">添加FTP站点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置FTP帐号以及权限"><span class="toc-text">设置FTP帐号以及权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Win7的防火墙设置"><span class="toc-text">Win7的防火墙设置</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Baobiy 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>
