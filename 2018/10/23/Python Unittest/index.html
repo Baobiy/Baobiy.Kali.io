@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Python+Selenium学习笔记｜undefined
+        Python unittest(持续记录)｜undefined
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2018/10/23/Python+Selenium学习笔记/">
+    <link rel="canonical" href="http://yoursite.com/2018/10/23/Python Unittest/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -136,9 +136,9 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Python+Selenium学习笔记</h1>
+                    <h1>Python unittest(持续记录)</h1>
                     
-                    <h2 class="subheading">Python+Selenium</h2>
+                    <h2 class="subheading">Python Unittest</h2>
                     
                     <span class="meta">
                          作者 Baobiy
@@ -151,8 +151,8 @@
                         <a class="tag" href="/tags/#Python"
                            title="Python">Python</a>
                         
-                        <a class="tag" href="/tags/#Selenium"
-                           title="Selenium">Selenium</a>
+                        <a class="tag" href="/tags/#unittest"
+                           title="unittest">unittest</a>
                         
                     </div>
                 </div>
@@ -161,7 +161,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Python+Selenium学习笔记
+            Python unittest(持续记录)
         </span>
     </div>
 </header>
@@ -172,144 +172,16 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>相关Blog： </p>
-<p>Python3 Selenium自动化web测试 ==&gt; 第三节 常用WebDriver API使用示例上（24个API） - 脚本_驱动_测试 - 博客园  <a href="https://www.cnblogs.com/wuzhiming/p/8860087.html" target="_blank" rel="noopener">https://www.cnblogs.com/wuzhiming/p/8860087.html</a></p>
-<p>python selenium-webdriver 元素操作之键盘操作（五） - 梦雨情殇 - 博客园  <a href="https://www.cnblogs.com/mengyu/p/6942584.html" target="_blank" rel="noopener">https://www.cnblogs.com/mengyu/p/6942584.html</a></p>
-<p>python3 selenium使用 - 大黑马 - 博客园  <a href="https://www.cnblogs.com/QI1125/p/7852661.html" target="_blank" rel="noopener">https://www.cnblogs.com/QI1125/p/7852661.html</a></p>
-<p>#selenium模块的基本用法</p>
-<p>###查找元素</p>
-<pre><code>单个元素   (from selenium import webdriver)
-    brguge.find_element_by_id(&apos;q&apos;)用这个元素找id是q的元素
-    brguge.find_element_by_css_selector(&apos;#q&apos;)找css样式是q的
-    brguge.find_element_by_xpath(&apos;//*[ @id=&quot;q&quot;]&apos;)三个效果一样
-    brguge.find_element_by_name()通过name来查找
-    brguge.find_element_by_link_text()通过link来查找
-    brguge.find_element_by_partial_link_text()
-    brguge.find_element_by_tag_name()
-    brguge.find_element_by_class_name()通过class查找
-
-    from selenium import webdriver
-    from selenium.webdriver.common.by import By
-    brguge.find_element(By.ID,&apos;Q&apos;)通用查找方式
-多个元素（find_elements）加了个s
-    他会以列表的形式打印出来
-    brguge.find_elements_by_css_selector(&apos;.service-bd li&apos;)css样式为li的元素
-    brguge.find_elements（By.css_selector,&apos;.service-bd li&apos;）两个作用一样
-    (利用索引就可以获取单个或多个元素了)
-
-元素交互操作（获取元素然后再给他指令）
-    选择输入框 --》send_keys(&apos;输入文字&apos;)--》clear()清空输入框--在输入别的--》找到搜索--》click(点击)
-    input.clear()清空按钮
-交互动作（将动作附加到动作链中串行执行）
-    switch_to_frame(&apos;iframeResult&apos;)
-    用css样式分别找到两个要交互
-    调用ActionChains(调用谷歌的)
-    drag_and_drop(source,target)第一个到第二个上面
-    perform()
-</code></pre><h3 id="元素操作之键盘操作"><a href="#元素操作之键盘操作" class="headerlink" title="元素操作之键盘操作"></a>元素操作之键盘操作</h3><p>selenium 提供了比较完整的键盘操作，在使用的模拟键盘操作之前需要我们导入</p>
-<p>from selenium.webdriver.common.keys import Keys即可，然后就可以来模拟键盘操作。</p>
-<pre><code>#导入Keys 模块，然后我们看看Keys 模块定义了那些按键
-from selenium.webdriver.common.keys import Keys
-</code></pre><p>导入模块以后，我们可以看看具体的定义按键内容，我已经把经常使用的按键注释标记。</p>
-<pre><code>NULL = &apos;\ue000&apos;
-CANCEL = &apos;\ue001&apos;  # ^break
-HELP = &apos;\ue002&apos;
-BACKSPACE = &apos;\ue003&apos;
-BACK_SPACE = BACKSPACE   #删除键
-TAB = &apos;\ue004&apos;   #TAB键
-CLEAR = &apos;\ue005&apos;  
-RETURN = &apos;\ue006&apos;
-ENTER = &apos;\ue007&apos;   #回车键
-SHIFT = &apos;\ue008&apos;   #Shift键
-LEFT_SHIFT = SHIFT
-CONTROL = &apos;\ue009&apos;
-LEFT_CONTROL = CONTROL   #Ctrl 键
-ALT = &apos;\ue00a&apos;           #Alt 键
-LEFT_ALT = ALT
-PAUSE = &apos;\ue00b&apos;
-ESCAPE = &apos;\ue00c&apos;   #ECS键
-SPACE = &apos;\ue00d&apos;    #空格键 
-PAGE_UP = &apos;\ue00e&apos;   #PgUp 键
-PAGE_DOWN = &apos;\ue00f&apos; #PgDwon 键
-END = &apos;\ue010&apos;    #END 键
-HOME = &apos;\ue011&apos;   #HOME 键
-LEFT = &apos;\ue012&apos;  #左键
-ARROW_LEFT = LEFT  
-UP = &apos;\ue013&apos;    #上键
-ARROW_UP = UP   
-RIGHT = &apos;\ue014&apos;
-ARROW_RIGHT = RIGHT  #右键
-DOWN = &apos;\ue015&apos;      #下键
-ARROW_DOWN = DOWN  
-INSERT = &apos;\ue016&apos;    #insert键 
-DELETE = &apos;\ue017&apos;    #del键
-
-SEMICOLON = &apos;\ue018&apos;  #&apos;;&apos;键
-EQUALS = &apos;\ue019&apos;     #&apos;=&apos;键
-
-数字键盘
-NUMPAD0 = &apos;\ue01a&apos;  # number pad keys
-NUMPAD1 = &apos;\ue01b&apos;
-NUMPAD2 = &apos;\ue01c&apos;
-NUMPAD3 = &apos;\ue01d&apos;
-NUMPAD4 = &apos;\ue01e&apos;
-NUMPAD5 = &apos;\ue01f&apos;
-NUMPAD6 = &apos;\ue020&apos;
-NUMPAD7 = &apos;\ue021&apos;
-NUMPAD8 = &apos;\ue022&apos;
-NUMPAD9 = &apos;\ue023&apos;
-MULTIPLY = &apos;\ue024&apos; # &apos;*&apos; 键
-ADD = &apos;\ue025&apos;   # &apos;+&apos; 键
-SEPARATOR = &apos;\ue026&apos;  #&apos;,&apos;键
-SUBTRACT = &apos;\ue027&apos;  # &apos;-&apos; 键
-DECIMAL = &apos;\ue028&apos;   # &apos;.&apos;键
-DIVIDE = &apos;\ue029&apos;    #&apos;/&apos;键
-
-F1 = &apos;\ue031&apos;  # function  keys
-F2 = &apos;\ue032&apos;
-F3 = &apos;\ue033&apos;
-F4 = &apos;\ue034&apos;
-F5 = &apos;\ue035&apos;
-F6 = &apos;\ue036&apos;
-F7 = &apos;\ue037&apos;
-F8 = &apos;\ue038&apos;
-F9 = &apos;\ue039&apos;
-F10 = &apos;\ue03a&apos;
-F11 = &apos;\ue03b&apos;
-F12 = &apos;\ue03c&apos;
-
-META = &apos;\ue03d&apos;
-COMMAND = &apos;\ue03d&apos;
-</code></pre><p>几个常用的组合键</p>
-<pre><code>send_keys(Keys.CONTROL,&apos;a&apos;) 　　#全选（Ctrl+A）
-
-send_keys(Keys.CONTROL,&apos;c&apos;) 　　#复制（Ctrl+C）
-
-send_keys(Keys.CONTROL,&apos;x&apos;) 　　#剪切（Ctrl+X）
-
-send_keys(Keys.CONTROL,&apos;v&apos;) 　　#粘贴（Ctrl+V）
-</code></pre><p>下面常用的键，这些常用键主要是非组合键，直接输入即可</p>
-<pre><code>回车键 Keys.ENTER
-删除键 Keys.BACK_SPACE
-空格键 Keys.SPACE
-制表键 Keys.TAB
-回退键 Keys.ESCAPE
-刷新键 Keys.F5
-</code></pre>
+                
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2018/10/23/Github Pages和Hexo简明教程/" data-toggle="tooltip" data-placement="top"
-                           title="Github Pages和Hexo简明教程">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2018/09/05/FTP_Server_Build(win7 64)/" data-toggle="tooltip" data-placement="top"
-                           title="win7下利用IIS搭建FTP服务器(转载)">Next Post &rarr;</a>
+                        <a href="/2018/10/23/Github Pages和Hexo简明教程/" data-toggle="tooltip" data-placement="top"
+                           title="Github Pages和Hexo简明教程">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -328,7 +200,7 @@ send_keys(Keys.CONTROL,&apos;v&apos;) 　　#粘贴（Ctrl+V）
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol>
+                    
                 </div>
             </div>
         </div>
