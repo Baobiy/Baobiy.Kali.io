@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Github Pages和Hexo简明教程｜undefined
+        Fiddler 工具使用记录(持续记录)｜undefined
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2018/10/23/Github Pages和Hexo简明教程/">
+    <link rel="canonical" href="http://yoursite.com/2018/10/25/Fiddler工具使用介绍（持续。。。）/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -136,23 +136,23 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Github Pages和Hexo简明教程</h1>
+                    <h1>Fiddler 工具使用记录(持续记录)</h1>
                     
-                    <h2 class="subheading">github</h2>
+                    <h2 class="subheading">Fiddler</h2>
                     
                     <span class="meta">
                          作者 Baobiy
                         <span>
-                          日期 2018-10-23
+                          日期 2018-10-25
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#Selenium"
-                           title="Selenium">Selenium</a>
+                        <a class="tag" href="/tags/#测试"
+                           title="测试">测试</a>
                         
-                        <a class="tag" href="/tags/#github"
-                           title="github">github</a>
+                        <a class="tag" href="/tags/#Fiddler"
+                           title="Fiddler">Fiddler</a>
                         
                     </div>
                 </div>
@@ -161,7 +161,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Github Pages和Hexo简明教程
+            Fiddler 工具使用记录(持续记录)
         </span>
     </div>
 </header>
@@ -172,22 +172,76 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>转载自： <a href="https://my.oschina.net/ryaneLee/blog/638440" target="_blank" rel="noopener">https://my.oschina.net/ryaneLee/blog/638440</a></p>
+                <p>相关链接：</p>
+<p>Fiddler工具使用介绍一 - miantest - 博客园  <a href="https://www.cnblogs.com/miantest/p/7289694.html" target="_blank" rel="noopener">https://www.cnblogs.com/miantest/p/7289694.html</a></p>
+<p>(转）Fiddler教程（Web调试工具） - FreeBird - 博客园  <a href="https://www.cnblogs.com/anny-1980/p/4537922.html" target="_blank" rel="noopener">https://www.cnblogs.com/anny-1980/p/4537922.html</a></p>
+<p>fiddler 下载及简单使用 - 有一种人仅仅是认识就很好了的博客 - CSDN博客  <a href="https://blog.csdn.net/qq_36350532/article/details/79248897" target="_blank" rel="noopener">https://blog.csdn.net/qq_36350532/article/details/79248897</a></p>
+<p>Fiddler 抓包工具总结 - ﹏猴子请来的救兵 - 博客园  <a href="https://www.cnblogs.com/yyhh/p/5140852.html" target="_blank" rel="noopener">https://www.cnblogs.com/yyhh/p/5140852.html</a></p>
+<p>##知识点1：HTTP协议</p>
+<pre><code>1）http协议工作过程
+2）http常用请求方式：GET,PUT,POST,DELETE
+3）http协议请求状态码类型
+4) 常见状态码 （200，404，500，503，302，304）
+</code></pre><p>##知识点2：Fiddler的使用</p>
+<p>###1.初始<br>    Fiddler是一个很好用的抓包工具，可以将网络传输发送与接收的数据包进行截获、重发、编辑等操作。也可以用来检测流量。<br>    Fiddler安装后，设置的端口默认为8888，当Fiddler启动后，默认将IE的代理设为了127.0.0.1:8888，而其他如火狐浏览器需要手动设置代理后才可以抓包。</p>
+<p>###2.数据包列表区域各列含义<br>    顺序号，按照抓包的顺序从1递增<br>    Result：HTTP状态码　　　　　　<br>    Protocol：请求使用的协议，如HTTP/HTTPS/FTP等<br>    HOST：请求地址的主机名或域名<br>    URL：请求资源的位置<br>    Body：请求大小<br>    Caching：请求的缓存过期时间或者缓存控制值<br>    Content-Type：请求响应的类型<br>    Process：发送此请求的进程ID<br>    Comments：备注<br>    Custom：自定义值</p>
+<h3 id="3-数据包请求内容"><a href="#3-数据包请求内容" class="headerlink" title="3.数据包请求内容"></a>3.数据包请求内容</h3><p>每个Fiddler抓取到的数据包都会在该列表中展示，点击具体的一条数据包可以在右侧菜单点击Insepector查看详细内容。<br>主要分为请求（即客户端发出的数据）和响应（服务器返回的数据）两部分</p>
+<p>1）HTTP Request Header：以百度为例<br>    以百度为例：</p>
+<pre><code>请求方式：GET
+协议： HTTP/1.1
+Client 头域：
+Accept: text/html, application/xhtml+xml, image/jxr, */*                             ---------浏览器端可以接受的媒体类型
+Accept-Encoding: gzip, deflate                                                                  ---------压缩方法    
+Accept-Language: zh-CN                                                                          ---------语言类型
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393                             ---------客户端使用的操作系统和浏览器的名称和版本
+COOKIE头域：将cookie值发送给服务器
+Transport 头域：
+Connection：当网页打开完成后，客户端和服务器之间用于传输HTTP数据的TCP连接是否关闭。keep-alive表示不会关闭，客户端再次访问这个服务器上的网页，会继续使用这一条已经建立的连接；close表示关闭，客户端再次访问这个服务器上的网页，需要重新建立连接。
+HOST：主机名或域名，若没有指定端口，表示使用默认端口80.
+</code></pre><p>2）HTTP Response Header：继续以百度为例</p>
+<pre><code>协议：HTTP/1.1
+状态码：200
+Cache头域：
+Cache-Control: private                                               ---------此响应消息不能被共享缓存处理，对于其他用户的请求无效
+Date: Sat, 05 Aug 2017 04:37:43 GMT                      ---------生成消息的具体时间和日期
+Expires: Sat, 05 Aug 2017 04:37:42 GMT                  ---------浏览器会在指定过期时间内使用本地缓存
+Cookie/Login 头域：
+Set-Cookie: BDSVRTM=264; path=/                           ---------把cookie发送到客户端
+Set-Cookie: BD_HOME=1; path=/
+Set-Cookie: H_PS_PSSID=1425_21097_22157; path=/; domain=.baidu.com
+Entity头域：
+Content-Length: 202740                                              ---------正文长度
+Content-Type: text/html;charset=utf-8                         ---------告知客户端服务器本身响应的对象的类型和字符集
+Miscellaneous 头域：
+Bdpagetype: 2
+Bdqid: 0x99791efd00036253
+Bduserid: 2577220064
+Server: BWS/1.1                                                          ---------指明HTTP服务器的软件信息
+X-Ua-Compatible: IE=Edge,chrome=1
+Security头域：
+Strict-Transport-Security: max-age=172800                ---------基于安全考虑而需要发送的参数，关于这个参数的解释，请参考：http://www.freebuf.com/articles/web/66827.html
+Transport头域：
+Connection: Keep-Alive
+</code></pre><p>6）TextView：显示请求或响应的数据。</p>
+<p>7）WebForms：请求部分以表单形式显示所有的请求参数和参数值；响应部分与TextView内容是一样的。</p>
+<p>8）Auth：显示认证信息，如Authorization</p>
+<p>9）Cookies：显示所有cookies</p>
+<p>10）Raw：显示Headers和Body数据</p>
+<p>11）JSON：若请求或响应数据是json格式，以json形式显示请求或响应内容</p>
+<p>12）XML：若请求或响应数据是xml格式，以xml形式显示请求或响应内容</p>
+<p>13）上面是以百度主页为例，百度主页采用的是GET请求，在TextView中没有请求body，我们再以无忧行网站登录接口为例，它是一个POST请求，除了请求头外，在TextView中多了请求数据。这也是GET请求和POST请求的一个区别。GET请求是将请求参数放在url中，而POST请求一般是将请求参数放在请求body中。</p>
+<p>总结：通过Fiddler可以抓取请求和响应参数，通过对参数进行分析，可以定位是前端还是后台问题。例如我们在测试登录接口时，输入了正确的手机号和密码，但前端提示“请输入正确的用户名和密码”；仅仅通过界面提示我们只能描述bug表象，但不能分析出问题原因。假设通过抓包我们发现是由于前端参数名错误或参数值为空，从而导致后台报错。这个时候我们将bug指向前端开发人员，并将参数数据和接口文档中对应的报文数据作为附件上传，是不是可以提高bug的解决效率呢？Fiddler在实际的功能测试中有很大的作用，一方面帮助我们更好的了解某个业务中客户端和服务器端是通过哪些接口进行请求的，从而更好的了解代码逻辑；另一方面，我们还可以通过响应数据判断哪里出现了问题，例如可能服务器程序挂了，导致前端报“服务器故障”，这时我们通过抓包发现响应数据返回502，这时我们可以手动去重启服务或是联系运维重启服务，从而提高问题的解决效率。</p>
+<p>后续学习：<a href="https://www.cnblogs.com/yyhh/p/5140852.html" target="_blank" rel="noopener">https://www.cnblogs.com/yyhh/p/5140852.html</a></p>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2018/10/23/Python Unittest(未开始)/" data-toggle="tooltip" data-placement="top"
-                           title="Python unittest(持续记录)">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2018/10/23/Python+Selenium学习笔记/" data-toggle="tooltip" data-placement="top"
-                           title="Python+Selenium学习笔记">Next Post &rarr;</a>
+                        <a href="/2018/10/23/Python Unittest(未开始)/" data-toggle="tooltip" data-placement="top"
+                           title="Python unittest(持续记录)">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -206,7 +260,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-数据包请求内容"><span class="toc-text">3.数据包请求内容</span></a></li></ol>
                 </div>
             </div>
         </div>
