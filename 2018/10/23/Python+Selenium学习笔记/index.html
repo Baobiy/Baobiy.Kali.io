@@ -176,6 +176,7 @@
 <p>Python3 Selenium自动化web测试 ==&gt; 第三节 常用WebDriver API使用示例上（24个API） - 脚本_驱动_测试 - 博客园  <a href="https://www.cnblogs.com/wuzhiming/p/8860087.html" target="_blank" rel="noopener">https://www.cnblogs.com/wuzhiming/p/8860087.html</a></p>
 <p>python selenium-webdriver 元素操作之键盘操作（五） - 梦雨情殇 - 博客园  <a href="https://www.cnblogs.com/mengyu/p/6942584.html" target="_blank" rel="noopener">https://www.cnblogs.com/mengyu/p/6942584.html</a></p>
 <p>python3 selenium使用 - 大黑马 - 博客园  <a href="https://www.cnblogs.com/QI1125/p/7852661.html" target="_blank" rel="noopener">https://www.cnblogs.com/QI1125/p/7852661.html</a></p>
+<p>在selenium中使用css选择器进行元素定位 - grace666的专栏 - CSDN博客  <a href="https://blog.csdn.net/grace666/article/details/48419529/" target="_blank" rel="noopener">https://blog.csdn.net/grace666/article/details/48419529/</a></p>
 <p>#selenium模块的基本用法</p>
 <p>###查找元素</p>
 <pre><code>单个元素   (from selenium import webdriver)
@@ -295,6 +296,70 @@ send_keys(Keys.CONTROL,&apos;v&apos;) 　　#粘贴（Ctrl+V）
 制表键 Keys.TAB
 回退键 Keys.ESCAPE
 刷新键 Keys.F5
+</code></pre><h1 id="对于百度设置拦定位的问题"><a href="#对于百度设置拦定位的问题" class="headerlink" title="对于百度设置拦定位的问题"></a>对于百度设置拦定位的问题</h1><p>问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）</p>
+<pre><code>解决办法：使用鼠标悬停“设置”一元素，再定位下拉元素，可正常定位
+详见链接：selenium弹窗定位百度主页“设置”问题 - 痞子斗流氓 - 博客园  http://www.cnblogs.com/Testcase/p/9498217.html
+
+且此时第二元素使用xpath时，报错无法找到该元素（可能跟firfox定位时长有关系）
+</code></pre><p>问题2：定位时使用xpath，或css_selector定位不到，也会报错。</p>
+<pre><code>解决：使用link_text定位（更清晰）
+</code></pre><p>完整代码：</p>
+<pre><code>from selenium import webdriver
+import time
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.select import Select
+
+driver = webdriver.Firefox()
+driver.get(&apos;http://www.baidu.com&apos;)
+driver.implicitly_wait(30)
+
+mouse = driver.find_element_by_css_selector(&apos;#u1 &gt; a.pf&apos;)
+ActionChains(driver).move_to_element(mouse).perform()
+time.sleep(2)
+
+driver.find_element_by_link_text(&apos;搜索设置&apos;).click()
+time.sleep(3)
+
+option = driver.find_element_by_id(&apos;nr&apos;)
+s = Select(option)
+s.select_by_value(&apos;20&apos;)
+time.sleep(3)
+
+driver.find_element_by_link_text(&apos;保存设置&apos;).click()
+alert = driver.switch_to_alert()
+print(alert.text)
+alert.accept()
+time.sleep(2)
+
+driver.quit()    
+</code></pre><p>问题3：网页通知（告警）弹窗接收问题</p>
+<pre><code>参考链接：selenium+webdriver+python 中警告框的处理方法 - 在路上 - CSDN博客  https://blog.csdn.net/liujingqiu/article/details/51209374
+
+webdriver 中处理JavaScript 所生成的alert、confirm 以及prompt 是很简单的。具体思路是使用
+switch_to.alert()方法定位到alert/confirm/prompt。然后使用text/accept/dismiss/send_keys 按需进行操做。
+
+text 返回alert/confirm/prompt 中的文字信息。
+accept 点击确认按钮。
+dismiss 点击取消按钮，如果有的话。
+send_keys 输入值，这个alert\confirm 没有对话框就不能用了，不然会报错。
+</code></pre><p>参考链接：python3 + selenium 之警告和弹窗 - 初新的博客 - CSDN博客  <a href="https://blog.csdn.net/zha6476003/article/details/82686741" target="_blank" rel="noopener">https://blog.csdn.net/zha6476003/article/details/82686741</a></p>
+<h1 id="关于无法定位到网页元素的问题"><a href="#关于无法定位到网页元素的问题" class="headerlink" title="关于无法定位到网页元素的问题"></a>关于无法定位到网页元素的问题</h1><p>问题1：无法定位到元素，如果尝试class、id、xpath、selector依旧无法定位，考虑是未切换frame，许多网页都使用iframe内嵌，因此先使用switch_to_frame进行切换。再进行定位。</p>
+<p>问题2：如何切换frame：</p>
+<pre><code># iframe有name或id值
+self.driver.switch_to.frame(&apos;iframe-name-id&apos;)
+# iframe没有name或id值
+xf = self.driver.find_element_by_xpath(&apos;//iframe[@allowtransparency=&quot;true&quot;]&apos;)
+self.driver.switch_to.frame(xf)
+# 跳出当前iframe
+self.driver.switch_to.parent_frame()
+# 返回最外层iframe
+self.driver.switch_to.default_content()
+
+参考链接：https://www.cnblogs.com/sgwjj/p/8033076.html
+</code></pre><p>其他相关链接：</p>
+<pre><code>python3 selenium自动化 frame表单嵌套的切换 - xiezhiming1234的博客 - CSDN博客  https://blog.csdn.net/xiezhiming1234/article/details/82924950
+
+Python+Selenium定位不到元素常见原因及解决办法（报：NoSuchElementException） - 啄木鸟儿 - 博客园  https://www.cnblogs.com/yufeihlf/p/5689042.html
 </code></pre>
                 <hr>
                 
@@ -328,7 +393,7 @@ send_keys(Keys.CONTROL,&apos;v&apos;) 　　#粘贴（Ctrl+V）
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a>
                 </div>
             </div>
         </div>
