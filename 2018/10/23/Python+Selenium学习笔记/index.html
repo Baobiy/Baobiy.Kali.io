@@ -360,7 +360,30 @@ self.driver.switch_to.default_content()
 <pre><code>python3 selenium自动化 frame表单嵌套的切换 - xiezhiming1234的博客 - CSDN博客  https://blog.csdn.net/xiezhiming1234/article/details/82924950
 
 Python+Selenium定位不到元素常见原因及解决办法（报：NoSuchElementException） - 啄木鸟儿 - 博客园  https://www.cnblogs.com/yufeihlf/p/5689042.html
-</code></pre>
+</code></pre><h1 id="selenium：解决页面元素display-none的方法"><a href="#selenium：解决页面元素display-none的方法" class="headerlink" title="selenium：解决页面元素display:none的方法"></a>selenium：解决页面元素display:none的方法</h1><p>文章链接：selenium：解决页面元素display:none的方法 - 老_张 - 博客园  <a href="https://www.cnblogs.com/imyalost/p/8948458.html" target="_blank" rel="noopener">https://www.cnblogs.com/imyalost/p/8948458.html</a></p>
+<p>在UI自动化测试中，有时候会遇到页面元素无法定位的问题，包括xpath等方法都无法定位，是因为前端元素被设置为不可见导致。</p>
+<p>这篇博客，介绍下如何通过JavaScript修改页面元素属性来定位的方法。</p>
+<p>1、具体问题</p>
+<p>常见的页面元素不可见导致的不可定位，都是由于下面的问题：<br><img src="https://i.imgur.com/kERW38S.png" alt=""><br>通过查看相关文档，可以看出display:none方法是设置元素不可见，这就是导致为什么通过定位页面元素无法定位的原因。</p>
+<p><img src="https://i.imgur.com/zVjmiRj.png" alt=""></p>
+<p>关于display更多的信息，可以看这里：<a href="http://www.w3school.com.cn/jsref/prop_style_display.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/jsref/prop_style_display.asp</a></p>
+<p>2、解决方案</p>
+<p>对于这种问题，可以通过JavaScript修改页面元素属性来将元素置位可见，然后通过id、classname等方法去定位，示例代码如下（针对上图所示）：</p>
+<pre><code>js = &quot;document.getElementById(\&quot;txtPassword\&quot;).style.display=&apos;block&apos;;&quot;
+# 调用js脚本
+driver.execute_script(js)
+sleep(3)
+driver.find_element_by_id(&quot;txtPassword&quot;).send_keys(&quot;123456&quot;)
+</code></pre><p>代码解析：</p>
+<p>首先通过selenium封装好的方法document去找到display元素，document提供以下方法来定位display元素：</p>
+<p>getElementById()：返回对指定ID第一个对象的引用</p>
+<p>getElementsByName() ：返回带有指定名称的对象集合</p>
+<p>getElementsByTagName()：返回带有指定标签名的对象集合</p>
+<p><img src="https://i.imgur.com/63IyE8B.png" alt=""><br>关于document更多的信息，可以看这里：<a href="http://www.w3school.com.cn/jsref/dom_obj_document.asp" title="HTML DOM Document 对象" target="_blank" rel="noopener">http://www.w3school.com.cn/jsref/dom_obj_document.asp</a></p>
+<p>上面我定义了一个js变量，然后通过getElementById()方法去引用display元素，修改none属性为block属性（作为块级元素显示），然后通过selenium自带的execute_script方法执行脚本。</p>
+<p>最后，当元素属性置为可见时，可以通过ID去定位元素。</p>
+<p>其实还有一个解决方案：让前端修改display:none为block就好了，但这样的话，带来的变化和安全风险又是需要考虑的问题。</p>
+
                 <hr>
                 
 
@@ -393,7 +416,7 @@ Python+Selenium定位不到元素常见原因及解决办法（报：NoSuchEleme
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a>
                 </div>
             </div>
         </div>
