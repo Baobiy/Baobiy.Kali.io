@@ -393,6 +393,177 @@ driver.find_element_by_id(&quot;txtPassword&quot;).send_keys(&quot;123456&quot;)
 <p>具体教程：Selenium 自动化测试不同类型上传文件实用方法总结 - 简书  <a href="https://www.jianshu.com/p/f25ff87a8f17" target="_blank" rel="noopener">https://www.jianshu.com/p/f25ff87a8f17</a></p>
 <p>python3 + selenium 之文件上传下载 - 初新的博客 - CSDN博客  <a href="https://blog.csdn.net/zha6476003/article/details/82686821" target="_blank" rel="noopener">https://blog.csdn.net/zha6476003/article/details/82686821</a></p>
 <p>Python selenium —— 文件下载，不弹出窗口，直接下载到指定路径 - 灰蓝 - CSDN博客  <a href="https://blog.csdn.net/huilan_same/article/details/52789954?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="noopener">https://blog.csdn.net/huilan_same/article/details/52789954?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io</a></p>
+<h1 id="Request-模块"><a href="#Request-模块" class="headerlink" title="Request 模块"></a>Request 模块</h1><p>参考链接：python3爬虫（一）requests库的学习 - saucerman的世界 - CSDN博客  <a href="https://blog.csdn.net/gyq1998/article/details/78583841" target="_blank" rel="noopener">https://blog.csdn.net/gyq1998/article/details/78583841</a></p>
+<p>1、Requests库的七个主要方法</p>
+<p><img src="https://i.imgur.com/AFprYiP.png" alt=""><br>（1）requests.get()</p>
+<p>这个方法是我们平时最常用的方法之一，通过这个方法我们可以了解到其他的方法，所以我们详细介绍这个方法。<br>具体参数是：</p>
+<pre><code>r=requests.get(url,params,**kwargs)
+
+url: 需要爬取的网站地址。
+params: 翻译过来就是参数， url中的额外参数，字典或者字节流格式，可选。
+ **kwargs : 12个控制访问的参数
+</code></pre><p>**kwargs有以下的参数，对于requests.get,其第一个参数被提出来了。</p>
+<pre><code>params：字典或字节序列， 作为参数增加到url中,使用这个参数可以把一些键值对以?key1=value1&amp;key2=value2的模式增加到url中 
+例如：kv = {‘key1: ’ values’, ‘key2’: ‘values’} 
+r = requests.request(‘GET’, ‘http:www.python123.io/ws’, params=kw)
+
+data：字典，字节序或文件对象，重点作为向服务器提供或提交资源是提交，，作为request的内容，与params不同的是，data提交的数据并不放在url链接里， 而是放在url链接对应位置的地方作为数据来存储。，它也可以接受一个字符串对象。
+
+json：json格式的数据， json合适在相关的html，http相关的web开发中非常常见， 也是http最经常使用的数据格式， 他是作为内容部分可以向服务器提交。 
+例如：kv = {”key1’: ‘value1’} 
+r = requests.request(‘POST’, ‘http://python123.io/ws‘, json=kv)
+
+headers：字典是http的相关语，对应了向某个url访问时所发起的http的头i字段， 可以用这个字段来定义http的访问的http头，可以用来模拟任何我们想模拟的浏览器来对url发起访问。 
+例子： hd = {‘user-agent’: ‘Chrome/10’} 
+r = requests.request(‘POST’, ‘http://python123.io/ws‘, headers=hd)
+
+cookies：字典或CookieJar，指的是从http中解析cookie
+
+auth：元组，用来支持http认证功能
+
+files：字典， 是用来向服务器传输文件时使用的字段。 
+例子：fs = {‘files’: open(‘data.txt’, ‘rb’)} 
+r = requests.request(‘POST’, ‘http://python123.io/ws‘, files=fs)
+
+timeout: 用于设定超时时间， 单位为秒，当发起一个get请求时可以设置一个timeout时间， 如果在timeout时间内请求内容没有返回， 将产生一个timeout的异常。
+
+proxies：字典， 用来设置访问代理服务器。
+
+allow_redirects: 开关， 表示是否允许对url进行重定向， 默认为True。
+
+stream: 开关， 指是否对获取内容进行立即下载， 默认为True。
+
+verify：开关， 用于认证SSL证书， 默认为True。
+
+cert： 用于设置保存本地SSL证书路径
+
+这句代码是构造一个服务器请求request，返回一个包含服务器资源的response对象。
+</code></pre><p>response对象的属性：</p>
+<p><img src="https://i.imgur.com/Fh9ynNp.png" alt=""><br>补充：</p>
+<pre><code>r.status_code #响应状态码
+
+r.raw #返回原始响应体，也就是 urllib 的 response 对象，使用 r.raw.read() 读取
+
+r.content #字节方式的响应体，会自动为你解码 gzip 和 deflate 压缩
+
+r.text #字符串方式的响应体，会自动根据响应头部的字符编码进行解码
+
+r.headers #以字典对象存储服务器响应头，但是这个字典比较特殊，字典键不区分大小写，若键不存在则返回None
+
+特殊方法：
+r.json()       #Requests中内置的JSON解码器
+r.raise_for_status() #失败请求(非200响应)抛出异常
+</code></pre><p>（参考链接：Python3 API 第三方库 requests 详解 - 屁股决定脑袋的专栏 - CSDN博客  <a href="https://blog.csdn.net/yilovexing/article/details/54928769）" target="_blank" rel="noopener">https://blog.csdn.net/yilovexing/article/details/54928769）</a></p>
+<p>举例</p>
+<pre><code>&gt;&gt;&gt; import requests
+&gt;&gt;&gt; r=requests.get(&quot;http://www.baidu.com&quot;)
+&gt;&gt;&gt; r.status_code
+200
+&gt;&gt;&gt;  r.encoding
+&apos;ISO-8859-1&apos;
+&gt;&gt;&gt; r.apparent_encoding
+&apos;utf-8&apos;
+&gt;&gt;&gt; r.text
+&apos;&lt;!DOCTYPE html&gt;\r\n&lt;!--STATUS OK--&gt;&lt;html&gt; &lt;head&gt;&lt;meta http-equiv=content-type content=text/html;charset=utf-8&gt;ipt&gt; &lt;a href=//www.baidu.com/more/ name=tj_briicon class=bri style=&quot;display: block;&quot;&gt;æ\x9b´å¤\x9aäº§å\x93\x81&lt;/a&gt; &lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;div id=ftCon&gt; &lt;div id=ftConw&gt; &lt;p id=lh&gt; &lt;a com/ class=cp-feedback&gt;æ\x84\x8fè§\x81å\x8f\x8dé¦\x88&lt;/a&gt;&amp;nbsp;äº¬ICPè¯\x81030173å\x8f·&amp;nbsp; &lt;img src=//www.baidu.com/img/gs.gif&gt; &lt;/p&gt; &lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;/body&gt; &lt;/html&gt;\r\n&apos;
+&gt;&gt;&gt; r.encoding=&apos;utf-8&apos;
+&gt;&gt;&gt; r.text
+（以上r.text内容过长，自行删除了部分，看出编码效果即可）
+</code></pre><p>requests库的异常</p>
+<p>注意requests库有时会产生异常，比如网络连接错误、http错误异常、重定向异常、请求url超时异常等等。所以我们需要判断r.status_codes是否是200，在这里我们怎么样去捕捉异常呢？</p>
+<p>这里我们可以利用r.raise_for_status() 语句去捕捉异常，该语句在方法内部判断r.status_code是否等于200，如果不等于，则抛出异常。</p>
+<p>于是在这里我们有一个爬取网页的通用代码框架：</p>
+<pre><code>try:
+    r=requests.get(url,timeout=30)#请求超时时间为30秒
+    r.raise_for_status()#如果状态不是200，则引发异常
+    r.encoding=r.apparent_encoding #配置编码
+    return r.text
+except:
+    return&quot;产生异常&quot;
+</code></pre><p>(2) request.head()<br>看代码：</p>
+<pre><code>r=requests.head(&quot;http://www.baidu.com&quot;)
+r.headers
+{&apos;Cache-Control&apos;: &apos;private, no-cache, no-store, proxy-revalidate, no-transform&apos;, &apos;Connection&apos;: &apos;Keep-Alive&apos;, &apos;Content-Encoding&apos;: &apos;gzip&apos;, &apos;Content-Type&apos;: &apos;text/html&apos;, &apos;Date&apos;: &apos;Wed, 31 Oct 2018 06:43:49 GMT&apos;, &apos;Last-Modified&apos;: &apos;Mon, 13 Jun 2016 02:50:36 GMT&apos;, &apos;Pragma&apos;: &apos;no-cache&apos;, &apos;Server&apos;: &apos;bfe/1.0.8.18&apos;}
+r.text
+&apos;&apos;
+</code></pre><p>（4）requests.post()</p>
+<p>1、向url post一个字典：</p>
+<pre><code>payload={&quot;key1&quot;:&quot;value1&quot;,&quot;key2&quot;:&quot;value2&quot;}
+r=requests.post(&quot;http://httpbin.org/post&quot;,data=payload)
+print(r.text)
+{
+&quot;args&quot;: {}, 
+&quot;data&quot;: &quot;&quot;, 
+&quot;form&quot;: {
+&quot;key1&quot;: &quot;value1&quot;, 
+&quot;key2&quot;: &quot;value2&quot;
+}, 
+&quot;headers&quot;: {
+&quot;Accept&quot;: &quot;*/*&quot;, 
+&quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
+&quot;Connection&quot;: &quot;close&quot;, 
+&quot;Content-Length&quot;: &quot;23&quot;, 
+&quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;, 
+&quot;Host&quot;: &quot;httpbin.org&quot;, 
+&quot;User-Agent&quot;: &quot;python-requests/2.18.4&quot;
+}, 
+&quot;json&quot;: null, 
+&quot;origin&quot;: &quot;218.197.153.150&quot;, 
+&quot;url&quot;: &quot;http://httpbin.org/post&quot;
+}
+</code></pre><p>2、向url post 一个字符串，自动编码为data</p>
+<pre><code>r=requests.post(&quot;http://httpbin.org/post&quot;,data=&apos;helloworld&apos;)
+print(r.text)
+{
+&quot;args&quot;: {}, 
+&quot;data&quot;: &quot;helloworld&quot;, 
+&quot;files&quot;: {}, 
+&quot;form&quot;: {}, 
+&quot;headers&quot;: {
+&quot;Accept&quot;: &quot;*/*&quot;, 
+&quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
+&quot;Connection&quot;: &quot;close&quot;, 
+&quot;Content-Length&quot;: &quot;10&quot;, 
+&quot;Host&quot;: &quot;httpbin.org&quot;, 
+&quot;User-Agent&quot;: &quot;python-requests/2.18.4&quot;
+}, 
+&quot;json&quot;: null, 
+&quot;origin&quot;: &quot;218.197.153.150&quot;, 
+&quot;url&quot;: &quot;http://httpbin.org/post&quot;
+}
+</code></pre><p>（5）requests.put()</p>
+<pre><code>payload={&quot;key1&quot;:&quot;value1&quot;,&quot;key2&quot;:&quot;value2&quot;}
+r=requests.put(&quot;http://httpbin.org/put&quot;,data=payload)
+print(r.text)
+{
+&quot;args&quot;: {}, 
+&quot;data&quot;: &quot;&quot;, 
+&quot;files&quot;: {}, 
+&quot;form&quot;: {
+&quot;key1&quot;: &quot;value1&quot;, 
+&quot;key2&quot;: &quot;value2&quot;
+}, 
+&quot;headers&quot;: {
+&quot;Accept&quot;: &quot;*/*&quot;, 
+&quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
+&quot;Connection&quot;: &quot;close&quot;, 
+&quot;Content-Length&quot;: &quot;23&quot;, 
+&quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;, 
+&quot;Host&quot;: &quot;httpbin.org&quot;, 
+&quot;User-Agent&quot;: &quot;python-requests/2.18.4&quot;
+}, 
+&quot;json&quot;: null, 
+&quot;origin&quot;: &quot;218.197.153.150&quot;, 
+&quot;url&quot;: &quot;http://httpbin.org/put&quot;
+</code></pre><p>（6）requests.patch()</p>
+<p>requests.patch和request.put类似。 </p>
+<p>两者不同的是：<br>当我们用patch时仅需要提交需要修改的字段。<br>而用put时，必须将20个字段一起提交到url，未提交字段将会被删除。<br>patch的好处是：节省网络带宽。</p>
+<p>（7）requests.request()</p>
+<p>requests.request(）支持其他所有的方法。</p>
+<pre><code>requests.request(method，url,**kwargs)
+method: “GET”、”HEAD”、”POST”、”PUT”、”PATCH”等等
+url: 请求的网址
+**kwargs: 控制访问的参数
+</code></pre><p>requests模块的使用实例（见链接：<a href="https://blog.csdn.net/gyq1998/article/details/78583841）" target="_blank" rel="noopener">https://blog.csdn.net/gyq1998/article/details/78583841）</a></p>
 
                 <hr>
                 
@@ -426,7 +597,7 @@ driver.find_element_by_id(&quot;txtPassword&quot;).send_keys(&quot;123456&quot;)
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Request-模块"><span class="toc-text">Request 模块</span></a>
                 </div>
             </div>
         </div>
