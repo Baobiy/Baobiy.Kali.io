@@ -173,6 +173,7 @@
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <p>相关Blog： </p>
+<p>推荐专栏：专栏：Python Selenium自动化测试详解 - CSDN博客  <a href="https://blog.csdn.net/column/details/12694.html" target="_blank" rel="noopener">https://blog.csdn.net/column/details/12694.html</a></p>
 <p>Python3 Selenium自动化web测试 ==&gt; 第三节 常用WebDriver API使用示例上（24个API） - 脚本_驱动_测试 - 博客园  <a href="https://www.cnblogs.com/wuzhiming/p/8860087.html" target="_blank" rel="noopener">https://www.cnblogs.com/wuzhiming/p/8860087.html</a></p>
 <p>python selenium-webdriver 元素操作之键盘操作（五） - 梦雨情殇 - 博客园  <a href="https://www.cnblogs.com/mengyu/p/6942584.html" target="_blank" rel="noopener">https://www.cnblogs.com/mengyu/p/6942584.html</a></p>
 <p>python3 selenium使用 - 大黑马 - 博客园  <a href="https://www.cnblogs.com/QI1125/p/7852661.html" target="_blank" rel="noopener">https://www.cnblogs.com/QI1125/p/7852661.html</a></p>
@@ -393,7 +394,18 @@ driver.find_element_by_id(&quot;txtPassword&quot;).send_keys(&quot;123456&quot;)
 <p>具体教程：Selenium 自动化测试不同类型上传文件实用方法总结 - 简书  <a href="https://www.jianshu.com/p/f25ff87a8f17" target="_blank" rel="noopener">https://www.jianshu.com/p/f25ff87a8f17</a></p>
 <p>python3 + selenium 之文件上传下载 - 初新的博客 - CSDN博客  <a href="https://blog.csdn.net/zha6476003/article/details/82686821" target="_blank" rel="noopener">https://blog.csdn.net/zha6476003/article/details/82686821</a></p>
 <p>Python selenium —— 文件下载，不弹出窗口，直接下载到指定路径 - 灰蓝 - CSDN博客  <a href="https://blog.csdn.net/huilan_same/article/details/52789954?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="noopener">https://blog.csdn.net/huilan_same/article/details/52789954?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io</a></p>
-<h1 id="Request-模块"><a href="#Request-模块" class="headerlink" title="Request 模块"></a>Request 模块</h1><p>参考链接：python3爬虫（一）requests库的学习 - saucerman的世界 - CSDN博客  <a href="https://blog.csdn.net/gyq1998/article/details/78583841" target="_blank" rel="noopener">https://blog.csdn.net/gyq1998/article/details/78583841</a></p>
+<h1 id="下载文件"><a href="#下载文件" class="headerlink" title="下载文件"></a>下载文件</h1><p>1、对于Firefox下载文件</p>
+<p>对于Firefox，需要我们设置其Profile：</p>
+<pre><code>browser.download.dir：指定下载路径
+browser.download.folderList：设置成 2 表示使用自定义下载路径；设置成 0 表示下载到桌面；设置成 1 表示下载到默认路径
+browser.download.manager.showWhenStarting：在开始下载时是否显示下载管理器
+browser.helperApps.neverAsk.saveToDisk：对所给出文件类型不再弹出框进行询问
+</code></pre><p>Firefox需要针对每种文件类型进行设置，这里需要我们查询对应文件的MIME类型，可以用以下链接进行查询：MIME 参考手册  <a href="http://www.w3school.com.cn/media/media_mimeref.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/media/media_mimeref.asp</a></p>
+<p>2、Chrome文件下载</p>
+<p>Chrome浏览器类似，设置其options：</p>
+<pre><code>download.default_directory：设置下载路径
+profile.default_content_settings.popups：设置为 0 禁止弹出窗口
+</code></pre><h1 id="Request-模块"><a href="#Request-模块" class="headerlink" title="Request 模块"></a>Request 模块</h1><p>参考链接：python3爬虫（一）requests库的学习 - saucerman的世界 - CSDN博客  <a href="https://blog.csdn.net/gyq1998/article/details/78583841" target="_blank" rel="noopener">https://blog.csdn.net/gyq1998/article/details/78583841</a></p>
 <p>1、Requests库的七个主要方法</p>
 <p><img src="https://i.imgur.com/AFprYiP.png" alt=""><br>（1）requests.get()</p>
 <p>这个方法是我们平时最常用的方法之一，通过这个方法我们可以了解到其他的方法，所以我们详细介绍这个方法。<br>具体参数是：</p>
@@ -598,7 +610,7 @@ url: 请求的网址
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Request-模块"><span class="toc-text">Request 模块</span></a>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载文件"><span class="toc-text">下载文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Request-模块"><span class="toc-text">Request 模块</span></a>
                 </div>
             </div>
         </div>
