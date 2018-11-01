@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My personal blog">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Baobiy" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        HttpWatch学习(持续记录)｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2018/11/01/HttpWatch工具使用/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Baobiy
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>HttpWatch学习(持续记录)</h1>
+                    
+                    <h2 class="subheading">HttpWatch</h2>
+                    
+                    <span class="meta">
+                         作者 Baobiy
+                        <span>
+                          日期 2018-11-01
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#HTTP"
+                           title="HTTP">HTTP</a>
+                        
+                        <a class="tag" href="/tags/#HTTPWatch"
+                           title="HTTPWatch">HTTPWatch</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            HttpWatch学习(持续记录)
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>转自：抓包工具 - HttpWatch（功能详细介绍） - 一加一 - 博客园  <a href="https://www.cnblogs.com/Chilam007/p/6947235.html" target="_blank" rel="noopener">https://www.cnblogs.com/Chilam007/p/6947235.html</a></p>
+<h1 id="HttpWatch-功能详细介绍"><a href="#HttpWatch-功能详细介绍" class="headerlink" title="HttpWatch 功能详细介绍"></a>HttpWatch 功能详细介绍</h1><p>HttpWatch是功能强大的网页数据分析工具，集成在IE工具栏，主要功能有网页摘要、cookies管理、缓存管理、消息头发送/接收，字符查询、POST数据、目录管理功能和报告输出。HttpWatch是一款能够收集并显示深层信息的软件，它不用代理服务器或一些复杂的网络监控工具，能够在显示网页的同时显示网页请求和回应的日志信息，甚至可以显示浏览器缓存和IE之间的交换信息，集成在IE工具栏。（HttpWatch工具需要下载安装，这里就不详说了，直接搜索百度就ok了）</p>
+<p>Ps：可使用Chrome安装生成组件</p>
+<h2 id="HTTP基础知识之HTTP消息格式"><a href="#HTTP基础知识之HTTP消息格式" class="headerlink" title="HTTP基础知识之HTTP消息格式"></a>HTTP基础知识之HTTP消息格式</h2><p>　当用户使用浏览器访问某个URL地址、提交表单数据时，浏览器会生成请求消息发送给服务器，服务器收到请求后，将生成的响应消息返回给浏览器。浏览器发出的请求信息和服务器返回的响应信息统称为HTTP消息。HTTP消息有着严格的格式。</p>
+<p>一个完整的请求消息包括：一个请求行、若干消息头及实体内容，其中一些消息头和实体内容是可选的，消息头和实体内容之间使用空行隔开，下面是HTTP请求消息内容：</p>
+<pre><code>`(Request-Line)    GET /get.do?
+prod=wmail_lbp&amp;ver=1&amp;uid=nt@163.com&amp;domain=163.com&amp;mobUser=0&amp;callback=themeHandler.callback&amp;rnd=0.13562542999267713 
+HTTP/1.1
+Accept    application/javascript, */*;q=0.8
+Accept-Encoding    gzip, deflate
+Accept-Language    zh-CN
+Connection    Keep-Alive
+Cookie    starttime=; logType=
+Host    ir3.mail.163.com
+Referer    http://mail.163.com/
+User-Agent    Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)
+
+HTTP请求消息内容`
+</code></pre><p>一个完整的响应消息包括：一个状态行、若干消息头及实体内容。与请求消息一样，响应消息中的一些消息头和实体内容也是可选的，消息头和实体内容之间也要用空行隔开。下面是HTTP响应消息内容：</p>
+<pre><code>(Status-Line)    HTTP/1.1 200 OK
+Connection    keep-alive
+Content-Length    25037
+Content-Type    application/json;charset=utf-8
+Date    Mon, 05 Jun 2017 13:13:25 GMT
+Server    nginx
+Vary    Accept-Encoding
+X-Cache    from ngx118-192.163.com
+
+HTTP响应消息内容
+</code></pre><p>HTTP请求和HTTP响应消息头都是用于描述HTTP消息本身的信息，通常也把这种描述信息称为元信息，消息头相当于服务器和浏览器之间的暗号指令，主要实现HTTP客户机与服务器之间的条件请求和应答。</p>
+<p>通常情况下消息头分为4类：信息头、请求头、响应头和实体头：</p>
+<p>1）通用信息头：即能用于请求信息，也可以用于响应消息，但与被传输的实体内容没有关系，如date、pragma。</p>
+<p>2）请求头：用于在请求消息中向服务器传递附加消息，主要包括客户机可以接受的数据类型、压缩方法、语言，以及客户计算机上保留的cookie信息和发出该请求的超链接源地址等。</p>
+<p>3）响应头：用于在响应消息中向客户端传递附加信息，包括服务程序的名称、要求客户端进行认证的方式、请求的资源已移动到的新地址等。</p>
+<p>4）实体头：用做实体内容的元信息，描述了实体内容的属性，包括实体信息的类型、长度、压缩方法、最后一次修改的时间和数据的有效期等。</p>
+<p>　　请求消息的请求行中包括3部分：请求方式、资源路径以及所使用的HTTP协议版本，各部分之间使用空格分隔，语法格式如下：</p>
+<pre><code>请求方式  资源路径  HTTP版本号&lt;CRLF&gt;
+</code></pre><p>其中<crlf>表示回车和换行两个字符的组合。</crlf></p>
+<p>　　响应消息的状态行中包括3部分的内容：HTTP协议的版本号、一个表示成功或失败的整数代码（状态码）和对状态码进行描述的文本信息，各部分内容之间使用空格分隔，语法格式如下：</p>
+<pre><code>HTTP版本号  状态码  原因叙述&lt;CRLF&gt;
+</code></pre><h2 id="HttpWatch工具之Request-Grid"><a href="#HttpWatch工具之Request-Grid" class="headerlink" title="HttpWatch工具之Request Grid"></a>HttpWatch工具之Request Grid</h2><p>安装好后在IE-工具下启动HTTPWatch，输入地址后点击record按钮即开始进行录制，点击stop按钮即停止录制，如图1所示，录制了163邮箱的登录操作</p>
+<p><img src="https://i.imgur.com/FLyFSID.png" alt=""></p>
+<p>Started：相对开始时间，是指接下来访问的URL相对于第一个URL被打开的时间，比如<a href="http://mimg.127.net/copyright/year.js是在html" target="_blank" rel="noopener">http://mimg.127.net/copyright/year.js是在html</a> <a href="http://mail.163.com/页面的0.231s才执行的。" target="_blank" rel="noopener">http://mail.163.com/页面的0.231s才执行的。</a></p>
+<p>Time Chart：耗时比例图，即整个请求应答过程各部分所花时间比例图。</p>
+<p>Time：请求所消耗的时间。</p>
+<p>Sent：提交该请求所发送的字节数。</p>
+<p>Received：提交请求后服务器返回的字节数。</p>
+<p>Method：提交请求的方法。</p>
+<p>Result：请求处理的结果。</p>
+<p>Type：服务器返回内容的类型。（鼠标置于小图标上方可显示出具体类型）</p>
+<p>URL：请求的URL地址。</p>
+<p>在测试过程中主要关注<strong>Time、Received、Result</strong>三项的值，Time是请求的耗时，需要注意耗时大的请求，因为在整个业务响应时间过程中，耗时长的请求是最有可能需要调优的；Received是返回的字节数，在测试过程中需要关注返回字节数较大的需要，因为返回的字节数较大，会影响整个请求的耗时，它也是调优需要重点关注的内容；Result是指请求响应的状态，需要关注其响应状态为非200的值，请求响应状态只有200是正确的，其他的都是异常的，如果请求出现异常情况，说明事务很有可能操作失败，这样直接影响了事务的成功率。</p>
+<h2 id="HttpWatch工具之Request-View"><a href="#HttpWatch工具之Request-View" class="headerlink" title="HttpWatch工具之Request View"></a>HttpWatch工具之Request View</h2><p>Request View内容详细记录了每个请求的信息，主要包括下面列举的内容：</p>
+<p>一、Overview，如图2所示</p>
+<p><img src="https://i.imgur.com/V9Mtrbp.png" alt=""></p>
+<p>Display URL：表示请求的URL；</p>
+<p>Started At：表示该请求开始的时间；</p>
+<p>Submit Form：表示表单被提交到URL，只有POST操作时才会有该项；</p>
+<p>Connecte：表示TCP连接操作；</p>
+<p>HTTP Request：表示一个请求被发出去；</p>
+<p>HTTP Response：表示一个应答被收回；</p>
+<p>Read Cache：表示该次请求是从cache中读取应答消息；</p>
+<p>二、Time Chart，如图3所示</p>
+<p><img src="https://i.imgur.com/9aJUwnv.png" alt=""></p>
+<p>显示了一次请求应答过程中每个时间片段所花费的时间。一次完整的请求应答过程需要经历的时间片段如下：Blocked-&gt;DNS Lookup-&gt;Connect    -&gt;Send -&gt;Wait    -&gt;Receive。</p>
+<p>各时间片段含义如下：</p>
+<p>Blocked（阻塞）：阻塞的时间主要包括预处理时间（如缓存查找）和网络排队等待时间，导致阻塞最主要原因是下载页面中的图片；</p>
+<p>DNS Lookup（域名解释）：域名解释时间主要是将主机名（如<a href="http://www.google.com）转化为相应的IP地址（216.239.59.99）的时间，在访问URL地址时，地址本身不能被直接访问，需要将它对应为相应的IP地址才能访问；" target="_blank" rel="noopener">www.google.com）转化为相应的IP地址（216.239.59.99）的时间，在访问URL地址时，地址本身不能被直接访问，需要将它对应为相应的IP地址才能访问；</a></p>
+<p>Connect（连接）：连接时间是指与web服务器（或代理服务器）建立起TCP连接需要的时间，一个安全的HTTPS连接应该包含SSL握手的过程，让系统处于一种保持连接的状态，可以节约重复创建TCP连接的时间</p>
+<p>Send（发送）：发送时间是指从客户端发送HTTP请求到服务器所花费的时间，并且发送数据大小会影响发送的时间，如上传文件花费的时间就比较长；</p>
+<p>Wait（等待）：等待时间是指服务器响应请求的时间，这个值包括网络延迟和服务器处理请求所花费的时间；</p>
+<p>Receive（接收）：接收时间是指服务器返回数据到客户端所花费的时间，这个时间受所返回消息内容大小、网络带宽和HTTP压缩比的影响；</p>
+<p>Cache Read（读cache）：读缓存时间是指从浏览器缓存中读取内容的时间；</p>
+<p>三、Headers，如图4所示</p>
+<p><img src="https://i.imgur.com/PzMlwWM.png" alt=""></p>
+<p>Headers Sent的内容如下：</p>
+<p>　　(Request-Line)：包括HTTP提交请求方法、HTTP版本和URL子路径；</p>
+<p>　　Accept：可接受的文件类型；</p>
+<p>　　Accept-Encoding：可接受的纯文本之外的内容编码的类型；</p>
+<p>　　Accept-Language：可接受的返回数据的语言种类；</p>
+<p>　　Connection：指定该次请求回应结束后，如何处理连接；</p>
+<p>　　Cache-Control：指定请求和响应遵循的缓存机制；</p>
+<p>　　Location：用于重定向接收者到一个新URL地址；</p>
+<p>　　Host：请求连接的主机名；</p>
+<p>Headers Received的内容如下：</p>
+<p>　　(Status-Line)：包括HTTP请求的状态码和HTTP版本信息；　</p>
+<p>　　Connection：指定该次请求回应结束后，如何处理连接；</p>
+<p>　　Cache-Control：指定请求和响应遵循的缓存机制；</p>
+<p>　　Content-Language：内容数据的语言种类；</p>
+<p>　　Content-Length：传输的内容长度；</p>
+<p>　　Content-Type：内容数据的类型（Mini Type）；</p>
+<p>　　Last-Modified：服务器上保存内容的最后修订时间；</p>
+<p>　　Expires：内容数据被缓存的过期时间；</p>
+<p>四、Cookies，如图5所示</p>
+<p><img src="https://i.imgur.com/jlrRizd.png" alt=""></p>
+<p>Cookie Name：cookie的名称；</p>
+<p>Direction：表明该cookie是由客户端发送到服务器的还是从服务器接收的；</p>
+<p>Value：cookie的内容；</p>
+<p>Path：该cookie所在站点的路径；</p>
+<p>Domain：显示该cookie所属的域名或主机名；</p>
+<p>Expires：指该cookie失效时间，当浏览器关闭时该cookie值将被删除；</p>
+<p>五、Cache，如图6所示</p>
+<p><img src="https://i.imgur.com/RJtt9CE.png" alt=""></p>
+<p><img src="https://i.imgur.com/XPDuuoW.png" alt=""></p>
+<p>URL in cache?：该项内容是否写入浏览器缓存 ；</p>
+<p>Expires：cache失效日期和时间；</p>
+<p>Last Modification：当cache内容被存储或更新时，那么更改日期将会修改为最近的日期；</p>
+<p>Last Cache Update：cache内容被更新的最近时间；</p>
+<p>Last Access：最近一次读cache的时间；</p>
+<p>ETag：用来匹配服务器上的实体，使用的方式为模糊匹配；</p>
+<p>Hit Count：读cache内容的次数；</p>
+<p>六、Query String，如图7所示：</p>
+<p><img src="https://i.imgur.com/dZVrwYK.png" alt=""></p>
+<p>Query String是通过URL来传递参数的一种方式，格式通常为：…?name1=value1&amp;name2=value2&amp;…</p>
+<p>Query String内容中可以显示当前URL中所有的参数名及对应的值，图7所对应的URL如下：</p>
+<p><a href="https://ir.mail.163.com/get.do?rnd=0.6303291254231771&amp;uid=bjhtadmin@163.com&amp;regTime=0&amp;lastTime=0&amp;mobUser=0&amp;ver=8&amp;mailVer=6&amp;ph=0&amp;callback=gAd.callback" target="_blank" rel="noopener">https://ir.mail.163.com/get.do?rnd=0.6303291254231771&amp;uid=bjhtadmin@163.com&amp;regTime=0&amp;lastTime=0&amp;mobUser=0&amp;ver=8&amp;mailVer=6&amp;ph=0&amp;callback=gAd.callback</a></p>
+<p>七、POST Data，如图8所示，显示以POST方式请求的数据信息，其中Mime Type:application/json，是指POST方式提交数据的编码方式。</p>
+<p><img src="https://i.imgur.com/7EU8PsM.png" alt=""></p>
+<p>八、Content，如图9所示，显示接收到的HTTP响应信息，包括MIME的类型，总的字节数和这些内容是否从服务中下载或从缓存中读取，如果对HTTP进行了压缩，还应该显示压缩的方式、压缩后的文件大小及压缩比。</p>
+<p><img src="https://i.imgur.com/fE1uWER.png" alt=""></p>
+<p>九、Stream，如图10所示，主要是显示客户端发送的内容和服务器返回的内容。左边显示的是客户端发送的内容，显示了数据流大小和发送到哪个服务器，如图所示，发送的字节数为2173个字节，服务器的IP地址为220.181.12.208，端口号为80。右边显示的是服务器返回的内容，包括返回的字节数和返回到客户端的IP地址。</p>
+<p><img src="https://i.imgur.com/3apnoIK.png" alt=""></p>
+<p>左边为客户端向服务器提交的请求，内容如下：</p>
+<p>　　GET /entry/cgi/ntesdoor?df=loginjustnowmail163&amp;funcid=loginjustnow&amp;iframe=1 HTTP/1.1：GET表示请求方式，‘/’表示URI（uniform resource identifier，是web上访问可用资源的一种通用资源标识符），HTTP/1.1表示使用的协议和协议版本；</p>
+<p>　　Accept：表示接受返回数据的类型， <em>/</em>表示允许接受所有的数据类型；</p>
+<p>　　Referer: 表示一个URL地址（如<a href="http://mail.163.com/），表示从该地址发出的请求；" target="_blank" rel="noopener">http://mail.163.com/），表示从该地址发出的请求；</a></p>
+<p>　　Accept-Language: 表示接受返回数据的语言，如zh-CN表示接受返回数据语言为中文；</p>
+<p>　　Accept-Encoding: 表示浏览器可接受除纯文本外的内容编码的类型，如gzip压缩, deflate压缩内容；</p>
+<p>　　User-Agent：标识客户端浏览器类型及相关版本信息；</p>
+<p>　　Host：主机标识地址；</p>
+<p>　　Connection: 表示连接状态，如Keep-Alive表示保持TCP的连接状态；</p>
+<p>右边的内容为服务器向客户端返回的数据内容，如下：</p>
+<p>　　HTTP/1.1 200 OK：表示协议、协议版本、请求的状态；</p>
+<p>　　Date：表示发送HTTP消息的日期；</p>
+<p>　　Expires：表示实体的有效期；</p>
+<p>　　Content-Type：表示服务器返回请求类型，如text/html；</p>
+<p>　　Last-Modified：表示被请求资源上次修改的日期和时间；</p>
+<p>　　Age：表示HTTP接受请求操作响应的缓存时间；</p>
+<p>十、SSL</p>
+<p><img src="https://i.imgur.com/ZfaRyBB.png" alt=""></p>
+<p>十一、！Warnings，如图11所示，显示了单个请求出现警告的内容，显示的内容包括警告ID、警告类型和警告的详细描述，关于警告类型主要3种：performance（性能）、security（安全）和Functional（功能）</p>
+<p><img src="https://i.imgur.com/mvspJHb.png" alt=""></p>
+<h2 id="HttpWatch工具之Summary-View"><a href="#HttpWatch工具之Summary-View" class="headerlink" title="HttpWatch工具之Summary View"></a>HttpWatch工具之Summary View</h2><p>summary可以显示一个页面或一组页面请求的概要信息，如图12所示：</p>
+<p><img src="https://i.imgur.com/m5QRWCX.png" alt=""></p>
+<p>　　Elapsed Time：表示从第一个请求开始到当前页面所有请求都完成所消耗的时间，单位为s，显然该值越小越好；</p>
+<p>　　Network Round Trips：表示提交请求到请求信息返回共经历的web服务器的次数，同样该值越小越好；</p>
+<p>　　Downloaded Data：下载的字节数，单位为字节，同样该值越小越好；</p>
+<p>　　Uploaded Data：表示发送到服务器端的数据，单位为字节数，同样该值越小越好；</p>
+<p>　　HTTP Compression Savings：表示HTTP数据压缩后，减少的字节数；</p>
+<p>　　DNS Lookups：表示将域名解析为对应的IP地址的次数（如将域名<a href="http://www.google.com解析为72.14.221.103）；" target="_blank" rel="noopener">www.google.com解析为72.14.221.103）；</a></p>
+<p>　　TCP Connects：表示建立TCP连接的次数，这项值用于表示服务器保持连接的能力，同样该值越小越好；</p>
+<p>　　Total HTTPS overhead：在所有的提交请求中有多少需要加密的请求；</p>
+<p>　　Average HTTPS overhead per request：平均每个请求的HTTP值，如果这个值过高很可能是因为服务器不正确引起的。</p>
+<p>page events的内容如图13所示，表示页面请求的事件以及每个事件对应所消耗的时间，关于时间块的组成在request view中的time chart部分进行了详细的介绍，这里就不赘述。</p>
+<p><img src="https://i.imgur.com/D9BhtfZ.png" alt=""></p>
+<p>timings的内容如图14所示，表示URL请求各阶段所消耗的时间，同上也是不赘述。</p>
+<p><img src="https://i.imgur.com/4STDYB3.png" alt=""></p>
+<p>status codes的内容如图15所示，主要显示客户端提交请求后，服务器返回的状态码。</p>
+<p><img src="https://i.imgur.com/6daaEBv.png" alt=""></p>
+<p>errors和warning内容主要是显示在请求过程中，出现的错误和警告的信息。</p>
+<p><img src="https://i.imgur.com/kjtsyZ6.png" alt=""></p>
+<h2 id="HttpWatch工具之其他功能"><a href="#HttpWatch工具之其他功能" class="headerlink" title="HttpWatch工具之其他功能"></a>HttpWatch工具之其他功能</h2><p>除上面描述的功能外，还有两个其他功能，即过滤和查找功能，如图16、17所示：</p>
+<p><img src="https://i.imgur.com/ZOK0vSv.png" alt=""><br><img src="https://i.imgur.com/JR9r5pl.png" alt=""></p>
+<p>备注：文字讲解来自《深入性能测试–LoadRunner性能测试、流程、监控、调优全程实战剖析》（黄文高、何月顺编著）一书，我是新手，参照此教程做了下实践，顺便将学到的东西写下来。</p>
+<p>文章转自：抓包工具 - HttpWatch（功能详细介绍） - 一加一 - 博客园  <a href="https://www.cnblogs.com/Chilam007/p/6947235.html" target="_blank" rel="noopener">https://www.cnblogs.com/Chilam007/p/6947235.html</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/10/25/Fiddler工具使用介绍（持续。。。）/" data-toggle="tooltip" data-placement="top"
+                           title="Fiddler 工具使用记录(持续记录)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HttpWatch-功能详细介绍"><span class="toc-text">HttpWatch 功能详细介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP基础知识之HTTP消息格式"><span class="toc-text">HTTP基础知识之HTTP消息格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HttpWatch工具之Request-Grid"><span class="toc-text">HttpWatch工具之Request Grid</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HttpWatch工具之Request-View"><span class="toc-text">HttpWatch工具之Request View</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HttpWatch工具之Summary-View"><span class="toc-text">HttpWatch工具之Summary View</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HttpWatch工具之其他功能"><span class="toc-text">HttpWatch工具之其他功能</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Baobiy 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>
