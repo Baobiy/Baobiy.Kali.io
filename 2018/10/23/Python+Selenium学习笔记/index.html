@@ -178,6 +178,7 @@
 <p>python selenium-webdriver 元素操作之键盘操作（五） - 梦雨情殇 - 博客园  <a href="https://www.cnblogs.com/mengyu/p/6942584.html" target="_blank" rel="noopener">https://www.cnblogs.com/mengyu/p/6942584.html</a></p>
 <p>python3 selenium使用 - 大黑马 - 博客园  <a href="https://www.cnblogs.com/QI1125/p/7852661.html" target="_blank" rel="noopener">https://www.cnblogs.com/QI1125/p/7852661.html</a></p>
 <p>在selenium中使用css选择器进行元素定位 - grace666的专栏 - CSDN博客  <a href="https://blog.csdn.net/grace666/article/details/48419529/" target="_blank" rel="noopener">https://blog.csdn.net/grace666/article/details/48419529/</a></p>
+<p>Python3中Selenium使用方法<em>搜狐科技</em>搜狐网  <a href="http://www.sohu.com/a/144251028_572440" target="_blank" rel="noopener">http://www.sohu.com/a/144251028_572440</a></p>
 <p>#selenium模块的基本用法</p>
 <p>###查找元素</p>
 <pre><code>单个元素   (from selenium import webdriver)
@@ -631,6 +632,35 @@ time.sleep(3)
 
 driver.quit()
 </code></pre><p>参考链接：Python_selenium之执行JavaScript - Rita_LJ - 博客园  <a href="https://www.cnblogs.com/Rita-LJ/p/7884995.html" target="_blank" rel="noopener">https://www.cnblogs.com/Rita-LJ/p/7884995.html</a></p>
+<h1 id="Cookies操作"><a href="#Cookies操作" class="headerlink" title="Cookies操作"></a>Cookies操作</h1><p>链接：python3+selenium入门13-操作cookie - 梦忆安凉 - 博客园  <a href="https://www.cnblogs.com/myal/p/9389942.html" target="_blank" rel="noopener">https://www.cnblogs.com/myal/p/9389942.html</a></p>
+<h1 id="获取验证码-识别图片文字"><a href="#获取验证码-识别图片文字" class="headerlink" title="获取验证码-识别图片文字"></a>获取验证码-识别图片文字</h1><p>相关链接：Python3.6使用tesseract-ocr的正确姿势 - No.96 - CSDN博客  <a href="https://blog.csdn.net/qq_14998713/article/details/78824859" target="_blank" rel="noopener">https://blog.csdn.net/qq_14998713/article/details/78824859</a></p>
+<p>安装：<br>Tesseract：开源的OCR识别引擎，初期Tesseract引擎由HP实验室研发，后来贡献给了开源软件业，后经由Google进行改进，消除bug，优化，重新发布。</p>
+<p>1、tesseract-orc<br>环境：</p>
+<pre><code>python 3.6.5
+pip 9.0.3
+tesseract-ocr-setup-3.05.00dev.exe
+Windows7
+</code></pre><p>链接：<a href="https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-3.05.00dev.exe" target="_blank" rel="noopener">https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-3.05.00dev.exe</a></p>
+<p>2、pytesseract</p>
+<pre><code>pip install pytesseract
+</code></pre><p>配置环境变量：</p>
+<p>默认情况下tesseract-orc是不被添加到系统的path路径的，这样在使用的时候发生FileNotFoundError: [WinError 2] 系统找不到指定的文件错误。</p>
+<p>解决方法: </p>
+<pre><code>将 C:\Program Files (x86)\Tesseract-OCR添加到系统路径（路径因安装过程而异） 
+</code></pre><p>设置训练集的位置</p>
+<pre><code>下载的默认训练集也没有添加到系统路径,会报错pytesseract.pytesseract.TesseractError: (1, &apos;Error opening data file \\Program Files (x86)\\Tesseract-OCR\\tessdata/chi_sim.traineddata&apos;)
+</code></pre><p>解决方法：<br>设置环境变量 TESSDATA_PREFIX<br>C:\Program Files (x86)\Tesseract-OCR\tessdata</p>
+<p>实例：</p>
+<pre><code>import pytesseract
+from PIL import Image
+
+image = Image.open(&apos;test.png&apos;)
+code = pytesseract.image_to_string(image)
+print(code)
+</code></pre><p>更多链接： python+tesseract验证码识别的一点小心得 - 菲菲菲菲菲常新的新手 - 博客园  <a href="https://www.cnblogs.com/lgh344902118/p/6672706.html" target="_blank" rel="noopener">https://www.cnblogs.com/lgh344902118/p/6672706.html</a></p>
+<p>Python 3.6 版本 Pytesseract 图像验证码识别 PyCharm 报错FileNotFoundError - 流浪的喵的博客 - CSDN博客  <a href="https://blog.csdn.net/u010134642/article/details/78747630" target="_blank" rel="noopener">https://blog.csdn.net/u010134642/article/details/78747630</a></p>
+<p>Tesseract-OCR入门使用（1）-安装包获取和命令行调用 - 我不是校长的博客 - CSDN博客  <a href="https://blog.csdn.net/u012566751/article/details/54094692" target="_blank" rel="noopener">https://blog.csdn.net/u012566751/article/details/54094692</a></p>
+<p>python pip ,安装，卸载，查看等命令，不同版本 - x.cube - 博客园  <a href="https://www.cnblogs.com/xiexiaoxiao/p/7147920.html" target="_blank" rel="noopener">https://www.cnblogs.com/xiexiaoxiao/p/7147920.html</a></p>
 
                 <hr>
                 
@@ -664,7 +694,7 @@ driver.quit()
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载文件"><span class="toc-text">下载文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Request-模块"><span class="toc-text">Request 模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行JavaScript"><span class="toc-text">执行JavaScript</span></a>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载文件"><span class="toc-text">下载文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Request-模块"><span class="toc-text">Request 模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行JavaScript"><span class="toc-text">执行JavaScript</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Cookies操作"><span class="toc-text">Cookies操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取验证码-识别图片文字"><span class="toc-text">获取验证码-识别图片文字</span></a>
                 </div>
             </div>
         </div>
