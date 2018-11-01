@@ -410,9 +410,10 @@ profile.default_content_settings.popups：设置为 0 禁止弹出窗口
 <p>selenium部分功能（上传文件、swf插件）无法自动化时可使用的方法 - 宋天真的博客 - CSDN博客  <a href="https://blog.csdn.net/songjiaping/article/details/52091136" target="_blank" rel="noopener">https://blog.csdn.net/songjiaping/article/details/52091136</a></p>
 <h1 id="Request-模块"><a href="#Request-模块" class="headerlink" title="Request 模块"></a>Request 模块</h1><p>参考链接：python3爬虫（一）requests库的学习 - saucerman的世界 - CSDN博客  <a href="https://blog.csdn.net/gyq1998/article/details/78583841" target="_blank" rel="noopener">https://blog.csdn.net/gyq1998/article/details/78583841</a></p>
 <p>1、Requests库的七个主要方法</p>
-<p><img src="https://i.imgur.com/AFprYiP.png" alt=""><br>（1）requests.get()</p>
+<p><img src="https://i.imgur.com/AFprYiP.png" alt=""></p>
+<p>(1) requests.request()</p>
 <p>这个方法是我们平时最常用的方法之一，通过这个方法我们可以了解到其他的方法，所以我们详细介绍这个方法。<br>具体参数是：</p>
-<pre><code>r=requests.get(url,params,**kwargs)
+<pre><code>r=requests.request(url,params,**kwargs)
 
 url: 需要爬取的网站地址。
 params: 翻译过来就是参数， url中的额外参数，字典或者字节流格式，可选。
@@ -453,7 +454,8 @@ verify：开关， 用于认证SSL证书， 默认为True。
 cert： 用于设置保存本地SSL证书路径
 
 这句代码是构造一个服务器请求request，返回一个包含服务器资源的response对象。
-</code></pre><p>response对象的属性：</p>
+</code></pre><p>（1）requests.get()</p>
+<p>response对象的属性：</p>
 <p><img src="https://i.imgur.com/Fh9ynNp.png" alt=""><br>补充：</p>
 <pre><code>r.status_code #响应状态码
 
