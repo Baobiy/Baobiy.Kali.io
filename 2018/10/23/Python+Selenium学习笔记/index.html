@@ -705,7 +705,8 @@ print (getImg(html)) #从网页源代码中分析并下载保存图片
 <p><strong>urllib和requests区别：</strong></p>
 <p>（python3 urllib和requests模块 - 毛斯钢 - 博客园  <a href="https://www.cnblogs.com/znyyy/p/7868511.html）" target="_blank" rel="noopener">https://www.cnblogs.com/znyyy/p/7868511.html）</a></p>
 <p>（requests和urllib.request实现对比 - fs_eagle的博客 - CSDN博客  <a href="https://blog.csdn.net/fs_eagle/article/details/79387343）" target="_blank" rel="noopener">https://blog.csdn.net/fs_eagle/article/details/79387343）</a></p>
-<h4 id="re-模块："><a href="#re-模块：" class="headerlink" title="re 模块："></a>re 模块：</h4><p>   <strong>1、模块总结</strong></p>
+<p>####扩展- re 模块： ####</p>
+<p>   <strong>1、模块总结</strong></p>
 <p>（python3 re模块 - z寒江雪 - 博客园  <a href="https://www.cnblogs.com/wenwei-blog/p/7216102.html）" target="_blank" rel="noopener">https://www.cnblogs.com/wenwei-blog/p/7216102.html）</a></p>
 <p>   <strong>2、re.compile模块</strong></p>
 <p>re模块中包含一个重要函数是compile(pattern [, flags]) ，该函数根据包含的正则表达式的字符串创建模式对象。可以实现更有效率的匹配。在直接使用字符串表示的正则表达式进行search,match和findall操作时，python会将字符串转换为正则表达式对象。而使用compile完成一次转换之后，在每次使用模式的时候就不用重复转换。当然，使用re.compile()函数进行转换后，re.search(pattern, string)的调用方式就转换为 pattern.search(string)的调用方式。</p>
@@ -890,7 +891,215 @@ span 返回分组匹配的 index （start(group),end(group))： (9, 10)
 </code></pre><p>JavaScript正则表达式在线测试工具：<br><a href="http://tools.jb51.net/regex/javascript" target="_blank" rel="noopener">http://tools.jb51.net/regex/javascript</a></p>
 <p>正则表达式在线生成工具：<br><a href="http://tools.jb51.net/regex/create_reg" target="_blank" rel="noopener">http://tools.jb51.net/regex/create_reg</a></p>
 <p>转自：（Python3中正则模块re.compile、re.match及re.search函数用法详解<em>python</em>脚本之家  <a href="https://www.jb51.net/article/141830.htm）" target="_blank" rel="noopener">https://www.jb51.net/article/141830.htm）</a></p>
+<h1 id="请求库的使用值urllib"><a href="#请求库的使用值urllib" class="headerlink" title="请求库的使用值urllib"></a>请求库的使用值urllib</h1><p>转自：Python3爬虫（三）请求库的使用之urllib - Infi_chu - 博客园  <a href="https://www.cnblogs.com/Infi-chu/p/8950935.html" target="_blank" rel="noopener">https://www.cnblogs.com/Infi-chu/p/8950935.html</a></p>
+<p>Python3学习笔记（urllib模块的使用） - Data&amp;Truth - 博客园  <a href="https://www.cnblogs.com/Lands-ljk/p/5447127.html" target="_blank" rel="noopener">https://www.cnblogs.com/Lands-ljk/p/5447127.html</a></p>
+<h3 id="一、urllib库"><a href="#一、urllib库" class="headerlink" title="一、urllib库"></a>一、urllib库</h3><ol>
+<li>是Python内置的HTTP请求库</li>
+<li>在Python2中，由urllib和urllib2之分，而在Python3中，统一为urllib</li>
+<li>主要包含模块：</li>
+</ol>
+<p>　　request：最基本的发送模块，用来模拟发送请求</p>
+<p>　　error：异常处理模块</p>
+<p>　　parse：一个工具模块</p>
+<p>　　robotparser：主要用来识别robots.txt文件</p>
+<p><em>注：Robots协议：</em></p>
+<pre><code>1.含义Robots Exclusion Standard 网络爬虫排除标准
+2.作用：网站告知网络爬虫哪些页面可以抓取，哪些不行
+3.形式：在网站根目录下的robots.txt文件
+4.使用：
+    a.网络爬虫：自动或人工识别robots.txt，再进行内容爬取
+    b.约束性：可以不遵循，但要注意法律风险
+</code></pre><p><em>转自</em> Python3爬虫（二）网络爬虫的尺寸与约束 - Infi_chu - 博客园  <a href="https://www.cnblogs.com/Infi-chu/p/8943715.html" target="_blank" rel="noopener">https://www.cnblogs.com/Infi-chu/p/8943715.html</a></p>
+<h3 id="二、发送请求："><a href="#二、发送请求：" class="headerlink" title="二、发送请求："></a>二、发送请求：</h3><p><strong>1. urlopen()</strong></p>
+<p>　　urllib.request：模块提供了最基本的构造HTTP请求的方法，同时还带有处理验证(authentication)、重定向(redirection)、浏览器Cookies等</p>
+<pre><code>import urllib.request
+r = urllib.request.urlopen(&apos;http://www.baidu.com&apos;)
+print(r.read().decode(&apos;utf-8&apos;))
+print(type(r))    # &lt;class &apos;http.client.HTTPResponse&apos;&gt;
+</code></pre><p>直接用urllib.request模块的urlopen（）获取页面，page的数据格式为bytes类型，需要decode（）解码，转换成str类型。</p>
+<p>HTTPResponse类型的对象包括的方法：read()、readline()、readinto()、getheader(name)、getheaders()、fileno()，等</p>
+<p>HTTPResponse类型的对象包括的属性：msg、version、status、reason、debuglevel、closed等</p>
+<p>info(): 返回HTTPMessage对象，表示远程服务器返回的头信息</p>
+<p>getcode()：返回Http状态码。如果是http请求，200请求成功完成;404网址未找到</p>
+<p>geturl()：返回请求的url</p>
+<pre><code>urllib.request.urlopen(url,data=None,[timeout,]*,cafile=None,capath=None,cadefault=False,context=None)
+</code></pre><p>1）data参数：</p>
+<ol>
+<li>可选</li>
+<li>若是字节流编码格式的内容，即bytes类型，则需要通过bytes()方法转化。若传递该参数，则请求方式会有GET变为POST</li>
+<li>bytes()第一个参数需为str类型，可用urllib.parse.urlencode()方法是字典变为字符串</li>
+</ol>
+<p>2）timeout参数：</p>
+<ol>
+<li>可选</li>
+<li>用于设置超时时间，单位是秒，默认使用全局默认时间</li>
+<li>支持HTTP、HTTPS、FTP请求</li>
+<li><p>例：</p>
+<p>  import urllib<br>  try:</p>
+<pre><code>r = urllib.request.urlopen(&apos;http://www.baidu.com&apos;, timeout=0.1)
+</code></pre><p>  except urllib.error.URLError as e:</p>
+<pre><code>if isinstance(e.reason, socket.timeout):
+  print(&apos;Time Out!&apos;)
+</code></pre></li>
+</ol>
+<p>3）context参数：必须是ssl.SSLContext类型，用来指定SSL设置</p>
+<p>4）cafile参数：指定CA证书</p>
+<p>5）capath参数：指定CA证书的路径</p>
+<p><em>【注】cafile和capath一起在请求HTTPS时使用</em></p>
+<p>6）cadefault参数：已被废弃，默认是False</p>
+<p><strong>2. Request</strong>     </p>
+<p>urlopen()不足以构建一个完整的请求，若要加入Headers等信息，就可以用Request类</p>
+<p>Request类的构造：</p>
+<pre><code>class urllib.request.Request(url,data=None,headers={},origin_req_host=None,unverifiable=False,method=None)
+</code></pre><p>1）url参数：同urlopen()</p>
+<p>2）data参数：同urlopen()</p>
+<p>3）headers参数：</p>
+<p>   1.请求头</p>
+<p>   2.可以直接在字典中构造，也可以用add_header()方法添加</p>
+<p>   3.可将User-Agent改为Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko)　　【注】伪造成浏览器访问</p>
+<p>用来包装头部的数据：</p>
+<p>   User-Agent ：这个头部可以携带如下几条信息：浏览器名和版本号、操作系统名和版本号、默认语言</p>
+<p>   Referer：可以用来防止盗链，有一些网站图片显示来源http://***.com，就是检查Referer来鉴定的</p>
+<p>   Connection：表示连接状态，记录Session的状态。</p>
+<p>4）origin_req_host参数：指的是请求方的host名称或IP地址</p>
+<p>5）unverifiable参数：请求是否是无法验证的，默认是False</p>
+<p>6）method参数：是一个字符串，用来指示请求的方法</p>
+<pre><code>url = r&apos;http://www.lagou.com/zhaopin/Python/?labelWords=label&apos;
+headers = {
+&apos;User-Agent&apos;: r&apos;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) &apos;
+              r&apos;Chrome/45.0.2454.85 Safari/537.36 115Browser/6.0.3&apos;,
+&apos;Referer&apos;: r&apos;http://www.lagou.com/zhaopin/Python/?labelWords=label&apos;,
+&apos;Connection&apos;: &apos;keep-alive&apos;
+}
+req = request.Request(url, headers=headers)
+page = request.urlopen(req).read()
+page = page.decode(&apos;utf-8&apos;)
+</code></pre><p><strong>3. Handler（请求的高级用法）：</strong></p>
+<p>Handler是各种处理器，可以处理登录验证，可以处理Cookies，可以处理代理。</p>
+<p>urllib.request模块里面的BaseHandler类，是所有其他Handler的父类。</p>
+<p>各种Handler子类继承这个BaseHandler类：</p>
+<p>   HTTPDefaultErrorHandler：用于处理HTTP响应错误，会抛出异常</p>
+<p>   HTTPRedirectHandler：用于处理重定向</p>
+<p>   HTTPCookieProcessor：用于处理Cookies</p>
+<p>   ProxyHandler：用于设置代理，默认为空</p>
+<p>   HTTPPasswordMgr：用于管理密码</p>
+<p>   HTTPBasicAuthHandler：用于管理认证</p>
+<p><strong>4. OpenDirector：</strong></p>
+<p>  应用：验证、代理、Cookies</p>
+<p><strong>5.POST数据</strong></p>
+<pre><code>urllib.request.urlopen(url, data=None, [timeout, ]*, cafile=None, capath=None, cadefault=False, context=None)
+</code></pre><p>urlopen（）的data参数默认为None，当data参数不为空的时候，urlopen（）提交方式为Post。</p>
+<pre><code>from urllib import request, parse
+url = r&apos;http://www.lagou.com/jobs/positionAjax.json?&apos;
+headers = {
+    &apos;User-Agent&apos;: r&apos;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) &apos;
+                  r&apos;Chrome/45.0.2454.85 Safari/537.36 115Browser/6.0.3&apos;,
+    &apos;Referer&apos;: r&apos;http://www.lagou.com/zhaopin/Python/?labelWords=label&apos;,
+    &apos;Connection&apos;: &apos;keep-alive&apos;
+}
+data = {
+    &apos;first&apos;: &apos;true&apos;,
+    &apos;pn&apos;: 1,
+    &apos;kd&apos;: &apos;Python&apos;
+}
+data = parse.urlencode(data).encode(&apos;utf-8&apos;)
+req = request.Request(url, headers=headers, data=data)
+page = request.urlopen(req).read()
+page = page.decode(&apos;utf-8&apos;)
+</code></pre><p>urlencode（）主要作用就是将url附上要提交的数据。 </p>
+<pre><code>urllib.parse.urlencode(query, doseq=False, safe=&apos;&apos;, encoding=None, errors=None)
 
+data = {
+&apos;first&apos;: &apos;true&apos;,
+&apos;pn&apos;: 1,
+&apos;kd&apos;: &apos;Python&apos;
+}
+data = parse.urlencode(data).encode(&apos;utf-8&apos;)
+</code></pre><p>经过urlencode（）转换后的data数据为?first=true?pn=1?kd=Python，最后提交的url为</p>
+<p>Post的数据必须是bytes或者iterable of bytes，不能是str，因此需要进行encode（）编码</p>
+<pre><code>page = request.urlopen(req, data=data).read()
+</code></pre><p>当然，也可以把data的数据封装在urlopen（）参数中</p>
+<h3 id="三、异常处理："><a href="#三、异常处理：" class="headerlink" title="三、异常处理："></a>三、异常处理：</h3><p><strong>1. URLError：</strong></p>
+<p>a. 来自urllib库的error模块，他继承自OSError类，是error异常模块的基类，由request模块产生的异常都可以通过它处理</p>
+<p>b. reason属性，返回原因</p>
+<p><strong>2. HTTPError：</strong></p>
+<p>a. 是URLError的子类，专门用来处理HTTP请求错误</p>
+<p>b. 三个属性：</p>
+<p>　　　　code：返回状态码</p>
+<p>　　　　reason：返回原因</p>
+<p>　　　　headers：返回请求头</p>
+<pre><code>def get_page(url):
+    headers = {
+        &apos;User-Agent&apos;: r&apos;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) &apos;
+                    r&apos;Chrome/45.0.2454.85 Safari/537.36 115Browser/6.0.3&apos;,
+        &apos;Referer&apos;: r&apos;http://www.lagou.com/zhaopin/Python/?labelWords=label&apos;,
+        &apos;Connection&apos;: &apos;keep-alive&apos;
+    }
+    data = {
+        &apos;first&apos;: &apos;true&apos;,
+        &apos;pn&apos;: 1,
+        &apos;kd&apos;: &apos;Python&apos;
+    }
+    data = parse.urlencode(data).encode(&apos;utf-8&apos;)
+    req = request.Request(url, headers=headers)
+    try:
+        page = request.urlopen(req, data=data).read()
+        page = page.decode(&apos;utf-8&apos;)
+    except error.HTTPError as e:
+        print(e.code())
+        print(e.read().decode(&apos;utf-8&apos;))
+    return page
+</code></pre><h3 id="四、解析链接："><a href="#四、解析链接：" class="headerlink" title="四、解析链接："></a>四、解析链接：</h3><p>介绍parse模块中的方法，parse定义了处理URL的标准接口</p>
+<p><strong>1. urlparse()</strong></p>
+<p>实现URL的识别分段。</p>
+<p>　　API用法：　</p>
+<pre><code>urllib.parse.urlparse(urlstring,scheme=&apos;&apos;,allow_fragments=True)
+</code></pre><p>　　urlstring参数：必选，待解析的URL</p>
+<p>　　scheme参数：它是默认的协议（HTTP、HTTPS），urlstring没有时生效</p>
+<p>　　allow_fragments参数：是否忽略fragment，False为忽略，当URL中不包含params和query时，fragment会被解析为path的一部分</p>
+<p><strong>2. urlunparse()</strong></p>
+<p>与urlparse对立，接受的参数是一个可迭代对象，长度必须为6（scheme,netloc,path,params,query,fragment），可以是元组、字典等特定的数据结构，这样就可以实现URL的构造</p>
+<p><strong>3. urlsplit()</strong></p>
+<p>　　与urlparse相似，不单独解析parse，返回5各部分，元组类型</p>
+<p><strong>4. urlunsplit()</strong></p>
+<p>　　与urlunparse()类似，将各个部分拼接，长度必须是5</p>
+<p><strong>5. urljoin()</strong></p>
+<p>　　生成链接，提供一个base-url的scheme,netloc,和path 3个内容并对新链接缺失的部分进行补充。</p>
+<p>　　【注】两个都有取最新的，不全的话互补</p>
+<p><strong>6. urlencode()</strong></p>
+<p>　　在构造GET请求参数的时候很有用，将字典序列化为GET请求参数</p>
+<p><strong>7. parse_qs()</strong></p>
+<p>　　反序列化，将一串GET请求参数，转化为字典</p>
+<p><strong>8. parse_qsl()</strong></p>
+<p>　　同parse_qs()，将GET转化为元组组成的列表</p>
+<p><strong>9. quote()</strong></p>
+<p>　　将内容转化为URL编码的格式，因为URL有中文编码格式时，可能会出现乱码，用它可以转化</p>
+<p><strong>10. unquote()</strong></p>
+<p>　　进行URL解码</p>
+<h3 id="五、分析robots协议："><a href="#五、分析robots协议：" class="headerlink" title="五、分析robots协议："></a>五、分析robots协议：</h3><p>robotparser模块，该模块提供了一个RobotFileParser类</p>
+<pre><code>urllib.robotparser.RobotFileParser(url=&apos;&apos;)
+</code></pre><p>　　此类的常用方法：</p>
+<p>　　set_url()　　设置robots.txt文件的链接</p>
+<p>　　read()　　读取文件并分析</p>
+<p>　　parse()　　解析文件</p>
+<p>　　can_fetch()　　传入两个参数，第一个是User-Agent，第二个是抓取的URL，返回是否可抓取</p>
+<p>　　mtime()　　返回上回抓取和分析的时间</p>
+<p>　　modified()　　将当前时间设置为上次抓取和分析的时间</p>
+<h3 id="六、使用代理"><a href="#六、使用代理" class="headerlink" title="六、使用代理"></a>六、使用代理</h3><pre><code>urllib.request.ProxyHandler(proxies=None)
+</code></pre><p>当需要抓取的网站设置了访问限制，这时就需要用到代理来抓取数据。</p>
+<pre><code>data = {
+    &apos;first&apos;: &apos;true&apos;,
+    &apos;pn&apos;: 1,
+    &apos;kd&apos;: &apos;Python&apos;
+}
+proxy = request.ProxyHandler({&apos;http&apos;: &apos;5.22.195.215:80&apos;})  # 设置proxy
+opener = request.build_opener(proxy)  # 挂载opener
+request.install_opener(opener)  # 安装opener
+data = parse.urlencode(data).encode(&apos;utf-8&apos;)
+page = opener.open(url, data).read()
+page = page.decode(&apos;utf-8&apos;)
+return page
+</code></pre>
                 <hr>
                 
 
@@ -923,7 +1132,7 @@ span 返回分组匹配的 index （start(group),end(group))： (9, 10)
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载文件"><span class="toc-text">下载文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Request-模块"><span class="toc-text">Request 模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行JavaScript"><span class="toc-text">执行JavaScript</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Cookies操作"><span class="toc-text">Cookies操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取验证码-识别图片文字"><span class="toc-text">获取验证码-识别图片文字</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#验证码处理"><span class="toc-text">验证码处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单爬取网页图片"><span class="toc-text">简单爬取网页图片</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#re-模块："><span class="toc-text">re 模块：</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载文件"><span class="toc-text">下载文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Request-模块"><span class="toc-text">Request 模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行JavaScript"><span class="toc-text">执行JavaScript</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Cookies操作"><span class="toc-text">Cookies操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取验证码-识别图片文字"><span class="toc-text">获取验证码-识别图片文字</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#验证码处理"><span class="toc-text">验证码处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单爬取网页图片"><span class="toc-text">简单爬取网页图片</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#请求库的使用值urllib"><span class="toc-text">请求库的使用值urllib</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、urllib库"><span class="toc-text">一、urllib库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、发送请求："><span class="toc-text">二、发送请求：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、异常处理："><span class="toc-text">三、异常处理：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、解析链接："><span class="toc-text">四、解析链接：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、分析robots协议："><span class="toc-text">五、分析robots协议：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#六、使用代理"><span class="toc-text">六、使用代理</span></a></li></ol>
                 </div>
             </div>
         </div>
