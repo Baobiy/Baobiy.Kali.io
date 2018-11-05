@@ -298,13 +298,11 @@ send_keys(Keys.CONTROL,&apos;v&apos;) 　　#粘贴（Ctrl+V）
 制表键 Keys.TAB
 回退键 Keys.ESCAPE
 刷新键 Keys.F5
-</code></pre><h1 id="对于百度设置拦定位的问题"><a href="#对于百度设置拦定位的问题" class="headerlink" title="对于百度设置拦定位的问题"></a>对于百度设置拦定位的问题</h1><p>问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）</p>
-<pre><code>解决办法：使用鼠标悬停“设置”一元素，再定位下拉元素，可正常定位
+</code></pre><h1 id="对于百度设置拦定位的问题"><a href="#对于百度设置拦定位的问题" class="headerlink" title="对于百度设置拦定位的问题"></a>对于百度设置拦定位的问题</h1><h3 id="问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）"><a href="#问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）" class="headerlink" title="问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）"></a>问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）</h3><pre><code>解决办法：使用鼠标悬停“设置”一元素，再定位下拉元素，可正常定位
 详见链接：selenium弹窗定位百度主页“设置”问题 - 痞子斗流氓 - 博客园  http://www.cnblogs.com/Testcase/p/9498217.html
 
 且此时第二元素使用xpath时，报错无法找到该元素（可能跟firfox定位时长有关系）
-</code></pre><p>问题2：定位时使用xpath，或css_selector定位不到，也会报错。</p>
-<pre><code>解决：使用link_text定位（更清晰）
+</code></pre><h3 id="问题2：定位时使用xpath，或css-selector定位不到，也会报错。"><a href="#问题2：定位时使用xpath，或css-selector定位不到，也会报错。" class="headerlink" title="问题2：定位时使用xpath，或css_selector定位不到，也会报错。"></a>问题2：定位时使用xpath，或css_selector定位不到，也会报错。</h3><pre><code>解决：使用link_text定位（更清晰）
 </code></pre><p>完整代码：</p>
 <pre><code>from selenium import webdriver
 import time
@@ -334,8 +332,7 @@ alert.accept()
 time.sleep(2)
 
 driver.quit()    
-</code></pre><p>问题3：网页通知（告警）弹窗接收问题</p>
-<pre><code>参考链接：selenium+webdriver+python 中警告框的处理方法 - 在路上 - CSDN博客  https://blog.csdn.net/liujingqiu/article/details/51209374
+</code></pre><h3 id="问题3：网页通知（告警）弹窗接收问题"><a href="#问题3：网页通知（告警）弹窗接收问题" class="headerlink" title="问题3：网页通知（告警）弹窗接收问题"></a>问题3：网页通知（告警）弹窗接收问题</h3><pre><code>参考链接：selenium+webdriver+python 中警告框的处理方法 - 在路上 - CSDN博客  https://blog.csdn.net/liujingqiu/article/details/51209374
 
 webdriver 中处理JavaScript 所生成的alert、confirm 以及prompt 是很简单的。具体思路是使用
 switch_to.alert()方法定位到alert/confirm/prompt。然后使用text/accept/dismiss/send_keys 按需进行操做。
@@ -365,19 +362,16 @@ Python+Selenium定位不到元素常见原因及解决办法（报：NoSuchEleme
 </code></pre><h1 id="selenium：解决页面元素display-none的方法"><a href="#selenium：解决页面元素display-none的方法" class="headerlink" title="selenium：解决页面元素display:none的方法"></a>selenium：解决页面元素display:none的方法</h1><p>文章链接：selenium：解决页面元素display:none的方法 - 老_张 - 博客园  <a href="https://www.cnblogs.com/imyalost/p/8948458.html" target="_blank" rel="noopener">https://www.cnblogs.com/imyalost/p/8948458.html</a></p>
 <p>在UI自动化测试中，有时候会遇到页面元素无法定位的问题，包括xpath等方法都无法定位，是因为前端元素被设置为不可见导致。</p>
 <p>这篇博客，介绍下如何通过JavaScript修改页面元素属性来定位的方法。</p>
-<p>1、具体问题</p>
-<p>常见的页面元素不可见导致的不可定位，都是由于下面的问题：<br><img src="https://i.imgur.com/kERW38S.png" alt=""><br>通过查看相关文档，可以看出display:none方法是设置元素不可见，这就是导致为什么通过定位页面元素无法定位的原因。</p>
+<h3 id="1、具体问题"><a href="#1、具体问题" class="headerlink" title="1、具体问题"></a>1、具体问题</h3><p>常见的页面元素不可见导致的不可定位，都是由于下面的问题：<br><img src="https://i.imgur.com/kERW38S.png" alt=""><br>通过查看相关文档，可以看出display:none方法是设置元素不可见，这就是导致为什么通过定位页面元素无法定位的原因。</p>
 <p><img src="https://i.imgur.com/zVjmiRj.png" alt=""></p>
 <p>关于display更多的信息，可以看这里：<a href="http://www.w3school.com.cn/jsref/prop_style_display.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/jsref/prop_style_display.asp</a></p>
-<p>2、解决方案</p>
-<p>对于这种问题，可以通过JavaScript修改页面元素属性来将元素置位可见，然后通过id、classname等方法去定位，示例代码如下（针对上图所示）：</p>
+<h3 id="2、解决方案"><a href="#2、解决方案" class="headerlink" title="2、解决方案"></a>2、解决方案</h3><p>对于这种问题，可以通过JavaScript修改页面元素属性来将元素置位可见，然后通过id、classname等方法去定位，示例代码如下（针对上图所示）：</p>
 <pre><code>js = &quot;document.getElementById(\&quot;txtPassword\&quot;).style.display=&apos;block&apos;;&quot;
 # 调用js脚本
 driver.execute_script(js)
 sleep(3)
 driver.find_element_by_id(&quot;txtPassword&quot;).send_keys(&quot;123456&quot;)
-</code></pre><p>代码解析：</p>
-<p>首先通过selenium封装好的方法document去找到display元素，document提供以下方法来定位display元素：</p>
+</code></pre><h3 id="代码解析："><a href="#代码解析：" class="headerlink" title="代码解析："></a>代码解析：</h3><p>首先通过selenium封装好的方法document去找到display元素，document提供以下方法来定位display元素：</p>
 <p>getElementById()：返回对指定ID第一个对象的引用</p>
 <p>getElementsByName() ：返回带有指定名称的对象集合</p>
 <p>getElementsByTagName()：返回带有指定标签名的对象集合</p>
@@ -395,23 +389,20 @@ driver.find_element_by_id(&quot;txtPassword&quot;).send_keys(&quot;123456&quot;)
 <p>具体教程：Selenium 自动化测试不同类型上传文件实用方法总结 - 简书  <a href="https://www.jianshu.com/p/f25ff87a8f17" target="_blank" rel="noopener">https://www.jianshu.com/p/f25ff87a8f17</a></p>
 <p>python3 + selenium 之文件上传下载 - 初新的博客 - CSDN博客  <a href="https://blog.csdn.net/zha6476003/article/details/82686821" target="_blank" rel="noopener">https://blog.csdn.net/zha6476003/article/details/82686821</a></p>
 <p>Python selenium —— 文件下载，不弹出窗口，直接下载到指定路径 - 灰蓝 - CSDN博客  <a href="https://blog.csdn.net/huilan_same/article/details/52789954?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="noopener">https://blog.csdn.net/huilan_same/article/details/52789954?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io</a></p>
-<h1 id="下载文件"><a href="#下载文件" class="headerlink" title="下载文件"></a>下载文件</h1><p>1、对于Firefox下载文件</p>
-<p>对于Firefox，需要我们设置其Profile：</p>
+<h1 id="下载文件"><a href="#下载文件" class="headerlink" title="下载文件"></a>下载文件</h1><h3 id="1、对于Firefox下载文件"><a href="#1、对于Firefox下载文件" class="headerlink" title="1、对于Firefox下载文件"></a>1、对于Firefox下载文件</h3><p>对于Firefox，需要我们设置其Profile：</p>
 <pre><code>browser.download.dir：指定下载路径
 browser.download.folderList：设置成 2 表示使用自定义下载路径；设置成 0 表示下载到桌面；设置成 1 表示下载到默认路径
 browser.download.manager.showWhenStarting：在开始下载时是否显示下载管理器
 browser.helperApps.neverAsk.saveToDisk：对所给出文件类型不再弹出框进行询问
 </code></pre><p>Firefox需要针对每种文件类型进行设置，这里需要我们查询对应文件的MIME类型，可以用以下链接进行查询：MIME 参考手册  <a href="http://www.w3school.com.cn/media/media_mimeref.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/media/media_mimeref.asp</a></p>
-<p>2、Chrome文件下载</p>
-<p>Chrome浏览器类似，设置其options：</p>
+<h3 id="2、Chrome文件下载"><a href="#2、Chrome文件下载" class="headerlink" title="2、Chrome文件下载"></a>2、Chrome文件下载</h3><p>Chrome浏览器类似，设置其options：</p>
 <pre><code>download.default_directory：设置下载路径
 profile.default_content_settings.popups：设置为 0 禁止弹出窗口
 </code></pre><p>相关链接：Python selenium —— 文件下载，不弹出窗口，直接下载到指定路径 - 灰蓝 - CSDN博客  <a href="https://blog.csdn.net/huilan_same/article/details/52789954?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="noopener">https://blog.csdn.net/huilan_same/article/details/52789954?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io</a></p>
 <p>selenium部分功能（上传文件、swf插件）无法自动化时可使用的方法 - 宋天真的博客 - CSDN博客  <a href="https://blog.csdn.net/songjiaping/article/details/52091136" target="_blank" rel="noopener">https://blog.csdn.net/songjiaping/article/details/52091136</a></p>
 <h1 id="Request-模块"><a href="#Request-模块" class="headerlink" title="Request 模块"></a>Request 模块</h1><p>参考链接：python3爬虫（一）requests库的学习 - saucerman的世界 - CSDN博客  <a href="https://blog.csdn.net/gyq1998/article/details/78583841" target="_blank" rel="noopener">https://blog.csdn.net/gyq1998/article/details/78583841</a></p>
-<p>1、Requests库的七个主要方法</p>
-<p><img src="https://i.imgur.com/AFprYiP.png" alt=""></p>
-<p>(1) requests.request()</p>
+<h3 id="1、Requests库的七个主要方法"><a href="#1、Requests库的七个主要方法" class="headerlink" title="1、Requests库的七个主要方法"></a>1、Requests库的七个主要方法</h3><p><img src="https://i.imgur.com/AFprYiP.png" alt=""></p>
+<p><strong>(1) requests.request()</strong></p>
 <p>这个方法是我们平时最常用的方法之一，通过这个方法我们可以了解到其他的方法，所以我们详细介绍这个方法。<br>具体参数是：</p>
 <pre><code>r=requests.request(url,params,**kwargs)
 
@@ -454,7 +445,7 @@ verify：开关， 用于认证SSL证书， 默认为True。
 cert： 用于设置保存本地SSL证书路径
 
 这句代码是构造一个服务器请求request，返回一个包含服务器资源的response对象。
-</code></pre><p>（1）requests.get()</p>
+</code></pre><p>（<strong>1）requests.get()</strong></p>
 <p>response对象的属性：</p>
 <p><img src="https://i.imgur.com/Fh9ynNp.png" alt=""><br>补充：</p>
 <pre><code>r.status_code #响应状态码
@@ -485,7 +476,7 @@ r.raise_for_status() #失败请求(非200响应)抛出异常
 &gt;&gt;&gt; r.encoding=&apos;utf-8&apos;
 &gt;&gt;&gt; r.text
 （以上r.text内容过长，自行删除了部分，看出编码效果即可）
-</code></pre><p>requests库的异常</p>
+</code></pre><p><strong>requests库的异常</strong></p>
 <p>注意requests库有时会产生异常，比如网络连接错误、http错误异常、重定向异常、请求url超时异常等等。所以我们需要判断r.status_codes是否是200，在这里我们怎么样去捕捉异常呢？</p>
 <p>这里我们可以利用r.raise_for_status() 语句去捕捉异常，该语句在方法内部判断r.status_code是否等于200，如果不等于，则抛出异常。</p>
 <p>于是在这里我们有一个爬取网页的通用代码框架：</p>
@@ -496,13 +487,13 @@ r.raise_for_status() #失败请求(非200响应)抛出异常
     return r.text
 except:
     return&quot;产生异常&quot;
-</code></pre><p>(2) request.head()<br>看代码：</p>
+</code></pre><p><strong>(2) request.head()</strong><br>看代码：</p>
 <pre><code>r=requests.head(&quot;http://www.baidu.com&quot;)
 r.headers
 {&apos;Cache-Control&apos;: &apos;private, no-cache, no-store, proxy-revalidate, no-transform&apos;, &apos;Connection&apos;: &apos;Keep-Alive&apos;, &apos;Content-Encoding&apos;: &apos;gzip&apos;, &apos;Content-Type&apos;: &apos;text/html&apos;, &apos;Date&apos;: &apos;Wed, 31 Oct 2018 06:43:49 GMT&apos;, &apos;Last-Modified&apos;: &apos;Mon, 13 Jun 2016 02:50:36 GMT&apos;, &apos;Pragma&apos;: &apos;no-cache&apos;, &apos;Server&apos;: &apos;bfe/1.0.8.18&apos;}
 r.text
 &apos;&apos;
-</code></pre><p>（4）requests.post()</p>
+</code></pre><p><strong>（4）requests.post()</strong></p>
 <p>1、向url post一个字典：</p>
 <pre><code>payload={&quot;key1&quot;:&quot;value1&quot;,&quot;key2&quot;:&quot;value2&quot;}
 r=requests.post(&quot;http://httpbin.org/post&quot;,data=payload)
@@ -547,7 +538,7 @@ print(r.text)
 &quot;origin&quot;: &quot;218.197.153.150&quot;, 
 &quot;url&quot;: &quot;http://httpbin.org/post&quot;
 }
-</code></pre><p>（5）requests.put()</p>
+</code></pre><p><strong>（5）requests.put()</strong></p>
 <pre><code>payload={&quot;key1&quot;:&quot;value1&quot;,&quot;key2&quot;:&quot;value2&quot;}
 r=requests.put(&quot;http://httpbin.org/put&quot;,data=payload)
 print(r.text)
@@ -571,10 +562,10 @@ print(r.text)
 &quot;json&quot;: null, 
 &quot;origin&quot;: &quot;218.197.153.150&quot;, 
 &quot;url&quot;: &quot;http://httpbin.org/put&quot;
-</code></pre><p>（6）requests.patch()</p>
+</code></pre><p><strong>（6）requests.patch()</strong></p>
 <p>requests.patch和request.put类似。 </p>
 <p>两者不同的是：<br>当我们用patch时仅需要提交需要修改的字段。<br>而用put时，必须将20个字段一起提交到url，未提交字段将会被删除。<br>patch的好处是：节省网络带宽。</p>
-<p>（7）requests.request()</p>
+<p><strong>（7）requests.request()</strong></p>
 <p>requests.request(）支持其他所有的方法。</p>
 <pre><code>requests.request(method，url,**kwargs)
 method: “GET”、”HEAD”、”POST”、”PUT”、”PATCH”等等
@@ -582,7 +573,7 @@ url: 请求的网址
 **kwargs: 控制访问的参数
 </code></pre><p>requests模块的使用实例（见链接：<a href="https://blog.csdn.net/gyq1998/article/details/78583841）" target="_blank" rel="noopener">https://blog.csdn.net/gyq1998/article/details/78583841）</a></p>
 <p>Python3 API 第三方库 requests 详解 - 屁股决定脑袋的专栏 - CSDN博客  <a href="https://blog.csdn.net/yilovexing/article/details/54928769" target="_blank" rel="noopener">https://blog.csdn.net/yilovexing/article/details/54928769</a></p>
-<h1 id="执行JavaScript"><a href="#执行JavaScript" class="headerlink" title="执行JavaScript"></a>执行JavaScript</h1><p>1.Example 1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框</p>
+<h1 id="执行JavaScript"><a href="#执行JavaScript" class="headerlink" title="执行JavaScript"></a>执行JavaScript</h1><p><strong>1.Example 1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框</strong></p>
 <pre><code>import time,os
 
 driver = webdriver.Chrome()
@@ -602,7 +593,7 @@ time.sleep(2)
 driver.execute_script(&quot;alert(&apos;This is an alert board&apos;);&quot;)
 time.sleep(5)
 driver.quit()
-</code></pre><p>2.Example 2执行JS脚本来控制浏览器竖向滚动条</p>
+</code></pre><p><strong>2.Example 2执行JS脚本来控制浏览器竖向滚动条</strong></p>
 <p>一般用到操作滚动条的会两个场景：</p>
 <p>  1）注册时的法律条文的阅读，判断用户是否阅读完成的标准是：滚动条是否拉到最下方。<br>  2）要操作的页面元素不在视觉范围，无法进行操作，需要拖动滚动条</p>
 <p>用于标识滚动条位置的代码</p>
@@ -636,17 +627,16 @@ driver.quit()
 </code></pre><p>参考链接：Python_selenium之执行JavaScript - Rita_LJ - 博客园  <a href="https://www.cnblogs.com/Rita-LJ/p/7884995.html" target="_blank" rel="noopener">https://www.cnblogs.com/Rita-LJ/p/7884995.html</a></p>
 <h1 id="Cookies操作"><a href="#Cookies操作" class="headerlink" title="Cookies操作"></a>Cookies操作</h1><p>链接：python3+selenium入门13-操作cookie - 梦忆安凉 - 博客园  <a href="https://www.cnblogs.com/myal/p/9389942.html" target="_blank" rel="noopener">https://www.cnblogs.com/myal/p/9389942.html</a></p>
 <h1 id="获取验证码-识别图片文字"><a href="#获取验证码-识别图片文字" class="headerlink" title="获取验证码-识别图片文字"></a>获取验证码-识别图片文字</h1><p>相关链接：Python3.6使用tesseract-ocr的正确姿势 - No.96 - CSDN博客  <a href="https://blog.csdn.net/qq_14998713/article/details/78824859" target="_blank" rel="noopener">https://blog.csdn.net/qq_14998713/article/details/78824859</a></p>
-<p>安装：<br>Tesseract：开源的OCR识别引擎，初期Tesseract引擎由HP实验室研发，后来贡献给了开源软件业，后经由Google进行改进，消除bug，优化，重新发布。</p>
-<p>1、tesseract-orc<br>环境：</p>
+<h3 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h3><p>Tesseract：开源的OCR识别引擎，初期Tesseract引擎由HP实验室研发，后来贡献给了开源软件业，后经由Google进行改进，消除bug，优化，重新发布。</p>
+<p><strong>1、tesseract-orc</strong><br>环境：</p>
 <pre><code>python 3.6.5
 pip 9.0.3
 tesseract-ocr-setup-3.05.00dev.exe
 Windows7
 </code></pre><p>链接：<a href="https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-3.05.00dev.exe" target="_blank" rel="noopener">https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-3.05.00dev.exe</a></p>
-<p>2、pytesseract</p>
+<p><strong>2、pytesseract</strong></p>
 <pre><code>pip install pytesseract
-</code></pre><p>配置环境变量：</p>
-<p>默认情况下tesseract-orc是不被添加到系统的path路径的，这样在使用的时候发生FileNotFoundError: [WinError 2] 系统找不到指定的文件错误。</p>
+</code></pre><h3 id="配置环境变量："><a href="#配置环境变量：" class="headerlink" title="配置环境变量："></a>配置环境变量：</h3><p>默认情况下tesseract-orc是不被添加到系统的path路径的，这样在使用的时候发生FileNotFoundError: [WinError 2] 系统找不到指定的文件错误。</p>
 <p>解决方法: </p>
 <pre><code>将 C:\Program Files (x86)\Tesseract-OCR添加到系统路径（路径因安装过程而异） 
 </code></pre><p>设置训练集的位置</p>
@@ -705,8 +695,7 @@ print (getImg(html)) #从网页源代码中分析并下载保存图片
 <p><strong>urllib和requests区别：</strong></p>
 <p>（python3 urllib和requests模块 - 毛斯钢 - 博客园  <a href="https://www.cnblogs.com/znyyy/p/7868511.html）" target="_blank" rel="noopener">https://www.cnblogs.com/znyyy/p/7868511.html）</a></p>
 <p>（requests和urllib.request实现对比 - fs_eagle的博客 - CSDN博客  <a href="https://blog.csdn.net/fs_eagle/article/details/79387343）" target="_blank" rel="noopener">https://blog.csdn.net/fs_eagle/article/details/79387343）</a></p>
-<p>####扩展- re 模块： ####</p>
-<p>   <strong>1、模块总结</strong></p>
+<h3 id="扩展-re-模块："><a href="#扩展-re-模块：" class="headerlink" title="扩展- re 模块："></a>扩展- re 模块：</h3><p>   <strong>1、模块总结</strong></p>
 <p>（python3 re模块 - z寒江雪 - 博客园  <a href="https://www.cnblogs.com/wenwei-blog/p/7216102.html）" target="_blank" rel="noopener">https://www.cnblogs.com/wenwei-blog/p/7216102.html）</a></p>
 <p>   <strong>2、re.compile模块</strong></p>
 <p>re模块中包含一个重要函数是compile(pattern [, flags]) ，该函数根据包含的正则表达式的字符串创建模式对象。可以实现更有效率的匹配。在直接使用字符串表示的正则表达式进行search,match和findall操作时，python会将字符串转换为正则表达式对象。而使用compile完成一次转换之后，在每次使用模式的时候就不用重复转换。当然，使用re.compile()函数进行转换后，re.search(pattern, string)的调用方式就转换为 pattern.search(string)的调用方式。</p>
@@ -1132,7 +1121,7 @@ return page
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载文件"><span class="toc-text">下载文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Request-模块"><span class="toc-text">Request 模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行JavaScript"><span class="toc-text">执行JavaScript</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Cookies操作"><span class="toc-text">Cookies操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取验证码-识别图片文字"><span class="toc-text">获取验证码-识别图片文字</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#验证码处理"><span class="toc-text">验证码处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单爬取网页图片"><span class="toc-text">简单爬取网页图片</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#请求库的使用值urllib"><span class="toc-text">请求库的使用值urllib</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、urllib库"><span class="toc-text">一、urllib库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、发送请求："><span class="toc-text">二、发送请求：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、异常处理："><span class="toc-text">三、异常处理：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、解析链接："><span class="toc-text">四、解析链接：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、分析robots协议："><span class="toc-text">五、分析robots协议：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#六、使用代理"><span class="toc-text">六、使用代理</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）"><span class="toc-text">问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题2：定位时使用xpath，或css-selector定位不到，也会报错。"><span class="toc-text">问题2：定位时使用xpath，或css_selector定位不到，也会报错。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题3：网页通知（告警）弹窗接收问题"><span class="toc-text">问题3：网页通知（告警）弹窗接收问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、具体问题"><span class="toc-text">1、具体问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、解决方案"><span class="toc-text">2、解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码解析："><span class="toc-text">代码解析：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载文件"><span class="toc-text">下载文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、对于Firefox下载文件"><span class="toc-text">1、对于Firefox下载文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、Chrome文件下载"><span class="toc-text">2、Chrome文件下载</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Request-模块"><span class="toc-text">Request 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、Requests库的七个主要方法"><span class="toc-text">1、Requests库的七个主要方法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行JavaScript"><span class="toc-text">执行JavaScript</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Cookies操作"><span class="toc-text">Cookies操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取验证码-识别图片文字"><span class="toc-text">获取验证码-识别图片文字</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装："><span class="toc-text">安装：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置环境变量："><span class="toc-text">配置环境变量：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#验证码处理"><span class="toc-text">验证码处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单爬取网页图片"><span class="toc-text">简单爬取网页图片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展-re-模块："><span class="toc-text">扩展- re 模块：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#请求库的使用值urllib"><span class="toc-text">请求库的使用值urllib</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、urllib库"><span class="toc-text">一、urllib库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、发送请求："><span class="toc-text">二、发送请求：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、异常处理："><span class="toc-text">三、异常处理：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、解析链接："><span class="toc-text">四、解析链接：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、分析robots协议："><span class="toc-text">五、分析robots协议：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#六、使用代理"><span class="toc-text">六、使用代理</span></a></li></ol>
                 </div>
             </div>
         </div>
