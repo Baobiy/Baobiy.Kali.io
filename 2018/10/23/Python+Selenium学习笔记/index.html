@@ -919,19 +919,17 @@ print(type(r))    # &lt;class &apos;http.client.HTTPResponse&apos;&gt;
 <li>bytes()第一个参数需为str类型，可用urllib.parse.urlencode()方法是字典变为字符串</li>
 </ol>
 <p>2）timeout参数：</p>
-<ol>
-<li>可选</li>
-<li>用于设置超时时间，单位是秒，默认使用全局默认时间</li>
-<li>支持HTTP、HTTPS、FTP请求</li>
-<li><p>例：</p>
-<p>  import urllib<br>  try:</p>
-<pre><code>r = urllib.request.urlopen(&apos;http://www.baidu.com&apos;, timeout=0.1)
-</code></pre><p>  except urllib.error.URLError as e:</p>
-<pre><code>if isinstance(e.reason, socket.timeout):
-  print(&apos;Time Out!&apos;)
-</code></pre></li>
-</ol>
-<p>3）context参数：必须是ssl.SSLContext类型，用来指定SSL设置</p>
+<p>1、 可选</p>
+<p>2.用于设置超时时间，单位是秒，默认使用全局默认时间</p>
+<p>3.支持HTTP、HTTPS、FTP请求</p>
+<p>4.例：</p>
+<pre><code>import urllib
+try:
+    r = urllib.request.urlopen(&apos;http://www.baidu.com&apos;, timeout=0.1)
+except urllib.error.URLError as e:
+    if isinstance(e.reason, socket.timeout):
+        print(&apos;Time Out!&apos;)
+</code></pre><p>3）context参数：必须是ssl.SSLContext类型，用来指定SSL设置</p>
 <p>4）cafile参数：指定CA证书</p>
 <p>5）capath参数：指定CA证书的路径</p>
 <p><em>【注】cafile和capath一起在请求HTTPS时使用</em></p>
