@@ -883,31 +883,15 @@ span 返回分组匹配的 index （start(group),end(group))： (9, 10)
 <h1 id="请求库的使用值urllib"><a href="#请求库的使用值urllib" class="headerlink" title="请求库的使用值urllib"></a>请求库的使用值urllib</h1><p>转自：Python3爬虫（三）请求库的使用之urllib - Infi_chu - 博客园  <a href="https://www.cnblogs.com/Infi-chu/p/8950935.html" target="_blank" rel="noopener">https://www.cnblogs.com/Infi-chu/p/8950935.html</a></p>
 <p>Python3学习笔记（urllib模块的使用） - Data&amp;Truth - 博客园  <a href="https://www.cnblogs.com/Lands-ljk/p/5447127.html" target="_blank" rel="noopener">https://www.cnblogs.com/Lands-ljk/p/5447127.html</a></p>
 <p>Python3爬虫（一）HTTP相关基础 - Infi_chu - 博客园  <a href="https://www.cnblogs.com/Infi-chu/p/8942264.html" target="_blank" rel="noopener">https://www.cnblogs.com/Infi-chu/p/8942264.html</a></p>
-<blockquote>
-<p>URI、URL、URN、HTTP</p>
-</blockquote>
-<blockquote>
-<p>URI：统一资源标志符</p>
-</blockquote>
-<blockquote>
-<p>URL：是URI的一个子集</p>
-</blockquote>
-<blockquote>
-<p>URN：是URI的另一个子集，统一资源名称</p>
-</blockquote>
-<blockquote>
-<p>HTTP协议：</p>
-</blockquote>
-<blockquote>
-<p>超文本传输协议，是一个基于“请求与响应”模式的、无状态的引用层协议。</p>
-</blockquote>
-<blockquote>
-<p>HTTP协议采用URL作为定位网络资源的标识。</p>
-</blockquote>
-<blockquote>
-<p>URL格式    <a href="http://host[:port][path]" target="_blank" rel="noopener">http://host[:port][path]</a></p>
-</blockquote>
-<h3 id="一、urllib库"><a href="#一、urllib库" class="headerlink" title="一、urllib库"></a>一、urllib库</h3><ol>
+<p>   <strong>URI、URL、URN、HTTP</strong></p>
+<pre><code> URI：统一资源标志符
+ URL：是URI的一个子集
+ URN：是URI的另一个子集，统一资源名称
+ HTTP协议：
+&gt; 超文本传输协议，是一个基于“请求与响应”模式的、无状态的引用层协议。
+&gt; HTTP协议采用URL作为定位网络资源的标识。
+&gt; URL格式    http://host[:port][path]
+</code></pre><h3 id="一、urllib库"><a href="#一、urllib库" class="headerlink" title="一、urllib库"></a>一、urllib库</h3><ol>
 <li>是Python内置的HTTP请求库</li>
 <li>在Python2中，由urllib和urllib2之分，而在Python3中，统一为urllib</li>
 <li>主要包含模块：</li>
@@ -924,20 +908,12 @@ span 返回分组匹配的 index （start(group),end(group))： (9, 10)
     a.网络爬虫：自动或人工识别robots.txt，再进行内容爬取
     b.约束性：可以不遵循，但要注意法律风险
 </code></pre><p><em>转自</em> Python3爬虫（二）网络爬虫的尺寸与约束 - Infi_chu - 博客园  <a href="https://www.cnblogs.com/Infi-chu/p/8943715.html" target="_blank" rel="noopener">https://www.cnblogs.com/Infi-chu/p/8943715.html</a></p>
-<h3 id="二、发送请求："><a href="#二、发送请求：" class="headerlink" title="二、发送请求："></a>二、发送请求：</h3><blockquote>
-<p>请求包括：</p>
-<p>1.请求方法</p>
-</blockquote>
-<blockquote>
-<p>2.请求的网址</p>
-</blockquote>
-<blockquote>
-<p>3.请求头</p>
-</blockquote>
-<blockquote>
-<p>4.请求体</p>
-</blockquote>
-<p><strong>1. urlopen()</strong></p>
+<h3 id="二、发送请求："><a href="#二、发送请求：" class="headerlink" title="二、发送请求："></a>二、发送请求：</h3><p>   请求包括：</p>
+<pre><code>1.请求方法
+2.请求的网址
+3.请求头
+4.请求体
+</code></pre><p><strong>1. urlopen()</strong></p>
 <p>　　urllib.request：模块提供了最基本的构造HTTP请求的方法，同时还带有处理验证(authentication)、重定向(redirection)、浏览器Cookies等</p>
 <pre><code>import urllib.request
 r = urllib.request.urlopen(&apos;http://www.baidu.com&apos;)
@@ -950,19 +926,13 @@ print(type(r))    # &lt;class &apos;http.client.HTTPResponse&apos;&gt;
 <p>getcode()：返回Http状态码。如果是http请求，200请求成功完成;404网址未找到</p>
 <p>geturl()：返回请求的url</p>
 <pre><code>urllib.request.urlopen(url,data=None,[timeout,]*,cafile=None,capath=None,cadefault=False,context=None)
-</code></pre><blockquote>
-<p>响应包括：</p>
-</blockquote>
-<blockquote>
-<p>1.响应状态码</p>
-</blockquote>
-<blockquote>
-<p>2.响应头</p>
-</blockquote>
-<blockquote>
-<p>3.响应体</p>
-</blockquote>
-<p>1）data参数：</p>
+</code></pre><p>   响应包括：</p>
+<pre><code>1.响应状态码
+
+2.响应头
+
+3.响应体
+</code></pre><p>1）data参数：</p>
 <ol>
 <li>可选</li>
 <li>若是字节流编码格式的内容，即bytes类型，则需要通过bytes()方法转化。若传递该参数，则请求方式会有GET变为POST</li>
@@ -1142,20 +1112,30 @@ page = page.decode(&apos;utf-8&apos;)
 return page
 </code></pre><p><strong>代理的分类</strong></p>
 <p>1.根据协议分类：</p>
-<p>协议　　一般开放端口</p>
-<p>FTP　　21、2121</p>
-<p>HTTP     80、8080、3128</p>
-<p>SSL/TLS 443</p>
-<p>RTSP　  554</p>
-<p>Telnet　  23</p>
-<p>POP3/SMTP　　110/25</p>
-<p>SOCKS　　1080</p>
-<p>2.根据匿名程度分类：</p>
-<p>a.高度匿名代理</p>
-<p>b.普通匿名代理</p>
-<p>c.透明代理</p>
-<p>d.间谍代理</p>
-<p><strong>代理的作用</strong></p>
+<pre><code>协议　　     一般开放端口
+
+FTP　　       21、2121
+
+HTTP         80、8080、3128
+
+SSL/TLS      443
+
+RTSP　       554
+
+Telnet　     23
+
+POP3/SMTP　　110/25
+
+SOCKS　　    1080
+</code></pre><p>2.根据匿名程度分类：</p>
+<pre><code>a.高度匿名代理
+
+b.普通匿名代理
+
+c.透明代理
+
+d.间谍代理
+</code></pre><p><strong>代理的作用</strong></p>
 <p>1.突破自身IP访问限制，访问一些平时不能访问的站点</p>
 <p>2.访问一些单位或团体的内部资源</p>
 <p>3.提高访问速度</p>
