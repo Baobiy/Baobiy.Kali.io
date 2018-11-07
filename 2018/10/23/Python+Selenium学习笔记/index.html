@@ -180,8 +180,7 @@
 <p>在selenium中使用css选择器进行元素定位 - grace666的专栏 - CSDN博客  <a href="https://blog.csdn.net/grace666/article/details/48419529/" target="_blank" rel="noopener">https://blog.csdn.net/grace666/article/details/48419529/</a></p>
 <p>Python3中Selenium使用方法<em>搜狐科技</em>搜狐网  <a href="http://www.sohu.com/a/144251028_572440" target="_blank" rel="noopener">http://www.sohu.com/a/144251028_572440</a></p>
 <p>#selenium模块的基本用法</p>
-<p>###查找元素</p>
-<pre><code>单个元素   (from selenium import webdriver)
+<h2 id="查找元素"><a href="#查找元素" class="headerlink" title="查找元素"></a>查找元素</h2><pre><code>单个元素   (from selenium import webdriver)
     brguge.find_element_by_id(&apos;q&apos;)用这个元素找id是q的元素
     brguge.find_element_by_css_selector(&apos;#q&apos;)找css样式是q的
     brguge.find_element_by_xpath(&apos;//*[ @id=&quot;q&quot;]&apos;)三个效果一样
@@ -209,7 +208,7 @@
     调用ActionChains(调用谷歌的)
     drag_and_drop(source,target)第一个到第二个上面
     perform()
-</code></pre><h3 id="元素操作之键盘操作"><a href="#元素操作之键盘操作" class="headerlink" title="元素操作之键盘操作"></a>元素操作之键盘操作</h3><p>selenium 提供了比较完整的键盘操作，在使用的模拟键盘操作之前需要我们导入</p>
+</code></pre><h2 id="元素操作之键盘操作"><a href="#元素操作之键盘操作" class="headerlink" title="元素操作之键盘操作"></a>元素操作之键盘操作</h2><p>selenium 提供了比较完整的键盘操作，在使用的模拟键盘操作之前需要我们导入</p>
 <p>from selenium.webdriver.common.keys import Keys即可，然后就可以来模拟键盘操作。</p>
 <pre><code>#导入Keys 模块，然后我们看看Keys 模块定义了那些按键
 from selenium.webdriver.common.keys import Keys
@@ -283,7 +282,7 @@ F12 = &apos;\ue03c&apos;
 
 META = &apos;\ue03d&apos;
 COMMAND = &apos;\ue03d&apos;
-</code></pre><p>几个常用的组合键</p>
+</code></pre><p><strong>几个常用的组合键</strong></p>
 <pre><code>send_keys(Keys.CONTROL,&apos;a&apos;) 　　#全选（Ctrl+A）
 
 send_keys(Keys.CONTROL,&apos;c&apos;) 　　#复制（Ctrl+C）
@@ -291,19 +290,19 @@ send_keys(Keys.CONTROL,&apos;c&apos;) 　　#复制（Ctrl+C）
 send_keys(Keys.CONTROL,&apos;x&apos;) 　　#剪切（Ctrl+X）
 
 send_keys(Keys.CONTROL,&apos;v&apos;) 　　#粘贴（Ctrl+V）
-</code></pre><p>下面常用的键，这些常用键主要是非组合键，直接输入即可</p>
+</code></pre><p><strong>下面常用的键，这些常用键主要是非组合键，直接输入即可</strong></p>
 <pre><code>回车键 Keys.ENTER
 删除键 Keys.BACK_SPACE
 空格键 Keys.SPACE
 制表键 Keys.TAB
 回退键 Keys.ESCAPE
 刷新键 Keys.F5
-</code></pre><h1 id="对于百度设置拦定位的问题"><a href="#对于百度设置拦定位的问题" class="headerlink" title="对于百度设置拦定位的问题"></a>对于百度设置拦定位的问题</h1><h3 id="问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）"><a href="#问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）" class="headerlink" title="问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）"></a>问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）</h3><pre><code>解决办法：使用鼠标悬停“设置”一元素，再定位下拉元素，可正常定位
+</code></pre><h1 id="对于百度设置拦定位的问题"><a href="#对于百度设置拦定位的问题" class="headerlink" title="对于百度设置拦定位的问题"></a>对于百度设置拦定位的问题</h1><h2 id="问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）"><a href="#问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）" class="headerlink" title="问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）"></a>问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）</h2><pre><code>解决办法：使用鼠标悬停“设置”一元素，再定位下拉元素，可正常定位
 详见链接：selenium弹窗定位百度主页“设置”问题 - 痞子斗流氓 - 博客园  http://www.cnblogs.com/Testcase/p/9498217.html
 
 且此时第二元素使用xpath时，报错无法找到该元素（可能跟firfox定位时长有关系）
-</code></pre><h3 id="问题2：定位时使用xpath，或css-selector定位不到，也会报错。"><a href="#问题2：定位时使用xpath，或css-selector定位不到，也会报错。" class="headerlink" title="问题2：定位时使用xpath，或css_selector定位不到，也会报错。"></a>问题2：定位时使用xpath，或css_selector定位不到，也会报错。</h3><pre><code>解决：使用link_text定位（更清晰）
-</code></pre><p>完整代码：</p>
+</code></pre><h2 id="问题2：定位时使用xpath，或css-selector定位不到，也会报错。"><a href="#问题2：定位时使用xpath，或css-selector定位不到，也会报错。" class="headerlink" title="问题2：定位时使用xpath，或css_selector定位不到，也会报错。"></a>问题2：定位时使用xpath，或css_selector定位不到，也会报错。</h2><pre><code>解决：使用link_text定位（更清晰）
+</code></pre><p><strong>完整代码：</strong></p>
 <pre><code>from selenium import webdriver
 import time
 from selenium.webdriver.common.action_chains import ActionChains
@@ -332,7 +331,7 @@ alert.accept()
 time.sleep(2)
 
 driver.quit()    
-</code></pre><h3 id="问题3：网页通知（告警）弹窗接收问题"><a href="#问题3：网页通知（告警）弹窗接收问题" class="headerlink" title="问题3：网页通知（告警）弹窗接收问题"></a>问题3：网页通知（告警）弹窗接收问题</h3><pre><code>参考链接：selenium+webdriver+python 中警告框的处理方法 - 在路上 - CSDN博客  https://blog.csdn.net/liujingqiu/article/details/51209374
+</code></pre><h2 id="问题3：网页通知（告警）弹窗接收问题"><a href="#问题3：网页通知（告警）弹窗接收问题" class="headerlink" title="问题3：网页通知（告警）弹窗接收问题"></a>问题3：网页通知（告警）弹窗接收问题</h2><pre><code>参考链接：selenium+webdriver+python 中警告框的处理方法 - 在路上 - CSDN博客  https://blog.csdn.net/liujingqiu/article/details/51209374
 
 webdriver 中处理JavaScript 所生成的alert、confirm 以及prompt 是很简单的。具体思路是使用
 switch_to.alert()方法定位到alert/confirm/prompt。然后使用text/accept/dismiss/send_keys 按需进行操做。
@@ -342,8 +341,8 @@ accept 点击确认按钮。
 dismiss 点击取消按钮，如果有的话。
 send_keys 输入值，这个alert\confirm 没有对话框就不能用了，不然会报错。
 </code></pre><p>参考链接：python3 + selenium 之警告和弹窗 - 初新的博客 - CSDN博客  <a href="https://blog.csdn.net/zha6476003/article/details/82686741" target="_blank" rel="noopener">https://blog.csdn.net/zha6476003/article/details/82686741</a></p>
-<h1 id="关于无法定位到网页元素的问题"><a href="#关于无法定位到网页元素的问题" class="headerlink" title="关于无法定位到网页元素的问题"></a>关于无法定位到网页元素的问题</h1><p>问题1：无法定位到元素，如果尝试class、id、xpath、selector依旧无法定位，考虑是未切换frame，许多网页都使用iframe内嵌，因此先使用switch_to_frame进行切换。再进行定位。</p>
-<p>问题2：如何切换frame：</p>
+<h1 id="关于无法定位到网页元素的问题"><a href="#关于无法定位到网页元素的问题" class="headerlink" title="关于无法定位到网页元素的问题"></a>关于无法定位到网页元素的问题</h1><h2 id="问题1："><a href="#问题1：" class="headerlink" title="问题1："></a>问题1：</h2><p>无法定位到元素，如果尝试class、id、xpath、selector依旧无法定位，考虑是未切换frame，许多网页都使用iframe内嵌，因此先使用switch_to_frame进行切换。再进行定位。</p>
+<h2 id="问题2："><a href="#问题2：" class="headerlink" title="问题2："></a>问题2：</h2><p>如何切换frame：</p>
 <pre><code># iframe有name或id值
 self.driver.switch_to.frame(&apos;iframe-name-id&apos;)
 # iframe没有name或id值
@@ -362,10 +361,10 @@ Python+Selenium定位不到元素常见原因及解决办法（报：NoSuchEleme
 </code></pre><h1 id="selenium：解决页面元素display-none的方法"><a href="#selenium：解决页面元素display-none的方法" class="headerlink" title="selenium：解决页面元素display:none的方法"></a>selenium：解决页面元素display:none的方法</h1><p>文章链接：selenium：解决页面元素display:none的方法 - 老_张 - 博客园  <a href="https://www.cnblogs.com/imyalost/p/8948458.html" target="_blank" rel="noopener">https://www.cnblogs.com/imyalost/p/8948458.html</a></p>
 <p>在UI自动化测试中，有时候会遇到页面元素无法定位的问题，包括xpath等方法都无法定位，是因为前端元素被设置为不可见导致。</p>
 <p>这篇博客，介绍下如何通过JavaScript修改页面元素属性来定位的方法。</p>
-<h3 id="1、具体问题"><a href="#1、具体问题" class="headerlink" title="1、具体问题"></a>1、具体问题</h3><p>常见的页面元素不可见导致的不可定位，都是由于下面的问题：<br><img src="https://i.imgur.com/kERW38S.png" alt=""><br>通过查看相关文档，可以看出display:none方法是设置元素不可见，这就是导致为什么通过定位页面元素无法定位的原因。</p>
+<h2 id="1、具体问题"><a href="#1、具体问题" class="headerlink" title="1、具体问题"></a>1、具体问题</h2><p>常见的页面元素不可见导致的不可定位，都是由于下面的问题：<br><img src="https://i.imgur.com/kERW38S.png" alt=""><br>通过查看相关文档，可以看出display:none方法是设置元素不可见，这就是导致为什么通过定位页面元素无法定位的原因。</p>
 <p><img src="https://i.imgur.com/zVjmiRj.png" alt=""></p>
 <p>关于display更多的信息，可以看这里：<a href="http://www.w3school.com.cn/jsref/prop_style_display.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/jsref/prop_style_display.asp</a></p>
-<h3 id="2、解决方案"><a href="#2、解决方案" class="headerlink" title="2、解决方案"></a>2、解决方案</h3><p>对于这种问题，可以通过JavaScript修改页面元素属性来将元素置位可见，然后通过id、classname等方法去定位，示例代码如下（针对上图所示）：</p>
+<h2 id="2、解决方案"><a href="#2、解决方案" class="headerlink" title="2、解决方案"></a>2、解决方案</h2><p>对于这种问题，可以通过JavaScript修改页面元素属性来将元素置位可见，然后通过id、classname等方法去定位，示例代码如下（针对上图所示）：</p>
 <pre><code>js = &quot;document.getElementById(\&quot;txtPassword\&quot;).style.display=&apos;block&apos;;&quot;
 # 调用js脚本
 driver.execute_script(js)
@@ -393,21 +392,20 @@ driver.find_element_by_id(&quot;txtPassword&quot;).send_keys(&quot;123456&quot;)
 <p>with open（）as f语句：</p>
 <p>python文件读写,以后就用with open语句 - 有梦就要去实现他 - 博客园  <a href="https://www.cnblogs.com/ymjyqsx/p/6554817.html" target="_blank" rel="noopener">https://www.cnblogs.com/ymjyqsx/p/6554817.html</a></p>
 </blockquote>
-<h3 id="1、对于Firefox下载文件"><a href="#1、对于Firefox下载文件" class="headerlink" title="1、对于Firefox下载文件"></a>1、对于Firefox下载文件</h3><p>对于Firefox，需要我们设置其Profile：</p>
+<h2 id="1、对于Firefox下载文件"><a href="#1、对于Firefox下载文件" class="headerlink" title="1、对于Firefox下载文件"></a>1、对于Firefox下载文件</h2><p>对于Firefox，需要我们设置其Profile：</p>
 <pre><code>browser.download.dir：指定下载路径
 browser.download.folderList：设置成 2 表示使用自定义下载路径；设置成 0 表示下载到桌面；设置成 1 表示下载到默认路径
 browser.download.manager.showWhenStarting：在开始下载时是否显示下载管理器
 browser.helperApps.neverAsk.saveToDisk：对所给出文件类型不再弹出框进行询问
 </code></pre><p>Firefox需要针对每种文件类型进行设置，这里需要我们查询对应文件的MIME类型，可以用以下链接进行查询：MIME 参考手册  <a href="http://www.w3school.com.cn/media/media_mimeref.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/media/media_mimeref.asp</a></p>
-<h3 id="2、Chrome文件下载"><a href="#2、Chrome文件下载" class="headerlink" title="2、Chrome文件下载"></a>2、Chrome文件下载</h3><p>Chrome浏览器类似，设置其options：</p>
+<h2 id="2、Chrome文件下载"><a href="#2、Chrome文件下载" class="headerlink" title="2、Chrome文件下载"></a>2、Chrome文件下载</h2><p>Chrome浏览器类似，设置其options：</p>
 <pre><code>download.default_directory：设置下载路径
 profile.default_content_settings.popups：设置为 0 禁止弹出窗口
 </code></pre><p>相关链接：Python selenium —— 文件下载，不弹出窗口，直接下载到指定路径 - 灰蓝 - CSDN博客  <a href="https://blog.csdn.net/huilan_same/article/details/52789954?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="noopener">https://blog.csdn.net/huilan_same/article/details/52789954?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io</a></p>
 <p>selenium部分功能（上传文件、swf插件）无法自动化时可使用的方法 - 宋天真的博客 - CSDN博客  <a href="https://blog.csdn.net/songjiaping/article/details/52091136" target="_blank" rel="noopener">https://blog.csdn.net/songjiaping/article/details/52091136</a></p>
 <h1 id="Request-模块"><a href="#Request-模块" class="headerlink" title="Request 模块"></a>Request 模块</h1><p>参考链接：python3爬虫（一）requests库的学习 - saucerman的世界 - CSDN博客  <a href="https://blog.csdn.net/gyq1998/article/details/78583841" target="_blank" rel="noopener">https://blog.csdn.net/gyq1998/article/details/78583841</a></p>
-<h3 id="1、Requests库的七个主要方法"><a href="#1、Requests库的七个主要方法" class="headerlink" title="1、Requests库的七个主要方法"></a>1、Requests库的七个主要方法</h3><p><img src="https://i.imgur.com/AFprYiP.png" alt=""></p>
-<p><strong>(1) requests.request()</strong></p>
-<p>这个方法是我们平时最常用的方法之一，通过这个方法我们可以了解到其他的方法，所以我们详细介绍这个方法。<br>具体参数是：</p>
+<h2 id="1、Requests库的七个主要方法"><a href="#1、Requests库的七个主要方法" class="headerlink" title="1、Requests库的七个主要方法"></a>1、Requests库的七个主要方法</h2><p><img src="https://i.imgur.com/AFprYiP.png" alt=""></p>
+<h3 id="1-requests-request"><a href="#1-requests-request" class="headerlink" title="(1) requests.request()"></a>(1) requests.request()</h3><p>这个方法是我们平时最常用的方法之一，通过这个方法我们可以了解到其他的方法，所以我们详细介绍这个方法。<br>具体参数是：</p>
 <pre><code>r=requests.request(url,params,**kwargs)
 
 url: 需要爬取的网站地址。
@@ -449,8 +447,7 @@ verify：开关， 用于认证SSL证书， 默认为True。
 cert： 用于设置保存本地SSL证书路径
 
 这句代码是构造一个服务器请求request，返回一个包含服务器资源的response对象。
-</code></pre><p>（<strong>1）requests.get()</strong></p>
-<p>response对象的属性：</p>
+</code></pre><h3 id="（2）requests-get"><a href="#（2）requests-get" class="headerlink" title="（2）requests.get()"></a>（2）requests.get()</h3><p>response对象的属性：</p>
 <p><img src="https://i.imgur.com/Fh9ynNp.png" alt=""><br>补充：</p>
 <pre><code>r.status_code #响应状态码
 
@@ -509,8 +506,7 @@ f.write(r.content)
 <li>添加headers</li>
 </ul>
 <p>在爬取知乎时必须在User-Agent中加入信息，否则不能爬取，会被拦截</p>
-<p><strong>requests库的异常</strong></p>
-<p>注意requests库有时会产生异常，比如网络连接错误、http错误异常、重定向异常、请求url超时异常等等。所以我们需要判断r.status_codes是否是200，在这里我们怎么样去捕捉异常呢？</p>
+<h3 id="requests库的异常"><a href="#requests库的异常" class="headerlink" title="requests库的异常"></a>requests库的异常</h3><p>注意requests库有时会产生异常，比如网络连接错误、http错误异常、重定向异常、请求url超时异常等等。所以我们需要判断r.status_codes是否是200，在这里我们怎么样去捕捉异常呢？</p>
 <p>这里我们可以利用r.raise_for_status() 语句去捕捉异常，该语句在方法内部判断r.status_code是否等于200，如果不等于，则抛出异常。</p>
 <p>于是在这里我们有一个爬取网页的通用代码框架：</p>
 <pre><code>try:
@@ -520,18 +516,17 @@ f.write(r.content)
     return r.text
 except:
     return&quot;产生异常&quot;
-</code></pre><p><strong>(2) request.head()</strong><br>看代码：</p>
+</code></pre><h3 id="3-request-head"><a href="#3-request-head" class="headerlink" title="(3) request.head()"></a>(3) request.head()</h3><p>看代码：</p>
 <pre><code>r=requests.head(&quot;http://www.baidu.com&quot;)
 r.headers
 {&apos;Cache-Control&apos;: &apos;private, no-cache, no-store, proxy-revalidate, no-transform&apos;, &apos;Connection&apos;: &apos;Keep-Alive&apos;, &apos;Content-Encoding&apos;: &apos;gzip&apos;, &apos;Content-Type&apos;: &apos;text/html&apos;, &apos;Date&apos;: &apos;Wed, 31 Oct 2018 06:43:49 GMT&apos;, &apos;Last-Modified&apos;: &apos;Mon, 13 Jun 2016 02:50:36 GMT&apos;, &apos;Pragma&apos;: &apos;no-cache&apos;, &apos;Server&apos;: &apos;bfe/1.0.8.18&apos;}
 r.text
 &apos;&apos;
-</code></pre><p><strong>（4）requests.post()</strong></p>
-<pre><code>improt requests
+</code></pre><h3 id="（4）requests-post"><a href="#（4）requests-post" class="headerlink" title="（4）requests.post()"></a>（4）requests.post()</h3><pre><code>improt requests
 data = {&apos;name&apos;:&apos;Infi-chu&apos;,&apos;age&apos;=&apos;23&apos;}
 r = requests.post(&apos;http://www.baidu.com&apos;,data=data)
 </code></pre><p>成功后会在form中看到所提交的数据（F12查看）</p>
-<p>1、向url post一个字典：</p>
+<p><strong>1、向url post一个字典：</strong></p>
 <pre><code>payload={&quot;key1&quot;:&quot;value1&quot;,&quot;key2&quot;:&quot;value2&quot;}
 r=requests.post(&quot;http://httpbin.org/post&quot;,data=payload)
 print(r.text)
@@ -555,7 +550,7 @@ print(r.text)
 &quot;origin&quot;: &quot;218.197.153.150&quot;, 
 &quot;url&quot;: &quot;http://httpbin.org/post&quot;
 }
-</code></pre><p>2、向url post 一个字符串，自动编码为data</p>
+</code></pre><p><strong>2、向url post 一个字符串，自动编码为data</strong></p>
 <pre><code>r=requests.post(&quot;http://httpbin.org/post&quot;,data=&apos;helloworld&apos;)
 print(r.text)
 {
@@ -593,8 +588,16 @@ print(r.text)
 &lt;class &apos;str&apos;&gt; http://www.baidu.com/
 </code></pre><p>　headers 属性返回 CaseInsensitiveDict 类型</p>
 <p>　cookies 属性返回 RequestsCookieJar 类型</p>
-<p><strong>（5）requests.put()</strong></p>
-<pre><code>payload={&quot;key1&quot;:&quot;value1&quot;,&quot;key2&quot;:&quot;value2&quot;}
+<p>其他：</p>
+<pre><code>r.status_code #响应状态码
+r.raw #返回原始响应体，也就是 urllib 的 response 对象，使用 r.raw.read() 读取
+r.content #字节方式的响应体，会自动为你解码 gzip 和 deflate 压缩
+r.text #字符串方式的响应体，会自动根据响应头部的字符编码进行解码
+r.headers #以字典对象存储服务器响应头，但是这个字典比较特殊，字典键不区分大小写，若键不存在则返回None
+#*特殊方法*#
+r.json() #Requests中内置的JSON解码器
+r.raise_for_status() #失败请求(非200响应)抛出异常
+</code></pre><h3 id="（5）requests-put"><a href="#（5）requests-put" class="headerlink" title="（5）requests.put()"></a>（5）requests.put()</h3><pre><code>payload={&quot;key1&quot;:&quot;value1&quot;,&quot;key2&quot;:&quot;value2&quot;}
 r=requests.put(&quot;http://httpbin.org/put&quot;,data=payload)
 print(r.text)
 {
@@ -617,49 +620,40 @@ print(r.text)
 &quot;json&quot;: null, 
 &quot;origin&quot;: &quot;218.197.153.150&quot;, 
 &quot;url&quot;: &quot;http://httpbin.org/put&quot;
-</code></pre><p><strong>（6）requests.patch()</strong></p>
-<p>requests.patch和request.put类似。 </p>
+</code></pre><h3 id="（6）requests-patch"><a href="#（6）requests-patch" class="headerlink" title="（6）requests.patch()"></a>（6）requests.patch()</h3><p>requests.patch和request.put类似。 </p>
 <p>两者不同的是：<br>当我们用patch时仅需要提交需要修改的字段。<br>而用put时，必须将20个字段一起提交到url，未提交字段将会被删除。<br>patch的好处是：节省网络带宽。</p>
-<p><strong>（7）requests.request()</strong></p>
-<p>requests.request(）支持其他所有的方法。</p>
+<h3 id="（7）requests-request"><a href="#（7）requests-request" class="headerlink" title="（7）requests.request()"></a>（7）requests.request()</h3><p>requests.request(）支持其他所有的方法。</p>
 <pre><code>requests.request(method，url,**kwargs)
 method: “GET”、”HEAD”、”POST”、”PUT”、”PATCH”等等
 url: 请求的网址
 **kwargs: 控制访问的参数
 </code></pre><p>requests模块的使用实例（见链接：<a href="https://blog.csdn.net/gyq1998/article/details/78583841）" target="_blank" rel="noopener">https://blog.csdn.net/gyq1998/article/details/78583841）</a></p>
 <p>Python3 API 第三方库 requests 详解 - 屁股决定脑袋的专栏 - CSDN博客  <a href="https://blog.csdn.net/yilovexing/article/details/54928769" target="_blank" rel="noopener">https://blog.csdn.net/yilovexing/article/details/54928769</a></p>
-<h3 id="2-requests高级用法"><a href="#2-requests高级用法" class="headerlink" title="2.requests高级用法"></a>2.requests高级用法</h3><p><strong>1.文件上传</strong></p>
-<pre><code>import requests
+<h2 id="2-requests高级用法"><a href="#2-requests高级用法" class="headerlink" title="2.requests高级用法"></a>2.requests高级用法</h2><h3 id="1-文件上传"><a href="#1-文件上传" class="headerlink" title="1.文件上传"></a>1.文件上传</h3><pre><code>import requests
 f = {&apos;file&apos;:open(&apos;favicon.ico&apos;,&apos;rb&apos;)}
 r = requests.post(url,files=f)
 print(r.text)
-</code></pre><p><strong>2.Cookies</strong></p>
-<pre><code>import requests
+</code></pre><h3 id="2-Cookies"><a href="#2-Cookies" class="headerlink" title="2.Cookies"></a>2.Cookies</h3><pre><code>import requests
 r = requests.get(url)
 print(r.cookies)
 for k,v in r.cookies.items():
     print(k+&quot;=&quot;+v)
-</code></pre><p><strong>3.会话维持</strong></p>
-<p>使用Session对象</p>
+</code></pre><h3 id="3-会话维持"><a href="#3-会话维持" class="headerlink" title="3.会话维持"></a>3.会话维持</h3><p>使用Session对象</p>
 <pre><code>import requests
 s = requests.Session()
 s.get(&apos;http://httpbin.org/cookies/set/number/123456789&apos;)
 r = s.get(&apos;http://httpbin.org/cookies&apos;)
 print(r.text)
-</code></pre><p><strong>4.SSL证书认证</strong></p>
-<p>requests提供了证书验证的功能，使用verify参数控制是否检查此证书，默认是True，会自动验证</p>
-<p><strong>5.代理设置</strong></p>
-<p>对于某些网站，在测试的时候请求几次，能正常获取信息，但是一旦大规模爬取，可能会出现验证码或直接封掉IP，导致一段时间内无法访问</p>
+</code></pre><h3 id="4-SSL证书认证"><a href="#4-SSL证书认证" class="headerlink" title="4.SSL证书认证"></a>4.SSL证书认证</h3><p>requests提供了证书验证的功能，使用verify参数控制是否检查此证书，默认是True，会自动验证</p>
+<h3 id="5-代理设置"><a href="#5-代理设置" class="headerlink" title="5.代理设置"></a>5.代理设置</h3><p>对于某些网站，在测试的时候请求几次，能正常获取信息，但是一旦大规模爬取，可能会出现验证码或直接封掉IP，导致一段时间内无法访问</p>
 <p>代理设置：</p>
 <pre><code>import requests
 proxy = {&apos;http&apos;:&apos;http://ip:port&apos;,&apos;https&apos;:&apos;https://ip:port&apos;}
 requests.get(&apos;https://www.taobao.com&apos;,proxies=proxy)
-</code></pre><p><strong>6.超时设置</strong></p>
-<pre><code>import requests
+</code></pre><h3 id="6-超时设置"><a href="#6-超时设置" class="headerlink" title="6.超时设置"></a>6.超时设置</h3><pre><code>import requests
 r = requests.get(&apos;https://www.taobao.com&apos;,timeout=1)
 print(r.status_code)
-</code></pre><p><strong>7.身份认证</strong></p>
-<pre><code>import requests
+</code></pre><h3 id="7-身份认证"><a href="#7-身份认证" class="headerlink" title="7.身份认证"></a>7.身份认证</h3><pre><code>import requests
 from requests.auth import HTTPBasicAuth
 r = requests.get(url,auth=HTTPBasicAuth(&apos;username&apos;,&apos;password&apos;))
 print(r.status_code)
@@ -668,11 +662,9 @@ print(r.status_code)
 r = requests.get(url,auth=(&apos;username&apos;,&apos;password&apos;))
 print(r.status_code)
 # 也提供了OAuth认证，使用 pip3 install requests_oauthlib
-</code></pre><p><strong>8.Prepared Request</strong></p>
-<p>将请求表示为数据结构，这个数据结构叫Prepared Request</p>
+</code></pre><h3 id="8-Prepared-Request"><a href="#8-Prepared-Request" class="headerlink" title="8.Prepared Request"></a>8.Prepared Request</h3><p>将请求表示为数据结构，这个数据结构叫Prepared Request</p>
 <p>（链接：Python3爬虫（四）请求库的使用requests - Infi_chu - 博客园  <a href="https://www.cnblogs.com/Infi-chu/p/8961065.html）" target="_blank" rel="noopener">https://www.cnblogs.com/Infi-chu/p/8961065.html）</a></p>
-<h1 id="执行JavaScript"><a href="#执行JavaScript" class="headerlink" title="执行JavaScript"></a>执行JavaScript</h1><p><strong>1.Example 1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框</strong></p>
-<pre><code>import time,os
+<h1 id="执行JavaScript"><a href="#执行JavaScript" class="headerlink" title="执行JavaScript"></a>执行JavaScript</h1><h3 id="1-Example-1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框"><a href="#1-Example-1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框" class="headerlink" title="1.Example 1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框"></a>1.Example 1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框</h3><pre><code>import time,os
 
 driver = webdriver.Chrome()
 file_path = &quot;file:///&quot; + os.path.abspath(&apos;html/js.html&apos;)
@@ -691,8 +683,7 @@ time.sleep(2)
 driver.execute_script(&quot;alert(&apos;This is an alert board&apos;);&quot;)
 time.sleep(5)
 driver.quit()
-</code></pre><p><strong>2.Example 2执行JS脚本来控制浏览器竖向滚动条</strong></p>
-<p>一般用到操作滚动条的会两个场景：</p>
+</code></pre><h3 id="2-Example-2执行JS脚本来控制浏览器竖向滚动条"><a href="#2-Example-2执行JS脚本来控制浏览器竖向滚动条" class="headerlink" title="2.Example 2执行JS脚本来控制浏览器竖向滚动条"></a>2.Example 2执行JS脚本来控制浏览器竖向滚动条</h3><p>一般用到操作滚动条的会两个场景：</p>
 <p>  1）注册时的法律条文的阅读，判断用户是否阅读完成的标准是：滚动条是否拉到最下方。<br>  2）要操作的页面元素不在视觉范围，无法进行操作，需要拖动滚动条</p>
 <p>用于标识滚动条位置的代码</p>
 <pre><code>&lt;body onload= &quot;document.body.scrollTop=0 &quot;&gt;
@@ -725,16 +716,15 @@ driver.quit()
 </code></pre><p>参考链接：Python_selenium之执行JavaScript - Rita_LJ - 博客园  <a href="https://www.cnblogs.com/Rita-LJ/p/7884995.html" target="_blank" rel="noopener">https://www.cnblogs.com/Rita-LJ/p/7884995.html</a></p>
 <h1 id="Cookies操作"><a href="#Cookies操作" class="headerlink" title="Cookies操作"></a>Cookies操作</h1><p>链接：python3+selenium入门13-操作cookie - 梦忆安凉 - 博客园  <a href="https://www.cnblogs.com/myal/p/9389942.html" target="_blank" rel="noopener">https://www.cnblogs.com/myal/p/9389942.html</a></p>
 <h1 id="获取验证码-识别图片文字"><a href="#获取验证码-识别图片文字" class="headerlink" title="获取验证码-识别图片文字"></a>获取验证码-识别图片文字</h1><p>相关链接：Python3.6使用tesseract-ocr的正确姿势 - No.96 - CSDN博客  <a href="https://blog.csdn.net/qq_14998713/article/details/78824859" target="_blank" rel="noopener">https://blog.csdn.net/qq_14998713/article/details/78824859</a></p>
-<h3 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h3><p>Tesseract：开源的OCR识别引擎，初期Tesseract引擎由HP实验室研发，后来贡献给了开源软件业，后经由Google进行改进，消除bug，优化，重新发布。</p>
-<p><strong>1、tesseract-orc</strong><br>环境：</p>
+<h2 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h2><p>Tesseract：开源的OCR识别引擎，初期Tesseract引擎由HP实验室研发，后来贡献给了开源软件业，后经由Google进行改进，消除bug，优化，重新发布。</p>
+<h3 id="1、tesseract-orc"><a href="#1、tesseract-orc" class="headerlink" title="1、tesseract-orc"></a>1、tesseract-orc</h3><p>环境：</p>
 <pre><code>python 3.6.5
 pip 9.0.3
 tesseract-ocr-setup-3.05.00dev.exe
 Windows7
 </code></pre><p>链接：<a href="https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-3.05.00dev.exe" target="_blank" rel="noopener">https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-3.05.00dev.exe</a></p>
-<p><strong>2、pytesseract</strong></p>
-<pre><code>pip install pytesseract
-</code></pre><h3 id="配置环境变量："><a href="#配置环境变量：" class="headerlink" title="配置环境变量："></a>配置环境变量：</h3><p>默认情况下tesseract-orc是不被添加到系统的path路径的，这样在使用的时候发生FileNotFoundError: [WinError 2] 系统找不到指定的文件错误。</p>
+<h3 id="2、pytesseract"><a href="#2、pytesseract" class="headerlink" title="2、pytesseract"></a>2、pytesseract</h3><pre><code>pip install pytesseract
+</code></pre><h2 id="配置环境变量："><a href="#配置环境变量：" class="headerlink" title="配置环境变量："></a>配置环境变量：</h2><p>默认情况下tesseract-orc是不被添加到系统的path路径的，这样在使用的时候发生FileNotFoundError: [WinError 2] 系统找不到指定的文件错误。</p>
 <p>解决方法: </p>
 <pre><code>将 C:\Program Files (x86)\Tesseract-OCR添加到系统路径（路径因安装过程而异） 
 </code></pre><p>设置训练集的位置</p>
@@ -752,7 +742,7 @@ print(code)
 <p>Tesseract-OCR入门使用（1）-安装包获取和命令行调用 - 我不是校长的博客 - CSDN博客  <a href="https://blog.csdn.net/u012566751/article/details/54094692" target="_blank" rel="noopener">https://blog.csdn.net/u012566751/article/details/54094692</a></p>
 <p>python pip ,安装，卸载，查看等命令，不同版本 - x.cube - 博客园  <a href="https://www.cnblogs.com/xiexiaoxiao/p/7147920.html" target="_blank" rel="noopener">https://www.cnblogs.com/xiexiaoxiao/p/7147920.html</a></p>
 <h1 id="验证码处理"><a href="#验证码处理" class="headerlink" title="验证码处理"></a>验证码处理</h1><p>参考链接：Python3爬虫（十四） 验证码处理 - Infi_chu - 博客园  <a href="https://www.cnblogs.com/Infi-chu/p/8991810.html" target="_blank" rel="noopener">https://www.cnblogs.com/Infi-chu/p/8991810.html</a></p>
-<h3 id="简单爬取网页图片"><a href="#简单爬取网页图片" class="headerlink" title="简单爬取网页图片"></a>简单爬取网页图片</h3><p>链接：Python3简单爬虫抓取网页图片 - 孙苗青 - 博客园  <a href="https://www.cnblogs.com/smq772340208/p/6927063.html" target="_blank" rel="noopener">https://www.cnblogs.com/smq772340208/p/6927063.html</a></p>
+<h2 id="简单爬取网页图片"><a href="#简单爬取网页图片" class="headerlink" title="简单爬取网页图片"></a>简单爬取网页图片</h2><p>链接：Python3简单爬虫抓取网页图片 - 孙苗青 - 博客园  <a href="https://www.cnblogs.com/smq772340208/p/6927063.html" target="_blank" rel="noopener">https://www.cnblogs.com/smq772340208/p/6927063.html</a></p>
 <pre><code>import urllib.request
 import re
 import os
@@ -790,13 +780,10 @@ print (getImg(html)) #从网页源代码中分析并下载保存图片
 # 这个括号也就可以匹配网页中图片的url了
 &quot; pic_ext #匹配&quot; pic_ext
 </code></pre><p>截图例：<br><img src="https://i.imgur.com/On4Z65E.png" alt=""></p>
-<p><strong>urllib和requests区别：</strong></p>
-<p>（python3 urllib和requests模块 - 毛斯钢 - 博客园  <a href="https://www.cnblogs.com/znyyy/p/7868511.html）" target="_blank" rel="noopener">https://www.cnblogs.com/znyyy/p/7868511.html）</a></p>
+<h3 id="urllib和requests区别："><a href="#urllib和requests区别：" class="headerlink" title="urllib和requests区别："></a>urllib和requests区别：</h3><p>（python3 urllib和requests模块 - 毛斯钢 - 博客园  <a href="https://www.cnblogs.com/znyyy/p/7868511.html）" target="_blank" rel="noopener">https://www.cnblogs.com/znyyy/p/7868511.html）</a></p>
 <p>（requests和urllib.request实现对比 - fs_eagle的博客 - CSDN博客  <a href="https://blog.csdn.net/fs_eagle/article/details/79387343）" target="_blank" rel="noopener">https://blog.csdn.net/fs_eagle/article/details/79387343）</a></p>
-<h3 id="扩展-re-模块："><a href="#扩展-re-模块：" class="headerlink" title="扩展- re 模块："></a>扩展- re 模块：</h3><p>   <strong>1、模块总结</strong></p>
-<p>（python3 re模块 - z寒江雪 - 博客园  <a href="https://www.cnblogs.com/wenwei-blog/p/7216102.html）" target="_blank" rel="noopener">https://www.cnblogs.com/wenwei-blog/p/7216102.html）</a></p>
-<p>   <strong>2、re.compile模块</strong></p>
-<p>re模块中包含一个重要函数是compile(pattern [, flags]) ，该函数根据包含的正则表达式的字符串创建模式对象。可以实现更有效率的匹配。在直接使用字符串表示的正则表达式进行search,match和findall操作时，python会将字符串转换为正则表达式对象。而使用compile完成一次转换之后，在每次使用模式的时候就不用重复转换。当然，使用re.compile()函数进行转换后，re.search(pattern, string)的调用方式就转换为 pattern.search(string)的调用方式。</p>
+<h2 id="扩展-re-模块："><a href="#扩展-re-模块：" class="headerlink" title="扩展- re 模块："></a>扩展- re 模块：</h2><h3 id="1、模块总结"><a href="#1、模块总结" class="headerlink" title="1、模块总结"></a>1、模块总结</h3><p>（python3 re模块 - z寒江雪 - 博客园  <a href="https://www.cnblogs.com/wenwei-blog/p/7216102.html）" target="_blank" rel="noopener">https://www.cnblogs.com/wenwei-blog/p/7216102.html）</a></p>
+<h3 id="2、re-compile模块"><a href="#2、re-compile模块" class="headerlink" title="2、re.compile模块"></a>2、re.compile模块</h3><p>re模块中包含一个重要函数是compile(pattern [, flags]) ，该函数根据包含的正则表达式的字符串创建模式对象。可以实现更有效率的匹配。在直接使用字符串表示的正则表达式进行search,match和findall操作时，python会将字符串转换为正则表达式对象。而使用compile完成一次转换之后，在每次使用模式的时候就不用重复转换。当然，使用re.compile()函数进行转换后，re.search(pattern, string)的调用方式就转换为 pattern.search(string)的调用方式。</p>
 <p>其中，后一种调用方式中，pattern是用compile创建的模式对象。</p>
 <pre><code>import re
 some_text = &apos;a,b,,,,c d&apos;
@@ -841,8 +828,7 @@ re.compile(&apos;wan\\w&apos;, re.IGNORECASE)
 <pre><code>&lt;class &apos;_sre.SRE_Pattern&apos;&gt;
 &lt;class &apos;list&apos;&gt;
 [&apos;wang&apos;, &apos;WANG&apos;]
-</code></pre><p><strong>3、re.match() 函数</strong></p>
-<p>总是从字符串‘开头曲匹配’，并返回匹配的字符串的 match 对象 <class '_sre.sre_match'="">。</class></p>
+</code></pre><h3 id="3、re-match-函数"><a href="#3、re-match-函数" class="headerlink" title="3、re.match() 函数"></a>3、re.match() 函数</h3><p>总是从字符串‘开头曲匹配’，并返回匹配的字符串的 match 对象 <class '_sre.sre_match'="">。</class></p>
 <pre><code>re.match(pattern, string[, flags=0])
 </code></pre><p>•pattern 匹配模式，由 re.compile 获得</p>
 <p>•string 需要匹配的字符串</p>
@@ -889,8 +875,7 @@ group(...) method of _sre.SRE_Match instance
     group([group1, ...]) -&gt; str or tuple.
     Return subgroup(s) of the match by indices or names.
     For 0 returns the entire match.
-</code></pre><p><strong>match 的方法和属性：</strong></p>
-<p>参考链接：Java使用正则表达式获取子文本的方法示例<em>java</em>脚本之家  <a href="https://www.jb51.net/article/124588.htm" target="_blank" rel="noopener">https://www.jb51.net/article/124588.htm</a></p>
+</code></pre><h3 id="match-的方法和属性："><a href="#match-的方法和属性：" class="headerlink" title="match 的方法和属性："></a>match 的方法和属性：</h3><p>参考链接：Java使用正则表达式获取子文本的方法示例<em>java</em>脚本之家  <a href="https://www.jb51.net/article/124588.htm" target="_blank" rel="noopener">https://www.jb51.net/article/124588.htm</a></p>
 <p>例：</p>
 <pre><code>import re
 str_ = &apos;hello world! hello python&apos;
@@ -931,8 +916,7 @@ string 匹配时候使用的文本： hello world! hello python
 re 匹配时候使用的 Pattern 对象： re.compile(&apos;(?P&lt;first&gt;hell\\w)(?P&lt;symbol&gt;\\s)(?P&lt;last&gt;.*ld!)&apos;)
 span 返回分组匹配的 index （start(group),end(group))： (5, 6)
 &gt;&gt;&gt; 
-</code></pre><p><strong>re.search 函数</strong></p>
-<p>对整个字符串进行搜索匹配，返回第一个匹配的字符串的 match 对象。</p>
+</code></pre><h3 id="re-search-函数"><a href="#re-search-函数" class="headerlink" title="re.search 函数"></a>re.search 函数</h3><p>对整个字符串进行搜索匹配，返回第一个匹配的字符串的 match 对象。</p>
 <pre><code>re.search(pattern, string[, flags=0])
 </code></pre><p>•pattern 匹配模式，由 re.compile 获得</p>
 <p>•string 需要匹配的字符串</p>
@@ -956,7 +940,7 @@ print(&apos;lastindex 最后一个分组在文本中的索引：&apos;, search.l
 print(&apos;string 匹配时候使用的文本：&apos;, search.string)
 print(&apos;re 匹配时候使用的 Pattern 对象：&apos;, search.re)
 print(&apos;span 返回分组匹配的 index （start(group),end(group))：&apos;, search.span(2))
-</code></pre><p>注意 re.search 和 re.match 匹配的 str 的区别</p>
+</code></pre><p><strong>注意 re.search 和 re.match 匹配的 str 的区别</strong></p>
 <p>输出结果：</p>
 <pre><code>&gt;&gt;&gt; 
 group 0: hello world!
@@ -989,7 +973,7 @@ span 返回分组匹配的 index （start(group),end(group))： (9, 10)
 &gt; 超文本传输协议，是一个基于“请求与响应”模式的、无状态的引用层协议。
 &gt; HTTP协议采用URL作为定位网络资源的标识。
 &gt; URL格式    http://host[:port][path]
-</code></pre><h3 id="一、urllib库"><a href="#一、urllib库" class="headerlink" title="一、urllib库"></a>一、urllib库</h3><ol>
+</code></pre><h2 id="一、urllib库"><a href="#一、urllib库" class="headerlink" title="一、urllib库"></a>一、urllib库</h2><ol>
 <li>是Python内置的HTTP请求库</li>
 <li>在Python2中，由urllib和urllib2之分，而在Python3中，统一为urllib</li>
 <li>主要包含模块：</li>
@@ -1006,13 +990,12 @@ span 返回分组匹配的 index （start(group),end(group))： (9, 10)
     a.网络爬虫：自动或人工识别robots.txt，再进行内容爬取
     b.约束性：可以不遵循，但要注意法律风险
 </code></pre><p><em>转自</em> Python3爬虫（二）网络爬虫的尺寸与约束 - Infi_chu - 博客园  <a href="https://www.cnblogs.com/Infi-chu/p/8943715.html" target="_blank" rel="noopener">https://www.cnblogs.com/Infi-chu/p/8943715.html</a></p>
-<h3 id="二、发送请求："><a href="#二、发送请求：" class="headerlink" title="二、发送请求："></a>二、发送请求：</h3><p>   请求包括：</p>
+<h2 id="二、发送请求："><a href="#二、发送请求：" class="headerlink" title="二、发送请求："></a>二、发送请求：</h2><p>   请求包括：</p>
 <pre><code>1.请求方法
 2.请求的网址
 3.请求头
 4.请求体
-</code></pre><p><strong>1. urlopen()</strong></p>
-<p>　　urllib.request：模块提供了最基本的构造HTTP请求的方法，同时还带有处理验证(authentication)、重定向(redirection)、浏览器Cookies等</p>
+</code></pre><h3 id="1-urlopen"><a href="#1-urlopen" class="headerlink" title="1. urlopen()"></a>1. urlopen()</h3><p>　　urllib.request：模块提供了最基本的构造HTTP请求的方法，同时还带有处理验证(authentication)、重定向(redirection)、浏览器Cookies等</p>
 <pre><code>import urllib.request
 r = urllib.request.urlopen(&apos;http://www.baidu.com&apos;)
 print(r.read().decode(&apos;utf-8&apos;))
@@ -1030,13 +1013,13 @@ print(type(r))    # &lt;class &apos;http.client.HTTPResponse&apos;&gt;
 2.响应头
 
 3.响应体
-</code></pre><p>1）data参数：</p>
+</code></pre><p><strong>1）data参数：</strong></p>
 <ol>
 <li>可选</li>
 <li>若是字节流编码格式的内容，即bytes类型，则需要通过bytes()方法转化。若传递该参数，则请求方式会有GET变为POST</li>
 <li>bytes()第一个参数需为str类型，可用urllib.parse.urlencode()方法是字典变为字符串</li>
 </ol>
-<p>2）timeout参数：</p>
+<p><strong>2）timeout参数：</strong></p>
 <p>1、 可选</p>
 <p>2.用于设置超时时间，单位是秒，默认使用全局默认时间</p>
 <p>3.支持HTTP、HTTPS、FTP请求</p>
@@ -1047,18 +1030,17 @@ try:
 except urllib.error.URLError as e:
     if isinstance(e.reason, socket.timeout):
         print(&apos;Time Out!&apos;)
-</code></pre><p>3）context参数：必须是ssl.SSLContext类型，用来指定SSL设置</p>
-<p>4）cafile参数：指定CA证书</p>
-<p>5）capath参数：指定CA证书的路径</p>
+</code></pre><p><strong>3）context参数</strong>：必须是ssl.SSLContext类型，用来指定SSL设置</p>
+<p><strong>4）cafile参数</strong>：指定CA证书</p>
+<p><strong>5）capath参数</strong>：指定CA证书的路径</p>
 <p><em>【注】cafile和capath一起在请求HTTPS时使用</em></p>
-<p>6）cadefault参数：已被废弃，默认是False</p>
-<p><strong>2. Request</strong>     </p>
-<p>urlopen()不足以构建一个完整的请求，若要加入Headers等信息，就可以用Request类</p>
+<p><strong>6）cadefault参数</strong>：已被废弃，默认是False</p>
+<h3 id="2-Request"><a href="#2-Request" class="headerlink" title="2. Request"></a>2. Request</h3><p>urlopen()不足以构建一个完整的请求，若要加入Headers等信息，就可以用Request类</p>
 <p>Request类的构造：</p>
 <pre><code>class urllib.request.Request(url,data=None,headers={},origin_req_host=None,unverifiable=False,method=None)
-</code></pre><p>1）url参数：同urlopen()</p>
-<p>2）data参数：同urlopen()</p>
-<p>3）headers参数：</p>
+</code></pre><p><strong>1）url参数</strong>：同urlopen()</p>
+<p><strong>2）data参数</strong>：同urlopen()</p>
+<p><strong>3）headers参数</strong>：</p>
 <p>   1.请求头</p>
 <p>   2.可以直接在字典中构造，也可以用add_header()方法添加</p>
 <p>   3.可将User-Agent改为Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko)　　【注】伪造成浏览器访问</p>
@@ -1066,9 +1048,9 @@ except urllib.error.URLError as e:
 <p>   User-Agent ：这个头部可以携带如下几条信息：浏览器名和版本号、操作系统名和版本号、默认语言</p>
 <p>   Referer：可以用来防止盗链，有一些网站图片显示来源http://***.com，就是检查Referer来鉴定的</p>
 <p>   Connection：表示连接状态，记录Session的状态。</p>
-<p>4）origin_req_host参数：指的是请求方的host名称或IP地址</p>
-<p>5）unverifiable参数：请求是否是无法验证的，默认是False</p>
-<p>6）method参数：是一个字符串，用来指示请求的方法</p>
+<p><strong>4）origin_req_host参数</strong>：指的是请求方的host名称或IP地址</p>
+<p><strong>5）unverifiable参数</strong>：请求是否是无法验证的，默认是False</p>
+<p><strong>6）method参数</strong>：是一个字符串，用来指示请求的方法</p>
 <pre><code>url = r&apos;http://www.lagou.com/zhaopin/Python/?labelWords=label&apos;
 headers = {
 &apos;User-Agent&apos;: r&apos;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) &apos;
@@ -1079,8 +1061,7 @@ headers = {
 req = request.Request(url, headers=headers)
 page = request.urlopen(req).read()
 page = page.decode(&apos;utf-8&apos;)
-</code></pre><p><strong>3. Handler（请求的高级用法）：</strong></p>
-<p>Handler是各种处理器，可以处理登录验证，可以处理Cookies，可以处理代理。</p>
+</code></pre><h3 id="3-Handler（请求的高级用法）："><a href="#3-Handler（请求的高级用法）：" class="headerlink" title="3. Handler（请求的高级用法）："></a>3. Handler（请求的高级用法）：</h3><p>Handler是各种处理器，可以处理登录验证，可以处理Cookies，可以处理代理。</p>
 <p>urllib.request模块里面的BaseHandler类，是所有其他Handler的父类。</p>
 <p>各种Handler子类继承这个BaseHandler类：</p>
 <p>   HTTPDefaultErrorHandler：用于处理HTTP响应错误，会抛出异常</p>
@@ -1089,10 +1070,8 @@ page = page.decode(&apos;utf-8&apos;)
 <p>   ProxyHandler：用于设置代理，默认为空</p>
 <p>   HTTPPasswordMgr：用于管理密码</p>
 <p>   HTTPBasicAuthHandler：用于管理认证</p>
-<p><strong>4. OpenDirector：</strong></p>
-<p>  应用：验证、代理、Cookies</p>
-<p><strong>5.POST数据</strong></p>
-<pre><code>urllib.request.urlopen(url, data=None, [timeout, ]*, cafile=None, capath=None, cadefault=False, context=None)
+<h3 id="4-OpenDirector："><a href="#4-OpenDirector：" class="headerlink" title="4. OpenDirector："></a>4. OpenDirector：</h3><p>  应用：验证、代理、Cookies</p>
+<h3 id="5-POST数据"><a href="#5-POST数据" class="headerlink" title="5.POST数据"></a>5.POST数据</h3><pre><code>urllib.request.urlopen(url, data=None, [timeout, ]*, cafile=None, capath=None, cadefault=False, context=None)
 </code></pre><p>urlopen（）的data参数默认为None，当data参数不为空的时候，urlopen（）提交方式为Post。</p>
 <pre><code>from urllib import request, parse
 url = r&apos;http://www.lagou.com/jobs/positionAjax.json?&apos;
@@ -1124,15 +1103,12 @@ data = parse.urlencode(data).encode(&apos;utf-8&apos;)
 <p>Post的数据必须是bytes或者iterable of bytes，不能是str，因此需要进行encode（）编码</p>
 <pre><code>page = request.urlopen(req, data=data).read()
 </code></pre><p>当然，也可以把data的数据封装在urlopen（）参数中</p>
-<p><strong>GET和POST的区别</strong></p>
-<p>1.GET相对于POST较不安全，GET将参数包含在URL里面，POST是通过表单形式传输的，包含在请求体中。</p>
+<h3 id="GET和POST的区别"><a href="#GET和POST的区别" class="headerlink" title="GET和POST的区别"></a>GET和POST的区别</h3><p>1.GET相对于POST较不安全，GET将参数包含在URL里面，POST是通过表单形式传输的，包含在请求体中。</p>
 <p>2.GET最多提交的数据大小为1024字节，POST没有限制</p>
 <p>3.GET效率较高与POST</p>
-<h3 id="三、异常处理："><a href="#三、异常处理：" class="headerlink" title="三、异常处理："></a>三、异常处理：</h3><p><strong>1. URLError：</strong></p>
-<p>a. 来自urllib库的error模块，他继承自OSError类，是error异常模块的基类，由request模块产生的异常都可以通过它处理</p>
+<h2 id="三、异常处理："><a href="#三、异常处理：" class="headerlink" title="三、异常处理："></a>三、异常处理：</h2><h3 id="1-URLError："><a href="#1-URLError：" class="headerlink" title="1. URLError："></a>1. URLError：</h3><p>a. 来自urllib库的error模块，他继承自OSError类，是error异常模块的基类，由request模块产生的异常都可以通过它处理</p>
 <p>b. reason属性，返回原因</p>
-<p><strong>2. HTTPError：</strong></p>
-<p>a. 是URLError的子类，专门用来处理HTTP请求错误</p>
+<h3 id="2-HTTPError："><a href="#2-HTTPError：" class="headerlink" title="2. HTTPError："></a>2. HTTPError：</h3><p>a. 是URLError的子类，专门用来处理HTTP请求错误</p>
 <p>b. 三个属性：</p>
 <p>　　　　code：返回状态码</p>
 <p>　　　　reason：返回原因</p>
@@ -1158,34 +1134,24 @@ data = parse.urlencode(data).encode(&apos;utf-8&apos;)
         print(e.code())
         print(e.read().decode(&apos;utf-8&apos;))
     return page
-</code></pre><h3 id="四、解析链接："><a href="#四、解析链接：" class="headerlink" title="四、解析链接："></a>四、解析链接：</h3><p>介绍parse模块中的方法，parse定义了处理URL的标准接口</p>
-<p><strong>1. urlparse()</strong></p>
-<p>实现URL的识别分段。</p>
+</code></pre><h2 id="四、解析链接："><a href="#四、解析链接：" class="headerlink" title="四、解析链接："></a>四、解析链接：</h2><p>介绍parse模块中的方法，parse定义了处理URL的标准接口</p>
+<h3 id="1-urlparse"><a href="#1-urlparse" class="headerlink" title="1. urlparse()"></a>1. urlparse()</h3><p>实现URL的识别分段。</p>
 <p>　　API用法：　</p>
 <pre><code>urllib.parse.urlparse(urlstring,scheme=&apos;&apos;,allow_fragments=True)
 </code></pre><p>　　urlstring参数：必选，待解析的URL</p>
 <p>　　scheme参数：它是默认的协议（HTTP、HTTPS），urlstring没有时生效</p>
 <p>　　allow_fragments参数：是否忽略fragment，False为忽略，当URL中不包含params和query时，fragment会被解析为path的一部分</p>
-<p><strong>2. urlunparse()</strong></p>
-<p>与urlparse对立，接受的参数是一个可迭代对象，长度必须为6（scheme,netloc,path,params,query,fragment），可以是元组、字典等特定的数据结构，这样就可以实现URL的构造</p>
-<p><strong>3. urlsplit()</strong></p>
-<p>　　与urlparse相似，不单独解析parse，返回5各部分，元组类型</p>
-<p><strong>4. urlunsplit()</strong></p>
-<p>　　与urlunparse()类似，将各个部分拼接，长度必须是5</p>
-<p><strong>5. urljoin()</strong></p>
-<p>　　生成链接，提供一个base-url的scheme,netloc,和path 3个内容并对新链接缺失的部分进行补充。</p>
+<h3 id="2-urlunparse"><a href="#2-urlunparse" class="headerlink" title="2. urlunparse()"></a>2. urlunparse()</h3><p>与urlparse对立，接受的参数是一个可迭代对象，长度必须为6（scheme,netloc,path,params,query,fragment），可以是元组、字典等特定的数据结构，这样就可以实现URL的构造</p>
+<h3 id="3-urlsplit"><a href="#3-urlsplit" class="headerlink" title="3. urlsplit()"></a>3. urlsplit()</h3><p>　　与urlparse相似，不单独解析parse，返回5各部分，元组类型</p>
+<h3 id="4-urlunsplit"><a href="#4-urlunsplit" class="headerlink" title="4. urlunsplit()"></a>4. urlunsplit()</h3><p>　　与urlunparse()类似，将各个部分拼接，长度必须是5</p>
+<h3 id="5-urljoin"><a href="#5-urljoin" class="headerlink" title="5. urljoin()"></a>5. urljoin()</h3><p>　　生成链接，提供一个base-url的scheme,netloc,和path 3个内容并对新链接缺失的部分进行补充。</p>
 <p>　　【注】两个都有取最新的，不全的话互补</p>
-<p><strong>6. urlencode()</strong></p>
-<p>　　在构造GET请求参数的时候很有用，将字典序列化为GET请求参数</p>
-<p><strong>7. parse_qs()</strong></p>
-<p>　　反序列化，将一串GET请求参数，转化为字典</p>
-<p><strong>8. parse_qsl()</strong></p>
-<p>　　同parse_qs()，将GET转化为元组组成的列表</p>
-<p><strong>9. quote()</strong></p>
-<p>　　将内容转化为URL编码的格式，因为URL有中文编码格式时，可能会出现乱码，用它可以转化</p>
-<p><strong>10. unquote()</strong></p>
-<p>　　进行URL解码</p>
-<h3 id="五、分析robots协议："><a href="#五、分析robots协议：" class="headerlink" title="五、分析robots协议："></a>五、分析robots协议：</h3><p>robotparser模块，该模块提供了一个RobotFileParser类</p>
+<h3 id="6-urlencode"><a href="#6-urlencode" class="headerlink" title="6. urlencode()"></a>6. urlencode()</h3><p>　　在构造GET请求参数的时候很有用，将字典序列化为GET请求参数</p>
+<h3 id="7-parse-qs"><a href="#7-parse-qs" class="headerlink" title="7. parse_qs()"></a>7. parse_qs()</h3><p>　　反序列化，将一串GET请求参数，转化为字典</p>
+<h3 id="8-parse-qsl"><a href="#8-parse-qsl" class="headerlink" title="8. parse_qsl()"></a>8. parse_qsl()</h3><p>　　同parse_qs()，将GET转化为元组组成的列表</p>
+<h3 id="9-quote"><a href="#9-quote" class="headerlink" title="9. quote()"></a>9. quote()</h3><p>　　将内容转化为URL编码的格式，因为URL有中文编码格式时，可能会出现乱码，用它可以转化</p>
+<h3 id="10-unquote"><a href="#10-unquote" class="headerlink" title="10. unquote()"></a>10. unquote()</h3><p>　　进行URL解码</p>
+<h2 id="五、分析robots协议："><a href="#五、分析robots协议：" class="headerlink" title="五、分析robots协议："></a>五、分析robots协议：</h2><p>robotparser模块，该模块提供了一个RobotFileParser类</p>
 <pre><code>urllib.robotparser.RobotFileParser(url=&apos;&apos;)
 </code></pre><p>　　此类的常用方法：</p>
 <p>　　set_url()　　设置robots.txt文件的链接</p>
@@ -1194,7 +1160,7 @@ data = parse.urlencode(data).encode(&apos;utf-8&apos;)
 <p>　　can_fetch()　　传入两个参数，第一个是User-Agent，第二个是抓取的URL，返回是否可抓取</p>
 <p>　　mtime()　　返回上回抓取和分析的时间</p>
 <p>　　modified()　　将当前时间设置为上次抓取和分析的时间</p>
-<h3 id="六、使用代理"><a href="#六、使用代理" class="headerlink" title="六、使用代理"></a>六、使用代理</h3><pre><code>urllib.request.ProxyHandler(proxies=None)
+<h2 id="六、使用代理"><a href="#六、使用代理" class="headerlink" title="六、使用代理"></a>六、使用代理</h2><pre><code>urllib.request.ProxyHandler(proxies=None)
 </code></pre><p>当需要抓取的网站设置了访问限制，这时就需要用到代理来抓取数据。</p>
 <pre><code>data = {
     &apos;first&apos;: &apos;true&apos;,
@@ -1208,8 +1174,7 @@ data = parse.urlencode(data).encode(&apos;utf-8&apos;)
 page = opener.open(url, data).read()
 page = page.decode(&apos;utf-8&apos;)
 return page
-</code></pre><p><strong>代理的分类</strong></p>
-<p>1.根据协议分类：</p>
+</code></pre><h3 id="代理的分类"><a href="#代理的分类" class="headerlink" title="代理的分类"></a>代理的分类</h3><p><strong>1.根据协议分类：</strong></p>
 <pre><code>协议　　     一般开放端口
 
 FTP　　       21、2121
@@ -1225,7 +1190,7 @@ Telnet　     23
 POP3/SMTP　　110/25
 
 SOCKS　　    1080
-</code></pre><p>2.根据匿名程度分类：</p>
+</code></pre><p><strong>2.根据匿名程度分类：</strong></p>
 <pre><code>a.高度匿名代理
 
 b.普通匿名代理
@@ -1233,8 +1198,7 @@ b.普通匿名代理
 c.透明代理
 
 d.间谍代理
-</code></pre><p><strong>代理的作用</strong></p>
-<p>1.突破自身IP访问限制，访问一些平时不能访问的站点</p>
+</code></pre><h3 id="代理的作用"><a href="#代理的作用" class="headerlink" title="代理的作用"></a>代理的作用</h3><p>1.突破自身IP访问限制，访问一些平时不能访问的站点</p>
 <p>2.访问一些单位或团体的内部资源</p>
 <p>3.提高访问速度</p>
 <p>4.隐藏真实IP</p>
@@ -1271,7 +1235,7 @@ d.间谍代理
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）"><span class="toc-text">问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题2：定位时使用xpath，或css-selector定位不到，也会报错。"><span class="toc-text">问题2：定位时使用xpath，或css_selector定位不到，也会报错。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题3：网页通知（告警）弹窗接收问题"><span class="toc-text">问题3：网页通知（告警）弹窗接收问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、具体问题"><span class="toc-text">1、具体问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、解决方案"><span class="toc-text">2、解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码解析："><span class="toc-text">代码解析：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载文件"><span class="toc-text">下载文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、对于Firefox下载文件"><span class="toc-text">1、对于Firefox下载文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、Chrome文件下载"><span class="toc-text">2、Chrome文件下载</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Request-模块"><span class="toc-text">Request 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、Requests库的七个主要方法"><span class="toc-text">1、Requests库的七个主要方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-requests高级用法"><span class="toc-text">2.requests高级用法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行JavaScript"><span class="toc-text">执行JavaScript</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Cookies操作"><span class="toc-text">Cookies操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取验证码-识别图片文字"><span class="toc-text">获取验证码-识别图片文字</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装："><span class="toc-text">安装：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置环境变量："><span class="toc-text">配置环境变量：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#验证码处理"><span class="toc-text">验证码处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单爬取网页图片"><span class="toc-text">简单爬取网页图片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展-re-模块："><span class="toc-text">扩展- re 模块：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#请求库的使用值urllib"><span class="toc-text">请求库的使用值urllib</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、urllib库"><span class="toc-text">一、urllib库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、发送请求："><span class="toc-text">二、发送请求：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、异常处理："><span class="toc-text">三、异常处理：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、解析链接："><span class="toc-text">四、解析链接：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、分析robots协议："><span class="toc-text">五、分析robots协议：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#六、使用代理"><span class="toc-text">六、使用代理</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#查找元素"><span class="toc-text">查找元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）"><span class="toc-text">问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题2：定位时使用xpath，或css-selector定位不到，也会报错。"><span class="toc-text">问题2：定位时使用xpath，或css_selector定位不到，也会报错。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题3：网页通知（告警）弹窗接收问题"><span class="toc-text">问题3：网页通知（告警）弹窗接收问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题1："><span class="toc-text">问题1：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题2："><span class="toc-text">问题2：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、具体问题"><span class="toc-text">1、具体问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、解决方案"><span class="toc-text">2、解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代码解析："><span class="toc-text">代码解析：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载文件"><span class="toc-text">下载文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、对于Firefox下载文件"><span class="toc-text">1、对于Firefox下载文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、Chrome文件下载"><span class="toc-text">2、Chrome文件下载</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Request-模块"><span class="toc-text">Request 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、Requests库的七个主要方法"><span class="toc-text">1、Requests库的七个主要方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-requests-request"><span class="toc-text">(1) requests.request()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（2）requests-get"><span class="toc-text">（2）requests.get()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#requests库的异常"><span class="toc-text">requests库的异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-request-head"><span class="toc-text">(3) request.head()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（4）requests-post"><span class="toc-text">（4）requests.post()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（5）requests-put"><span class="toc-text">（5）requests.put()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（6）requests-patch"><span class="toc-text">（6）requests.patch()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（7）requests-request"><span class="toc-text">（7）requests.request()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-requests高级用法"><span class="toc-text">2.requests高级用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-文件上传"><span class="toc-text">1.文件上传</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Cookies"><span class="toc-text">2.Cookies</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-会话维持"><span class="toc-text">3.会话维持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-SSL证书认证"><span class="toc-text">4.SSL证书认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-代理设置"><span class="toc-text">5.代理设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-超时设置"><span class="toc-text">6.超时设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-身份认证"><span class="toc-text">7.身份认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-Prepared-Request"><span class="toc-text">8.Prepared Request</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行JavaScript"><span class="toc-text">执行JavaScript</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Example-1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框"><span class="toc-text">1.Example 1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Example-2执行JS脚本来控制浏览器竖向滚动条"><span class="toc-text">2.Example 2执行JS脚本来控制浏览器竖向滚动条</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Cookies操作"><span class="toc-text">Cookies操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取验证码-识别图片文字"><span class="toc-text">获取验证码-识别图片文字</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装："><span class="toc-text">安装：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、tesseract-orc"><span class="toc-text">1、tesseract-orc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、pytesseract"><span class="toc-text">2、pytesseract</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置环境变量："><span class="toc-text">配置环境变量：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#验证码处理"><span class="toc-text">验证码处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单爬取网页图片"><span class="toc-text">简单爬取网页图片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#urllib和requests区别："><span class="toc-text">urllib和requests区别：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展-re-模块："><span class="toc-text">扩展- re 模块：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、模块总结"><span class="toc-text">1、模块总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、re-compile模块"><span class="toc-text">2、re.compile模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、re-match-函数"><span class="toc-text">3、re.match() 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#match-的方法和属性："><span class="toc-text">match 的方法和属性：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#re-search-函数"><span class="toc-text">re.search 函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#请求库的使用值urllib"><span class="toc-text">请求库的使用值urllib</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、urllib库"><span class="toc-text">一、urllib库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、发送请求："><span class="toc-text">二、发送请求：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-urlopen"><span class="toc-text">1. urlopen()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Request"><span class="toc-text">2. Request</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Handler（请求的高级用法）："><span class="toc-text">3. Handler（请求的高级用法）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-OpenDirector："><span class="toc-text">4. OpenDirector：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-POST数据"><span class="toc-text">5.POST数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GET和POST的区别"><span class="toc-text">GET和POST的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、异常处理："><span class="toc-text">三、异常处理：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-URLError："><span class="toc-text">1. URLError：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-HTTPError："><span class="toc-text">2. HTTPError：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、解析链接："><span class="toc-text">四、解析链接：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-urlparse"><span class="toc-text">1. urlparse()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-urlunparse"><span class="toc-text">2. urlunparse()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-urlsplit"><span class="toc-text">3. urlsplit()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-urlunsplit"><span class="toc-text">4. urlunsplit()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-urljoin"><span class="toc-text">5. urljoin()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-urlencode"><span class="toc-text">6. urlencode()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-parse-qs"><span class="toc-text">7. parse_qs()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-parse-qsl"><span class="toc-text">8. parse_qsl()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-quote"><span class="toc-text">9. quote()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-unquote"><span class="toc-text">10. unquote()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、分析robots协议："><span class="toc-text">五、分析robots协议：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、使用代理"><span class="toc-text">六、使用代理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代理的分类"><span class="toc-text">代理的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代理的作用"><span class="toc-text">代理的作用</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
