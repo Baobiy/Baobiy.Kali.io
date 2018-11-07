@@ -446,7 +446,9 @@ verify：开关， 用于认证SSL证书， 默认为True。
 cert： 用于设置保存本地SSL证书路径
 
 这句代码是构造一个服务器请求request，返回一个包含服务器资源的response对象。
-</code></pre><h3 id="（2）requests-get"><a href="#（2）requests-get" class="headerlink" title="（2）requests.get()"></a>（2）requests.get()</h3><p>response对象的属性：</p>
+</code></pre><h3 id="（2）requests-get"><a href="#（2）requests-get" class="headerlink" title="（2）requests.get()"></a>（2）requests.get()</h3><p>python接口自动化测试(二)-requests.get() - 贺满 - 博客园  <a href="https://www.cnblogs.com/puresoul/p/7488488.html" target="_blank" rel="noopener">https://www.cnblogs.com/puresoul/p/7488488.html</a></p>
+<p>get方法最后是通过调用 requests.request 方法实现的，其实在其它的请求方法如post，put，head，delete等方法都是调用的request方法，然后把请求方法的类型传递给request方法第一个参数。</p>
+<p>response对象的属性：</p>
 <p><img src="https://i.imgur.com/Fh9ynNp.png" alt=""><br>补充：</p>
 <pre><code>r.status_code #响应状态码
 
@@ -505,7 +507,30 @@ f.write(r.content)
 <li>添加headers</li>
 </ul>
 <p>在爬取知乎时必须在User-Agent中加入信息，否则不能爬取，会被拦截</p>
-<h3 id="requests库的异常"><a href="#requests库的异常" class="headerlink" title="requests库的异常"></a>requests库的异常</h3><p>注意requests库有时会产生异常，比如网络连接错误、http错误异常、重定向异常、请求url超时异常等等。所以我们需要判断r.status_codes是否是200，在这里我们怎么样去捕捉异常呢？</p>
+<ul>
+<li><p>同时带参数和header:</p>
+<pre><code>import requests
+import json
+
+host = &quot;http://httpbin.org/&quot;
+endpoint = &quot;get&quot;
+
+url = &apos;&apos;.join([host,endpoint])
+headers = {&quot;User-Agent&quot;:&quot;test request headers&quot;}
+params = {&quot;show_env&quot;:&quot;1&quot;}
+
+r = requests.get(url)
+r = requests.get(url,headers=headers,params=params)
+
+#response = r.json()
+print (eval(r.text))[&apos;headers&apos;][&apos;User-Agent&apos;]
+print r.url
+</code></pre></li>
+</ul>
+<p>输出：</p>
+<pre><code>test request headers
+http://httpbin.org/get?show_env=1
+</code></pre><h3 id="requests库的异常"><a href="#requests库的异常" class="headerlink" title="requests库的异常"></a>requests库的异常</h3><p>注意requests库有时会产生异常，比如网络连接错误、http错误异常、重定向异常、请求url超时异常等等。所以我们需要判断r.status_codes是否是200，在这里我们怎么样去捕捉异常呢？</p>
 <p>这里我们可以利用r.raise_for_status() 语句去捕捉异常，该语句在方法内部判断r.status_code是否等于200，如果不等于，则抛出异常。</p>
 <p>于是在这里我们有一个爬取网页的通用代码框架：</p>
 <pre><code>try:
@@ -515,13 +540,34 @@ f.write(r.content)
     return r.text
 except:
     return&quot;产生异常&quot;
-</code></pre><h3 id="3-request-head"><a href="#3-request-head" class="headerlink" title="(3) request.head()"></a>(3) request.head()</h3><p>看代码：</p>
+</code></pre><p>RequestException: </p>
+<pre><code>HTTPError(RequestException) 　 
+UnrewindableBodyError(RequestException) 　 
+RetryError(RequestException) 　 
+ConnectionError(RequestException) ProxyError(ConnectionError) 
+SSLError(ConnectionError) 
+ConnectTimeout(ConnectionError, Timeout) 
+Timeout(RequestException) ReadTimeout 
+URLRequired(RequestException) 　 
+TooManyRedirects(RequestException) 　 
+MissingSchema(RequestException, ValueError) 　 
+InvalidSchema(RequestException,ValueError) 　 
+InvalidURL(RequestException,ValueError) 　 
+InvalidHeader(RequestException,ValueError) 　 
+ChunkedEncodingError(RequestException) 　 
+StreamConsumedError(RequestException,TypeError) 　 
+ContentDecodingError(RequestException,BaseHTTPError)
+</code></pre><p>其他异常：Python Requests中异常总结 - 李谦的博客 - CSDN博客  <a href="https://blog.csdn.net/weixin_39198406/article/details/81482082" target="_blank" rel="noopener">https://blog.csdn.net/weixin_39198406/article/details/81482082</a></p>
+<p>异常官方文档：<a href="http://www.python-requests.org/en/master/_modules/requests/exceptions/#RequestException" target="_blank" rel="noopener">http://www.python-requests.org/en/master/_modules/requests/exceptions/#RequestException</a></p>
+<p>Python 异常处理 | 菜鸟教程  <a href="http://www.runoob.com/python/python-exceptions.html" target="_blank" rel="noopener">http://www.runoob.com/python/python-exceptions.html</a></p>
+<h3 id="3-request-head"><a href="#3-request-head" class="headerlink" title="(3) request.head()"></a>(3) request.head()</h3><p>看代码：</p>
 <pre><code>r=requests.head(&quot;http://www.baidu.com&quot;)
 r.headers
 {&apos;Cache-Control&apos;: &apos;private, no-cache, no-store, proxy-revalidate, no-transform&apos;, &apos;Connection&apos;: &apos;Keep-Alive&apos;, &apos;Content-Encoding&apos;: &apos;gzip&apos;, &apos;Content-Type&apos;: &apos;text/html&apos;, &apos;Date&apos;: &apos;Wed, 31 Oct 2018 06:43:49 GMT&apos;, &apos;Last-Modified&apos;: &apos;Mon, 13 Jun 2016 02:50:36 GMT&apos;, &apos;Pragma&apos;: &apos;no-cache&apos;, &apos;Server&apos;: &apos;bfe/1.0.8.18&apos;}
 r.text
 &apos;&apos;
-</code></pre><h3 id="（4）requests-post"><a href="#（4）requests-post" class="headerlink" title="（4）requests.post()"></a>（4）requests.post()</h3><pre><code>improt requests
+</code></pre><h3 id="（4）requests-post"><a href="#（4）requests-post" class="headerlink" title="（4）requests.post()"></a>（4）requests.post()</h3><p>python接口自动化测试(三)-requests.post() - 贺满 - 博客园  <a href="https://www.cnblogs.com/puresoul/p/7488700.html" target="_blank" rel="noopener">https://www.cnblogs.com/puresoul/p/7488700.html</a></p>
+<pre><code>improt requests
 data = {&apos;name&apos;:&apos;Infi-chu&apos;,&apos;age&apos;=&apos;23&apos;}
 r = requests.post(&apos;http://www.baidu.com&apos;,data=data)
 </code></pre><p>成功后会在form中看到所提交的数据（F12查看）</p>
@@ -572,6 +618,8 @@ print(r.text)
 </code></pre><ul>
 <li>响应</li>
 </ul>
+<p>常用返回类型：</p>
+<p><img src="https://i.imgur.com/uQgakye.png" alt=""></p>
 <p>发送数据后，得到的就是响应，我们使用text和content获取了内容，下面是另外的信息：</p>
 <pre><code>&gt;&gt;&gt; import requests
 &gt;&gt;&gt; r = requests.get(&apos;http://www.baidu.com&apos;)
@@ -596,7 +644,128 @@ r.headers #以字典对象存储服务器响应头，但是这个字典比较特
 #*特殊方法*#
 r.json() #Requests中内置的JSON解码器
 r.raise_for_status() #失败请求(非200响应)抛出异常
-</code></pre><h3 id="（5）requests-put"><a href="#（5）requests-put" class="headerlink" title="（5）requests.put()"></a>（5）requests.put()</h3><pre><code>payload={&quot;key1&quot;:&quot;value1&quot;,&quot;key2&quot;:&quot;value2&quot;}
+</code></pre><p><strong>post带headers</strong></p>
+<pre><code># -*- coding:utf-8 -*-
+import requests
+import json
+
+host = &quot;http://httpbin.org/&quot;
+endpoint = &quot;post&quot;
+
+url = &apos;&apos;.join([host,endpoint])
+headers = {&quot;User-Agent&quot;:&quot;test request headers&quot;}
+
+# r = requests.post(url)
+r = requests.post(url,headers=headers)
+#response = r.json()
+</code></pre><p>输出：</p>
+<pre><code>&gt;&gt;&gt; r.json()
+{&apos;args&apos;: {},
+&apos;data&apos;: &apos;&apos;,
+&apos;files&apos;: {},
+&apos;form&apos;: {},
+&apos;headers&apos;: {&apos;Accept&apos;: &apos;*/*&apos;,
+         &apos;Accept-Encoding&apos;: &apos;gzip, deflate&apos;,
+         &apos;Connection&apos;: &apos;close&apos;,
+         &apos;Content-Length&apos;: &apos;0&apos;,
+         &apos;Host&apos;: &apos;httpbin.org&apos;,
+         &apos;User-Agent&apos;: &apos;test request headers&apos;},
+&apos;json&apos;: None,
+&apos;origin&apos;: &apos;101.254.180.235&apos;,
+&apos;url&apos;: &apos;http://httpbin.org/post&apos;}    
+</code></pre><p><strong>带json的post</strong></p>
+<pre><code># -*- coding:utf-8 -*-
+import requests
+import json
+
+host = &quot;http://httpbin.org/&quot;
+endpoint = &quot;post&quot;
+
+url = &apos;&apos;.join([host,endpoint])
+data = {
+    &quot;sites&quot;: [
+            { &quot;name&quot;:&quot;test&quot; , &quot;url&quot;:&quot;www.test.com&quot; },
+            { &quot;name&quot;:&quot;google&quot; , &quot;url&quot;:&quot;www.google.com&quot; },
+            { &quot;name&quot;:&quot;weibo&quot; , &quot;url&quot;:&quot;www.weibo.com&quot; }
+    ]
+}
+
+r = requests.post(url,json=data)
+# r = requests.post(url,data=json.dumps(data))
+response = r.json()
+</code></pre><p>输出：</p>
+<pre><code>{
+&quot;args&quot;: {}, 
+&quot;data&quot;: &quot;{\&quot;sites\&quot;: [{\&quot;url\&quot;: \&quot;www.test.com\&quot;, \&quot;name\&quot;: \&quot;test\&quot;}, {\&quot;url\&quot;: \&quot;www.google.com\&quot;, \&quot;name\&quot;: \&quot;google\&quot;}, {\&quot;url\&quot;: \&quot;www.weibo.com\&quot;, \&quot;name\&quot;: \&quot;weibo\&quot;}]}&quot;, 
+&quot;files&quot;: {}, 
+&quot;form&quot;: {}, 
+&quot;headers&quot;: {
+    &quot;Accept&quot;: &quot;*/*&quot;, 
+    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
+    &quot;Connection&quot;: &quot;close&quot;, 
+    &quot;Content-Length&quot;: &quot;140&quot;, 
+    &quot;Content-Type&quot;: &quot;application/json&quot;, 
+    &quot;Host&quot;: &quot;httpbin.org&quot;, 
+    &quot;User-Agent&quot;: &quot;python-requests/2.18.1&quot;
+}, 
+&quot;json&quot;: {
+&quot;sites&quot;: [
+  {
+    &quot;name&quot;: &quot;test&quot;, 
+    &quot;url&quot;: &quot;www.test.com&quot;
+  }, 
+  {
+    &quot;name&quot;: &quot;google&quot;, 
+    &quot;url&quot;: &quot;www.google.com&quot;
+  }, 
+  {
+    &quot;name&quot;: &quot;weibo&quot;, 
+    &quot;url&quot;: &quot;www.weibo.com&quot;
+  }
+]
+}, 
+&quot;origin&quot;: &quot;183.14.133.88&quot;, 
+&quot;url&quot;: &quot;http://httpbin.org/post&quot;
+}
+</code></pre><p><strong>带参数的post</strong></p>
+<pre><code># -*- coding:utf-8 -*-
+import requests
+import json
+
+host = &quot;http://httpbin.org/&quot;
+endpoint = &quot;post&quot;
+
+url = &apos;&apos;.join([host,endpoint])
+params = {&apos;key1&apos;:&apos;params1&apos;,&apos;key2&apos;:&apos;params2&apos;}
+
+# r = requests.post(url)
+r = requests.post(url,params=params)
+#response = r.json()
+print (r.text)
+</code></pre><p>输出：</p>
+<pre><code>{
+&quot;args&quot;: {
+    &quot;key1&quot;: &quot;params1&quot;, 
+    &quot;key2&quot;: &quot;params2&quot;
+}, 
+&quot;data&quot;: &quot;&quot;, 
+&quot;files&quot;: {}, 
+&quot;form&quot;: {}, 
+&quot;headers&quot;: {
+    &quot;Accept&quot;: &quot;*/*&quot;, 
+    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
+    &quot;Connection&quot;: &quot;close&quot;, 
+    &quot;Content-Length&quot;: &quot;0&quot;, 
+    &quot;Host&quot;: &quot;httpbin.org&quot;, 
+    &quot;User-Agent&quot;: &quot;python-requests/2.19.1&quot;
+}, 
+&quot;json&quot;: null, 
+&quot;origin&quot;: &quot;101.254.180.235&quot;, 
+&quot;url&quot;: &quot;http://httpbin.org/post?key1=params1&amp;key2=params2&quot;
+}
+</code></pre><p><strong>上传文件</strong></p>
+<p>（见下文高级用法）</p>
+<h3 id="（5）requests-put"><a href="#（5）requests-put" class="headerlink" title="（5）requests.put()"></a>（5）requests.put()</h3><pre><code>payload={&quot;key1&quot;:&quot;value1&quot;,&quot;key2&quot;:&quot;value2&quot;}
 r=requests.put(&quot;http://httpbin.org/put&quot;,data=payload)
 print(r.text)
 {
@@ -628,31 +797,197 @@ url: 请求的网址
 **kwargs: 控制访问的参数
 </code></pre><p>requests模块的使用实例（见链接：<a href="https://blog.csdn.net/gyq1998/article/details/78583841）" target="_blank" rel="noopener">https://blog.csdn.net/gyq1998/article/details/78583841）</a></p>
 <p>Python3 API 第三方库 requests 详解 - 屁股决定脑袋的专栏 - CSDN博客  <a href="https://blog.csdn.net/yilovexing/article/details/54928769" target="_blank" rel="noopener">https://blog.csdn.net/yilovexing/article/details/54928769</a></p>
-<h2 id="2-requests高级用法"><a href="#2-requests高级用法" class="headerlink" title="2.requests高级用法"></a>2.requests高级用法</h2><h3 id="1-文件上传"><a href="#1-文件上传" class="headerlink" title="1.文件上传"></a>1.文件上传</h3><pre><code>import requests
+<h2 id="2-requests高级用法"><a href="#2-requests高级用法" class="headerlink" title="2.requests高级用法"></a>2.requests高级用法</h2><h3 id="1-文件上传"><a href="#1-文件上传" class="headerlink" title="1.文件上传"></a>1.文件上传</h3><p>使用 Requests 模块，上传文件也是如此简单的，文件的类型会自动进行处理：</p>
+<pre><code>import requests
 f = {&apos;file&apos;:open(&apos;favicon.ico&apos;,&apos;rb&apos;)}
+#files = {&apos;file&apos;: (&apos;report.jpg&apos;, open(&apos;/home/lyb/sjzl.mpg&apos;, &apos;rb&apos;))}     #显式的设置文件名
 r = requests.post(url,files=f)
 print(r.text)
-</code></pre><h3 id="2-Cookies"><a href="#2-Cookies" class="headerlink" title="2.Cookies"></a>2.Cookies</h3><pre><code>import requests
+</code></pre><p>更加方便的是，你可以把字符串当着文件进行上传：</p>
+<pre><code>import requests
+
+url = &apos;http://127.0.0.1:5000/upload&apos;
+files = {&apos;file&apos;: (&apos;test.txt&apos;, b&apos;Hello Requests.&apos;)}     #必需显式的设置文件名
+
+r = requests.post(url, files=files)
+print(r.text)    
+</code></pre><p><strong>普通文件上传</strong></p>
+<pre><code># -*- coding:utf-8 -*-
+import requests
+import json
+
+host = &quot;http://httpbin.org/&quot;
+endpoint = &quot;post&quot;
+
+url = &apos;&apos;.join([host,endpoint])
+#普通上传
+files = {
+        &apos;file&apos;:open(&apos;test.txt&apos;,&apos;rb&apos;)
+    }
+
+r = requests.post(url,files=files)
+print (r.text)
+</code></pre><p>输出：</p>
+<pre><code>{
+&quot;args&quot;: {}, 
+&quot;data&quot;: &quot;&quot;, 
+&quot;files&quot;: {
+&quot;file&quot;: &quot;hello world!\n&quot;
+}, 
+&quot;form&quot;: {}, 
+&quot;headers&quot;: {
+    &quot;Accept&quot;: &quot;*/*&quot;, 
+    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
+    &quot;Connection&quot;: &quot;close&quot;, 
+    &quot;Content-Length&quot;: &quot;157&quot;, 
+    &quot;Content-Type&quot;: &quot;multipart/form-data; boundary=392865f79bf6431f8a53c9d56c62571e&quot;, 
+    &quot;Host&quot;: &quot;httpbin.org&quot;, 
+    &quot;User-Agent&quot;: &quot;python-requests/2.18.1&quot;
+}, 
+&quot;json&quot;: null, 
+&quot;origin&quot;: &quot;183.14.133.88&quot;, 
+&quot;url&quot;: &quot;http://httpbin.org/post&quot;
+}
+</code></pre><p><strong>定制化文件上传</strong></p>
+<pre><code># -*- coding:utf-8 -*-
+import requests
+import json
+
+host = &quot;http://httpbin.org/&quot;
+endpoint = &quot;post&quot;
+
+url = &apos;&apos;.join([host,endpoint])
+#自定义文件名，文件类型、请求头
+files = {
+        &apos;file&apos;:(&apos;test.png&apos;,open(&apos;test.png&apos;,&apos;rb&apos;),&apos;image/png&apos;)
+}
+
+r = requests.post(url,files=files)
+print (r.text)heman793
+</code></pre><p><strong>多文件上传</strong></p>
+<pre><code># -*- coding:utf-8 -*-
+import requests
+import json
+
+host = &quot;http://httpbin.org/&quot;
+endpoint = &quot;post&quot;
+
+url = &apos;&apos;.join([host,endpoint])
+#多文件上传
+files = [
+    (&apos;file1&apos;,(&apos;test.txt&apos;,open(&apos;test.txt&apos;, &apos;rb&apos;))),
+    (&apos;file2&apos;, (&apos;test.png&apos;, open(&apos;test.png&apos;, &apos;rb&apos;)))
+    ]
+
+r = requests.post(url,files=files)
+print (r.text)
+</code></pre><p><strong>流式上传</strong></p>
+<pre><code># -*- coding:utf-8 -*-
+import requests
+import json
+
+host = &quot;http://httpbin.org/&quot;
+endpoint = &quot;post&quot;
+
+url = &apos;&apos;.join([host,endpoint])
+
+#流式上传
+with open( &apos;test.txt&apos; ) as f:
+    r = requests.post(url,data = f)
+
+print (r.text)
+</code></pre><p>输出：</p>
+<pre><code>{
+  &quot;args&quot;: {}, 
+  &quot;data&quot;: &quot;hello world!\n&quot;, 
+  &quot;files&quot;: {}, 
+  &quot;form&quot;: {}, 
+  &quot;headers&quot;: {
+    &quot;Accept&quot;: &quot;*/*&quot;, 
+    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
+    &quot;Connection&quot;: &quot;close&quot;, 
+    &quot;Content-Length&quot;: &quot;13&quot;, 
+    &quot;Host&quot;: &quot;httpbin.org&quot;, 
+    &quot;User-Agent&quot;: &quot;python-requests/2.18.1&quot;
+  }, 
+  &quot;json&quot;: null, 
+  &quot;origin&quot;: &quot;183.14.133.88&quot;, 
+  &quot;url&quot;: &quot;http://httpbin.org/post&quot;
+}
+</code></pre><h3 id="2-Cookies"><a href="#2-Cookies" class="headerlink" title="2.Cookies"></a>2.Cookies</h3><p>如果某个响应中包含一些Cookie，你可以快速访问它们：</p>
+<pre><code>import requests
 r = requests.get(url)
+#将RequestsCookieJar转换成字典
+c = requests.utils.dict_from_cookiejar(r.cookies)
 print(r.cookies)
 for k,v in r.cookies.items():
     print(k+&quot;=&quot;+v)
-</code></pre><h3 id="3-会话维持"><a href="#3-会话维持" class="headerlink" title="3.会话维持"></a>3.会话维持</h3><p>使用Session对象</p>
+</code></pre><p>要想发送你的cookies到服务器，可以使用 cookies 参数：</p>
+<pre><code>import requests
+
+url = &apos;http://httpbin.org/cookies&apos;
+cookies = {&apos;testCookies_1&apos;: &apos;Hello_Python3&apos;, &apos;testCookies_2&apos;: &apos;Hello_Requests&apos;}
+# 在Cookie Version 0中规定空格、方括号、圆括号、等于号、逗号、双引号、斜杠、问号、@，冒号，分号等特殊符号都不能作为Cookie的内容。
+r = requests.get(url, cookies=cookies)
+print(r.json())
+
+#方法二：复杂发送
+s = requests.session()
+c = requests.cookies.RequestsCookieJar()
+c.set(&apos;c-name&apos;,&apos;c-value&apos;,path=&apos;/xxx/uuu&apos;,domain=&apos;.test.com&apos;)
+s.cookies.update(c)
+</code></pre><h3 id="3-会话维持-（Session）"><a href="#3-会话维持-（Session）" class="headerlink" title="3.会话维持 （Session）"></a>3.会话维持 （Session）</h3><p>使用Session对象</p>
 <pre><code>import requests
 s = requests.Session()
 s.get(&apos;http://httpbin.org/cookies/set/number/123456789&apos;)
 r = s.get(&apos;http://httpbin.org/cookies&apos;)
 print(r.text)
-</code></pre><h3 id="4-SSL证书认证"><a href="#4-SSL证书认证" class="headerlink" title="4.SSL证书认证"></a>4.SSL证书认证</h3><p>requests提供了证书验证的功能，使用verify参数控制是否检查此证书，默认是True，会自动验证</p>
-<h3 id="5-代理设置"><a href="#5-代理设置" class="headerlink" title="5.代理设置"></a>5.代理设置</h3><p>对于某些网站，在测试的时候请求几次，能正常获取信息，但是一旦大规模爬取，可能会出现验证码或直接封掉IP，导致一段时间内无法访问</p>
-<p>代理设置：</p>
+</code></pre><p>会话对象让你能够跨请求保持某些参数，最方便的是在<strong>同一个Session实例发出的所有请求之间保持cookies</strong>，且这些都是自动处理的，甚是方便。</p>
+<p>下面就来一个真正的实例，如下是快盘签到脚本：</p>
 <pre><code>import requests
-proxy = {&apos;http&apos;:&apos;http://ip:port&apos;,&apos;https&apos;:&apos;https://ip:port&apos;}
-requests.get(&apos;https://www.taobao.com&apos;,proxies=proxy)
-</code></pre><h3 id="6-超时设置"><a href="#6-超时设置" class="headerlink" title="6.超时设置"></a>6.超时设置</h3><pre><code>import requests
-r = requests.get(&apos;https://www.taobao.com&apos;,timeout=1)
-print(r.status_code)
-</code></pre><h3 id="7-身份认证"><a href="#7-身份认证" class="headerlink" title="7.身份认证"></a>7.身份认证</h3><pre><code>import requests
+
+headers = {&apos;Accept&apos;: &apos;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&apos;,
+       &apos;Accept-Encoding&apos;: &apos;gzip, deflate, compress&apos;,
+       &apos;Accept-Language&apos;: &apos;en-us;q=0.5,en;q=0.3&apos;,
+       &apos;Cache-Control&apos;: &apos;max-age=0&apos;,
+       &apos;Connection&apos;: &apos;keep-alive&apos;,
+       &apos;User-Agent&apos;: &apos;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:22.0) Gecko/20100101 Firefox/22.0&apos;}
+
+s = requests.Session()
+s.headers.update(headers)
+# s.auth = (&apos;superuser&apos;, &apos;123&apos;)
+s.get(&apos;https://www.kuaipan.cn/account_login.htm&apos;)
+
+_URL = &apos;http://www.kuaipan.cn/index.php&apos;
+s.post(_URL, params={&apos;ac&apos;:&apos;account&apos;, &apos;op&apos;:&apos;login&apos;},
+           data={&apos;username&apos;:&apos;****@foxmail.com&apos;, &apos;userpwd&apos;:&apos;********&apos;, &apos;isajax&apos;:&apos;yes&apos;})
+r = s.get(_URL, params={&apos;ac&apos;:&apos;zone&apos;, &apos;op&apos;:&apos;taskdetail&apos;})
+print(r.json())
+s.get(_URL, params={&apos;ac&apos;:&apos;common&apos;, &apos;op&apos;:&apos;usersign&apos;})
+</code></pre><p>（python接口自动化测试(四)-Cookie&amp;Sessinon - 贺满 - 博客园  <a href="https://www.cnblogs.com/puresoul/p/7488531.html）" target="_blank" rel="noopener">https://www.cnblogs.com/puresoul/p/7488531.html）</a></p>
+<h3 id="4-认证"><a href="#4-认证" class="headerlink" title="4.认证"></a>4.认证</h3><p><strong>基本认证</strong></p>
+<pre><code># -*- coding:utf-8 -*-
+import requests
+
+url = &quot;http://httpbin.org/basic-auth/user/passwd&quot;
+
+r1 = requests.get(url)
+print &quot;未提供用户名密码：&quot; + str(r1.status_code)
+
+#Basic Authentication
+r2 = requests.get(url,auth=(&apos;user&apos;,&apos;passwd&apos;))
+print &quot;已提供用户名密码：&quot; + str(r2.status_code)
+</code></pre><p>输出：</p>
+<pre><code>未提供用户名密码：401
+已提供用户名密码：200
+</code></pre><p><strong>数字认证</strong></p>
+<pre><code>&gt;&gt;&gt; from requests.auth import HTTPDigestAuth
+&gt;&gt;&gt; url = &apos;http://httpbin.org/digest-auth/auth/user/pass&apos;
+&gt;&gt;&gt; requests.get(url, auth=HTTPDigestAuth(&apos;user&apos;, &apos;pass&apos;))
+&lt;Response [200]&gt;
+</code></pre><p><strong>OAuth认证</strong></p>
+<p>暂略。可参考官方文档：<a href="http://docs.python-requests.org/en/master/user/authentication/" target="_blank" rel="noopener">http://docs.python-requests.org/en/master/user/authentication/</a></p>
+<pre><code>import requests
 from requests.auth import HTTPBasicAuth
 r = requests.get(url,auth=HTTPBasicAuth(&apos;username&apos;,&apos;password&apos;))
 print(r.status_code)
@@ -661,6 +996,41 @@ print(r.status_code)
 r = requests.get(url,auth=(&apos;username&apos;,&apos;password&apos;))
 print(r.status_code)
 # 也提供了OAuth认证，使用 pip3 install requests_oauthlib
+</code></pre><h3 id="5-代理设置"><a href="#5-代理设置" class="headerlink" title="5.代理设置"></a>5.代理设置</h3><p>对于某些网站，在测试的时候请求几次，能正常获取信息，但是一旦大规模爬取，可能会出现验证码或直接封掉IP，导致一段时间内无法访问</p>
+<p>代理设置：</p>
+<p><strong>方法一：proxy参数</strong></p>
+<pre><code>import requests
+proxy = {&apos;http&apos;:&apos;http://ip:port&apos;,&apos;https&apos;:&apos;https://ip:port&apos;}
+requests.get(&apos;https://www.taobao.com&apos;,proxies=proxy)
+</code></pre><p><strong>方法二：设置环境变量</strong></p>
+<pre><code>$ export HTTP_PROXY=&quot;http://10.10.1.10:3128&quot;
+$ export HTTPS_PROXY=&quot;http://10.10.1.10:1080&quot;
+
+$ python
+&gt;&gt;&gt; import requests
+&gt;&gt;&gt; requests.get(&apos;http://example.org&apos;)
+</code></pre><p><strong>HTTP Basic Auth使用代理方法：<a href="http://user:password@host/" target="_blank" rel="noopener">http://user:password@host/</a></strong></p>
+<pre><code>proxies = {&apos;http&apos;: &apos;http://user:pass@10.10.1.10:3128/&apos;}
+</code></pre><h3 id="6-超时设置"><a href="#6-超时设置" class="headerlink" title="6.超时设置"></a>6.超时设置</h3><p>timeout 仅对连接过程有效，与响应体的下载无关。</p>
+<p><strong>利用timeout参数来配置最大请求时间：</strong></p>
+<pre><code>import requests
+r = requests.get(&apos;https://www.taobao.com&apos;,timeout=1)
+print(r.status_code)
+</code></pre><p><strong>设置timeout=None，告诉请求永远等待响应，而不将请求作为超时值传递</strong></p>
+<pre><code>r = requests.get(&apos;https://github.com&apos;, timeout=None)
+</code></pre><h3 id="7-证书认证"><a href="#7-证书认证" class="headerlink" title="7.证书认证"></a>7.证书认证</h3><p>requests提供了证书验证的功能，使用verify参数控制是否检查此证书，默认是True，会自动验证</p>
+<p><strong>SSL证书（HTTPS）</strong></p>
+<pre><code>import requests
+
+#跳过12306 的证书验证，把 verify 设置为 False： 
+r = requests.get(&apos;https://kyfw.12306.cn/otn/&apos;, verify=False)
+print r.text
+</code></pre><p><strong>客户端证书</strong></p>
+<pre><code>&gt;&gt;&gt; requests.get(&apos;https://kennethreitz.org&apos;, cert=(&apos;/path/client.cert&apos;, &apos;/path/client.key&apos;))
+&lt;Response [200]&gt;
+</code></pre><p>or</p>
+<pre><code>s = requests.Session()
+s.cert = &apos;/path/client.cert&apos;
 </code></pre><h3 id="8-Prepared-Request"><a href="#8-Prepared-Request" class="headerlink" title="8.Prepared Request"></a>8.Prepared Request</h3><p>将请求表示为数据结构，这个数据结构叫Prepared Request</p>
 <p>（链接：Python3爬虫（四）请求库的使用requests - Infi_chu - 博客园  <a href="https://www.cnblogs.com/Infi-chu/p/8961065.html）" target="_blank" rel="noopener">https://www.cnblogs.com/Infi-chu/p/8961065.html）</a></p>
 <h1 id="执行JavaScript"><a href="#执行JavaScript" class="headerlink" title="执行JavaScript"></a>执行JavaScript</h1><h3 id="1-Example-1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框"><a href="#1-Example-1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框" class="headerlink" title="1.Example 1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框"></a>1.Example 1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框</h3><pre><code>import time,os
@@ -1234,7 +1604,7 @@ d.间谍代理
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium模块的基本用法"><span class="toc-text">selenium模块的基本用法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查找元素"><span class="toc-text">查找元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）"><span class="toc-text">问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题2：定位时使用xpath，或css-selector定位不到，也会报错。"><span class="toc-text">问题2：定位时使用xpath，或css_selector定位不到，也会报错。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题3：网页通知（告警）弹窗接收问题"><span class="toc-text">问题3：网页通知（告警）弹窗接收问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题1："><span class="toc-text">问题1：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题2："><span class="toc-text">问题2：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、具体问题"><span class="toc-text">1、具体问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、解决方案"><span class="toc-text">2、解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代码解析："><span class="toc-text">代码解析：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载文件"><span class="toc-text">下载文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、对于Firefox下载文件"><span class="toc-text">1、对于Firefox下载文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、Chrome文件下载"><span class="toc-text">2、Chrome文件下载</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Request-模块"><span class="toc-text">Request 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、Requests库的七个主要方法"><span class="toc-text">1、Requests库的七个主要方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-requests-request"><span class="toc-text">(1) requests.request()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（2）requests-get"><span class="toc-text">（2）requests.get()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#requests库的异常"><span class="toc-text">requests库的异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-request-head"><span class="toc-text">(3) request.head()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（4）requests-post"><span class="toc-text">（4）requests.post()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（5）requests-put"><span class="toc-text">（5）requests.put()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（6）requests-patch"><span class="toc-text">（6）requests.patch()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（7）requests-request"><span class="toc-text">（7）requests.request()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-requests高级用法"><span class="toc-text">2.requests高级用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-文件上传"><span class="toc-text">1.文件上传</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Cookies"><span class="toc-text">2.Cookies</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-会话维持"><span class="toc-text">3.会话维持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-SSL证书认证"><span class="toc-text">4.SSL证书认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-代理设置"><span class="toc-text">5.代理设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-超时设置"><span class="toc-text">6.超时设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-身份认证"><span class="toc-text">7.身份认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-Prepared-Request"><span class="toc-text">8.Prepared Request</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行JavaScript"><span class="toc-text">执行JavaScript</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Example-1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框"><span class="toc-text">1.Example 1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Example-2执行JS脚本来控制浏览器竖向滚动条"><span class="toc-text">2.Example 2执行JS脚本来控制浏览器竖向滚动条</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Cookies操作"><span class="toc-text">Cookies操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取验证码-识别图片文字"><span class="toc-text">获取验证码-识别图片文字</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装："><span class="toc-text">安装：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、tesseract-orc"><span class="toc-text">1、tesseract-orc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、pytesseract"><span class="toc-text">2、pytesseract</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置环境变量："><span class="toc-text">配置环境变量：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#验证码处理"><span class="toc-text">验证码处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单爬取网页图片"><span class="toc-text">简单爬取网页图片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#urllib和requests区别："><span class="toc-text">urllib和requests区别：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展-re-模块："><span class="toc-text">扩展- re 模块：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、模块总结"><span class="toc-text">1、模块总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、re-compile模块"><span class="toc-text">2、re.compile模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、re-match-函数"><span class="toc-text">3、re.match() 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#match-的方法和属性："><span class="toc-text">match 的方法和属性：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#re-search-函数"><span class="toc-text">re.search 函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#请求库的使用值urllib"><span class="toc-text">请求库的使用值urllib</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、urllib库"><span class="toc-text">一、urllib库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、发送请求："><span class="toc-text">二、发送请求：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-urlopen"><span class="toc-text">1. urlopen()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Request"><span class="toc-text">2. Request</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Handler（请求的高级用法）："><span class="toc-text">3. Handler（请求的高级用法）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-OpenDirector："><span class="toc-text">4. OpenDirector：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-POST数据"><span class="toc-text">5.POST数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GET和POST的区别"><span class="toc-text">GET和POST的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、异常处理："><span class="toc-text">三、异常处理：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-URLError："><span class="toc-text">1. URLError：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-HTTPError："><span class="toc-text">2. HTTPError：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、解析链接："><span class="toc-text">四、解析链接：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-urlparse"><span class="toc-text">1. urlparse()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-urlunparse"><span class="toc-text">2. urlunparse()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-urlsplit"><span class="toc-text">3. urlsplit()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-urlunsplit"><span class="toc-text">4. urlunsplit()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-urljoin"><span class="toc-text">5. urljoin()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-urlencode"><span class="toc-text">6. urlencode()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-parse-qs"><span class="toc-text">7. parse_qs()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-parse-qsl"><span class="toc-text">8. parse_qsl()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-quote"><span class="toc-text">9. quote()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-unquote"><span class="toc-text">10. unquote()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、分析robots协议："><span class="toc-text">五、分析robots协议：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、使用代理"><span class="toc-text">六、使用代理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代理的分类"><span class="toc-text">代理的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代理的作用"><span class="toc-text">代理的作用</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium模块的基本用法"><span class="toc-text">selenium模块的基本用法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查找元素"><span class="toc-text">查找元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#元素操作之键盘操作"><span class="toc-text">元素操作之键盘操作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于百度设置拦定位的问题"><span class="toc-text">对于百度设置拦定位的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）"><span class="toc-text">问题1：Firefox直接选择点击设置，再次点击下拉拦是无法定位到的。（同样方法在Chrome中可定位到）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题2：定位时使用xpath，或css-selector定位不到，也会报错。"><span class="toc-text">问题2：定位时使用xpath，或css_selector定位不到，也会报错。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题3：网页通知（告警）弹窗接收问题"><span class="toc-text">问题3：网页通知（告警）弹窗接收问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于无法定位到网页元素的问题"><span class="toc-text">关于无法定位到网页元素的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题1："><span class="toc-text">问题1：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题2："><span class="toc-text">问题2：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium：解决页面元素display-none的方法"><span class="toc-text">selenium：解决页面元素display:none的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、具体问题"><span class="toc-text">1、具体问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、解决方案"><span class="toc-text">2、解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代码解析："><span class="toc-text">代码解析：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于上传文件时操作windows弹窗"><span class="toc-text">关于上传文件时操作windows弹窗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载文件"><span class="toc-text">下载文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、对于Firefox下载文件"><span class="toc-text">1、对于Firefox下载文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、Chrome文件下载"><span class="toc-text">2、Chrome文件下载</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Request-模块"><span class="toc-text">Request 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、Requests库的七个主要方法"><span class="toc-text">1、Requests库的七个主要方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-requests-request"><span class="toc-text">(1) requests.request()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（2）requests-get"><span class="toc-text">（2）requests.get()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#requests库的异常"><span class="toc-text">requests库的异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-request-head"><span class="toc-text">(3) request.head()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（4）requests-post"><span class="toc-text">（4）requests.post()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（5）requests-put"><span class="toc-text">（5）requests.put()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（6）requests-patch"><span class="toc-text">（6）requests.patch()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#（7）requests-request"><span class="toc-text">（7）requests.request()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-requests高级用法"><span class="toc-text">2.requests高级用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-文件上传"><span class="toc-text">1.文件上传</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Cookies"><span class="toc-text">2.Cookies</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-会话维持-（Session）"><span class="toc-text">3.会话维持 （Session）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-认证"><span class="toc-text">4.认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-代理设置"><span class="toc-text">5.代理设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-超时设置"><span class="toc-text">6.超时设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-证书认证"><span class="toc-text">7.证书认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-Prepared-Request"><span class="toc-text">8.Prepared Request</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行JavaScript"><span class="toc-text">执行JavaScript</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Example-1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框"><span class="toc-text">1.Example 1进入浏览器之后，隐藏文字和按钮，及弹出一个alert弹框</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Example-2执行JS脚本来控制浏览器竖向滚动条"><span class="toc-text">2.Example 2执行JS脚本来控制浏览器竖向滚动条</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Cookies操作"><span class="toc-text">Cookies操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取验证码-识别图片文字"><span class="toc-text">获取验证码-识别图片文字</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装："><span class="toc-text">安装：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、tesseract-orc"><span class="toc-text">1、tesseract-orc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、pytesseract"><span class="toc-text">2、pytesseract</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置环境变量："><span class="toc-text">配置环境变量：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#验证码处理"><span class="toc-text">验证码处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单爬取网页图片"><span class="toc-text">简单爬取网页图片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#urllib和requests区别："><span class="toc-text">urllib和requests区别：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展-re-模块："><span class="toc-text">扩展- re 模块：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、模块总结"><span class="toc-text">1、模块总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、re-compile模块"><span class="toc-text">2、re.compile模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、re-match-函数"><span class="toc-text">3、re.match() 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#match-的方法和属性："><span class="toc-text">match 的方法和属性：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#re-search-函数"><span class="toc-text">re.search 函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#请求库的使用值urllib"><span class="toc-text">请求库的使用值urllib</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、urllib库"><span class="toc-text">一、urllib库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、发送请求："><span class="toc-text">二、发送请求：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-urlopen"><span class="toc-text">1. urlopen()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Request"><span class="toc-text">2. Request</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Handler（请求的高级用法）："><span class="toc-text">3. Handler（请求的高级用法）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-OpenDirector："><span class="toc-text">4. OpenDirector：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-POST数据"><span class="toc-text">5.POST数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GET和POST的区别"><span class="toc-text">GET和POST的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、异常处理："><span class="toc-text">三、异常处理：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-URLError："><span class="toc-text">1. URLError：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-HTTPError："><span class="toc-text">2. HTTPError：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、解析链接："><span class="toc-text">四、解析链接：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-urlparse"><span class="toc-text">1. urlparse()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-urlunparse"><span class="toc-text">2. urlunparse()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-urlsplit"><span class="toc-text">3. urlsplit()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-urlunsplit"><span class="toc-text">4. urlunsplit()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-urljoin"><span class="toc-text">5. urljoin()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-urlencode"><span class="toc-text">6. urlencode()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-parse-qs"><span class="toc-text">7. parse_qs()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-parse-qsl"><span class="toc-text">8. parse_qsl()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-quote"><span class="toc-text">9. quote()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-unquote"><span class="toc-text">10. unquote()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、分析robots协议："><span class="toc-text">五、分析robots协议：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、使用代理"><span class="toc-text">六、使用代理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代理的分类"><span class="toc-text">代理的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代理的作用"><span class="toc-text">代理的作用</span></a></li></ol></li></ol></li></ol>
                 </div>
             </div>
         </div>
