@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My personal blog">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Baobiy" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Python3构建 HTTP服务器｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2018/11/08/Python3构建Http服务器/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Baobiy
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Python3构建 HTTP服务器</h1>
+                    
+                    <h2 class="subheading">Python3 HTTP Server</h2>
+                    
+                    <span class="meta">
+                         作者 Baobiy
+                        <span>
+                          日期 2018-11-08
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Python"
+                           title="Python">Python</a>
+                        
+                        <a class="tag" href="/tags/#HTTP Server"
+                           title="HTTP Server">HTTP Server</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Python3构建 HTTP服务器
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>#简易的http服务器 #</p>
+<p><a href="http://www.cnblogs.com/shenshangzz/p/8318143.html" target="_blank" rel="noopener">http://www.cnblogs.com/shenshangzz/p/8318143.html</a></p>
+<pre><code>from http.server import HTTPServer,BaseHTTPRequestHandler
+import json
+
+data = {&apos;result&apos;:&apos;this is a test&apos;}
+host = (&apos;localhost&apos;, 8888)
+
+class Request(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header(&apos;Content-type&apos;,&apos;application/json&apos;)
+        self.end_headers()
+        self.wfile.write(json.dumps(data).encode())
+
+if __name__ == &apos;__main__&apos;:
+    server = HTTPServer(host, Request)
+    print(&apos;Starting server, listen at: %s:%s&apos; % host)
+    server.serve_forever()
+</code></pre><p>执行脚本后，控制台显示：</p>
+<pre><code>&gt;&gt;&gt; 
+Starting server, listen at: localhost:8888
+</code></pre><p>在浏览器输入地址（<a href="http://localost:8888" target="_blank" rel="noopener">http://localost:8888</a> 或  <a href="http://127.0.0.1:8888）：" target="_blank" rel="noopener">http://127.0.0.1:8888）：</a></p>
+<p><img src="https://i.imgur.com/sXXuNKq.png" alt=""></p>
+<p>控制台打印：</p>
+<pre><code>127.0.0.1 - - [08/Nov/2018 11:01:15] &quot;GET / HTTP/1.1&quot; 200 -
+127.0.0.1 - - [08/Nov/2018 11:01:16] &quot;GET /favicon.ico HTTP/1.1&quot; 200 -
+</code></pre><p>转：python3 os.path.realpath(<strong>file</strong>) 和 os.path.cwd() 方法的区别 - 热心市民王先生 - CSDN博客  <a href="https://blog.csdn.net/CityzenOldwang/article/details/78448039" target="_blank" rel="noopener">https://blog.csdn.net/CityzenOldwang/article/details/78448039</a></p>
+<h2 id="python3-os-path-realpath-file-和-os-path-cwd-方法的区别"><a href="#python3-os-path-realpath-file-和-os-path-cwd-方法的区别" class="headerlink" title="python3 os.path.realpath(file) 和 os.path.cwd() 方法的区别"></a>python3 os.path.realpath(<strong>file</strong>) 和 os.path.cwd() 方法的区别</h2><p><strong>os.path.realpath</strong></p>
+<p>获取当前执行脚本的绝对路径。</p>
+<pre><code>os.path.realpath(__file__)
+</code></pre><p><strong>os.path.cwd()</strong></p>
+<p>获取当前脚本的所在路径</p>
+<p>结论： </p>
+<ul>
+<li>realpath() 获得的是该方法所在的脚本的路径 </li>
+<li>cwd，获得的是当前执行脚本的所在路径，无论从哪里调用的该方法。</li>
+</ul>
+<p>Python获取脚本所在目录的正确方法<em>python</em>脚本之家  <a href="https://www.jb51.net/article/49035.htm" target="_blank" rel="noopener">https://www.jb51.net/article/49035.htm</a></p>
+<p>我们在C:\test下面执行python getpath/path.py，这时sub_path.py里面与各种用法对应的值其实是：</p>
+<pre><code>os.getcwd() “C:\test”，取的是起始执行目录
+sys.path[0]或sys.argv[0] “C:\test\getpath”，取的是被初始执行的脚本的所在目录
+os.path.split(os.path.realpath(__file__))[0] “C:\test\getpath\sub”，取的是__file__所在文件sub_path.py的所在目录
+
+其中__file__虽然是所在.py文件的完整路径，但是这个变量有时候返回相对路径，有时候返回绝对路径，因此 还要用os.path.realpath()函数来处理一下。也即在这个例子里，os.path.realpath(__file__)输出是 “C:\test\sub\sub_path.py”，而os.path.split(os.path.realpath(__file__))[0]输 出才是“C:\test\sub”。
+</code></pre><p>方法补充说明：</p>
+<pre><code>os.path.dirname()：去掉脚本的文件名，返回目录。
+
+os.path.dirname(os,path.realname(__file__))：指的是，获得你刚才所引用的模块 所在的绝对路径，__file__为内置属性。
+</code></pre><p>转自： Python中获取路径os.getcwd()和os.path.dirname(os.path.realpath(<strong>file</strong>))的区别和对比 - 猎摘互联网软件测试业界技术文章专用博客 - CSDN博客  <a href="https://blog.csdn.net/cyjs1988/article/details/77839238/" target="_blank" rel="noopener">https://blog.csdn.net/cyjs1988/article/details/77839238/</a></p>
+<h3 id="Python中获取路径os-getcwd-和os-path-dirname-os-path-realpath-file-的区别和对比"><a href="#Python中获取路径os-getcwd-和os-path-dirname-os-path-realpath-file-的区别和对比" class="headerlink" title="Python中获取路径os.getcwd()和os.path.dirname(os.path.realpath(file))的区别和对比"></a>Python中获取路径os.getcwd()和os.path.dirname(os.path.realpath(<strong>file</strong>))的区别和对比</h3><p>先给出2个目录的结构：</p>
+<p>（1）PycharmProjects/pythonLearn/dir/dir2/getRootPath.py</p>
+<p>（2）PycharmProjects/pythonLearn/getPath.py</p>
+<p>【1】那我们先看看第一个PycharmProjects/pythonLearn/dir/dir2/getRootPath.py，如下代码：</p>
+<pre><code>import os  
+
+def getCurPath1():  
+    cur_path = os.path.dirname(os.path.realpath(__file__))  
+    return cur_path  
+
+def getCurPath2():  
+    cur_path = os.getcwd()  
+    return cur_path  
+
+
+print(&apos;func1----&apos;+getCurPath1())  
+print(&apos;func2----&apos;+getCurPath2())  
+</code></pre><p>我们直接执行该脚本得到的结果如下：</p>
+<pre><code>func1----C:\Users\Administrator\PycharmProjects\PythonLearn\dir\dir2
+
+func2----C:\Users\Administrator\PycharmProjects\PythonLearn\dir\dir2
+</code></pre><p>并未看出本质区别，获取的都是当前脚本所在的dir2目录。</p>
+<p>【2】那我们再看看第二个PycharmProjects/pythonLearn/getPath.py，如下代码：</p>
+<p>现在，我们在里面我们引入了PycharmProjects/pythonLearn/dir/dir2/目录下的getRootPath.py模块。</p>
+<pre><code>from dir.dir2 import getRootPath  
+
+path1 = getRootPath.getCurPath1()  
+path2 = getRootPath.getCurPath2()  
+</code></pre><p>直接执行getPath.py文件获取的结果如下：</p>
+<pre><code>func1----C:\Users\Administrator\PycharmProjects\PythonLearn\dir\dir2
+
+func2----C:\Users\Administrator\PycharmProjects\PythonLearn
+
+这个时候，你有没有发现有什么不同，这里的func1就是os.path.dirname(os.path.realname(__file__))获取的__file__所在**脚本的路径**，也就是getRootPath.py的路径。
+
+而os.getcwd()获取的当前最外层调用的脚本路径，即getPath所在的目录也可描述为**起始的执行目录**，A调用B，起始的是A，那么获取的就是A所在的目录路径。
+</code></pre><h1 id="http服务器获取显示html及ico"><a href="#http服务器获取显示html及ico" class="headerlink" title="http服务器获取显示html及ico"></a>http服务器获取显示html及ico</h1><p>摘自：Python3实现简单的http server - xiao.chun - 博客园  <a href="https://www.cnblogs.com/asis/p/6842996.html" target="_blank" rel="noopener">https://www.cnblogs.com/asis/p/6842996.html</a></p>
+<pre><code>from http.server import BaseHTTPRequestHandler, HTTPServer
+import os
+from urllib.parse import urlparse
+
+curdir = os.path.dirname(os.path.realpath(__file__))
+sep = &apos;/&apos;
+#print(curdir)
+
+#MIME-TYPE
+mimedic = [
+            (&apos;.html&apos;,&apos;text/html&apos;),
+            (&apos;.htm&apos;, &apos;text/html&apos;),
+            (&apos;.js&apos;,&apos;application/javascript&apos;),
+            (&apos;.css&apos;,&apos;text/css&apos;),
+            (&apos;.json&apos;,&apos;application/json&apos;),
+            (&apos;.png&apos;,&apos;image/png&apos;),
+            (&apos;.jpg&apos;,&apos;image/jpg&apos;),
+            (&apos;.gif&apos;,&apos;image/gif&apos;),
+            (&apos;.ico&apos;,&apos;image/x-icon&apos;),
+            (&apos;.txt&apos;,&apos;text/plain&apos;),
+            (&apos;.avi&apos;,&apos;video/x-msvideo&apos;),
+        ]
+
+class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
+    #GET
+    def do_GET(self):
+        sendRelpy = False
+        querypath = urlparse(self.path)
+        #print(self.path)
+        #print(querypath)
+        filepath, query = querypath.path, querypath.query
+        #print(filepath, query)
+
+        if filepath.endswith(&apos;/&apos;):
+            filepath += &apos;index.html&apos;
+        filename, fileext = os.path.splitext(filepath)
+        #print(filename,fileext)
+        for e in mimedic:
+            if e[0] == fileext:
+                mimetype = e[1]
+                #print(mimetype)
+                sendRelpy = True
+
+        if sendRelpy == True:
+            try:
+                with open(os.path.realpath(curdir + sep + filepath), &apos;rb&apos;) as f:
+                    content = f.read()
+                    self.send_response(200)
+                    self.send_header(&apos;Content-type&apos;, mimetype)
+                    self.end_headers()
+                    self.wfile.write(content)
+            except IOError:
+                self.send_error(404, &apos;File Not Found: %s&apos; % self.path)
+
+def run():
+    port = 8000
+    print(&apos;starting server, port&apos;, port)
+
+    #Server settings
+    server_address = (&apos;&apos;, port)
+    httpd = HTTPServer(server_address, testHTTPServer_RequestHandler)
+    print(&apos;running server...&apos;)
+    httpd.serve_forever()
+
+if __name__ == &apos;__main__&apos;:
+    run()
+</code></pre><p><em>注： Content-type与所获取文件的类型（mimetype中）对应，注意获取文件的位置。</em></p>
+<p>结果及控制台显示：</p>
+<p><img src="https://i.imgur.com/WP5jGZE.png" alt=""></p>
+<p>可以利用HTTP模拟器（如：Advanced REST等）进行get请求模拟，添加自定义header或参数</p>
+<p><img src="https://i.imgur.com/qmivDO0.png" alt=""></p>
+<p>控制台返回内容：</p>
+<p><img src="https://i.imgur.com/rnglJMG.png" alt=""></p>
+<p>且使用抓包工具（如Fiddler等）获取header信息：</p>
+<p><img src="https://i.imgur.com/MBnD7Vh.png" alt=""></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/11/06/Chrome接口测试插件AdvancedRestClient/" data-toggle="tooltip" data-placement="top"
+                           title="Chrome接口测试插件AdvancedRestClient">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#python3-os-path-realpath-file-和-os-path-cwd-方法的区别"><span class="toc-text">python3 os.path.realpath(file) 和 os.path.cwd() 方法的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Python中获取路径os-getcwd-和os-path-dirname-os-path-realpath-file-的区别和对比"><span class="toc-text">Python中获取路径os.getcwd()和os.path.dirname(os.path.realpath(file))的区别和对比</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#http服务器获取显示html及ico"><span class="toc-text">http服务器获取显示html及ico</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Baobiy 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>
