@@ -259,7 +259,7 @@ func2----C:\Users\Administrator\PycharmProjects\PythonLearn
 
 而os.getcwd()获取的当前最外层调用的脚本路径，即getPath所在的目录也可描述为**起始的执行目录**，A调用B，起始的是A，那么获取的就是A所在的目录路径。
 </code></pre><h1 id="http服务器获取显示html及ico"><a href="#http服务器获取显示html及ico" class="headerlink" title="http服务器获取显示html及ico"></a>http服务器获取显示html及ico</h1><p>摘自：Python3实现简单的http server - xiao.chun - 博客园  <a href="https://www.cnblogs.com/asis/p/6842996.html" target="_blank" rel="noopener">https://www.cnblogs.com/asis/p/6842996.html</a></p>
-<pre><code>from http.server import BaseHTTPRequestHandler, HTTPServer
+<h2 id="GET请求"><a href="#GET请求" class="headerlink" title="GET请求"></a>GET请求</h2><pre><code>from http.server import BaseHTTPRequestHandler, HTTPServer
 import os
 from urllib.parse import urlparse
 
@@ -334,6 +334,20 @@ if __name__ == &apos;__main__&apos;:
 <p><img src="https://i.imgur.com/rnglJMG.png" alt=""></p>
 <p>且使用抓包工具（如Fiddler等）获取header信息：</p>
 <p><img src="https://i.imgur.com/MBnD7Vh.png" alt=""></p>
+<h2 id="添加POST请求及响应"><a href="#添加POST请求及响应" class="headerlink" title="添加POST请求及响应"></a>添加POST请求及响应</h2><pre><code>def do_POST(self):
+    datas = self.rfile.read(int(self.headers[&apos;content-length&apos;]))
+
+    self.send_response(200)
+    self.send_header(&apos;Content-type&apos;,&apos;application/json&apos;)
+    self.send_header(&apos;Content-length&apos;,int(self.headers[&apos;content-length&apos;]))
+    self.send_header(&apos;test&apos;,&apos;This is test!&apos;)
+    self.end_headers()
+
+    self.wfile.write(datas)
+</code></pre><p>测试发送json数据：</p>
+<p><img src="https://i.imgur.com/YokM8AX.png" alt=""></p>
+<p>响应：</p>
+<p><img src="https://i.imgur.com/joSm2Xt.png" alt=""></p>
 
                 <hr>
                 
@@ -362,7 +376,7 @@ if __name__ == &apos;__main__&apos;:
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#python3-os-path-realpath-file-和-os-path-cwd-方法的区别"><span class="toc-text">python3 os.path.realpath(file) 和 os.path.cwd() 方法的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Python中获取路径os-getcwd-和os-path-dirname-os-path-realpath-file-的区别和对比"><span class="toc-text">Python中获取路径os.getcwd()和os.path.dirname(os.path.realpath(file))的区别和对比</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#http服务器获取显示html及ico"><span class="toc-text">http服务器获取显示html及ico</span></a>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#python3-os-path-realpath-file-和-os-path-cwd-方法的区别"><span class="toc-text">python3 os.path.realpath(file) 和 os.path.cwd() 方法的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Python中获取路径os-getcwd-和os-path-dirname-os-path-realpath-file-的区别和对比"><span class="toc-text">Python中获取路径os.getcwd()和os.path.dirname(os.path.realpath(file))的区别和对比</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#http服务器获取显示html及ico"><span class="toc-text">http服务器获取显示html及ico</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GET请求"><span class="toc-text">GET请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加POST请求及响应"><span class="toc-text">添加POST请求及响应</span></a></li></ol>
                 </div>
             </div>
         </div>
