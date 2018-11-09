@@ -258,7 +258,7 @@ func2----C:\Users\Administrator\PycharmProjects\PythonLearn
 这个时候，你有没有发现有什么不同，这里的func1就是os.path.dirname(os.path.realname(__file__))获取的__file__所在**脚本的路径**，也就是getRootPath.py的路径。
 
 而os.getcwd()获取的当前最外层调用的脚本路径，即getPath所在的目录也可描述为**起始的执行目录**，A调用B，起始的是A，那么获取的就是A所在的目录路径。
-</code></pre><h1 id="http服务器获取显示html及ico"><a href="#http服务器获取显示html及ico" class="headerlink" title="http服务器获取显示html及ico"></a>http服务器获取显示html及ico</h1><p>摘自：Python3实现简单的http server - xiao.chun - 博客园  <a href="https://www.cnblogs.com/asis/p/6842996.html" target="_blank" rel="noopener">https://www.cnblogs.com/asis/p/6842996.html</a></p>
+</code></pre><h1 id="http服务器获取显示html及ico"><a href="#http服务器获取显示html及ico" class="headerlink" title="http服务器获取显示html及ico"></a>http服务器获取显示html及ico</h1><p>（读取静态文件）<br>摘自：Python3实现简单的http server - xiao.chun - 博客园  <a href="https://www.cnblogs.com/asis/p/6842996.html" target="_blank" rel="noopener">https://www.cnblogs.com/asis/p/6842996.html</a></p>
 <h2 id="GET请求"><a href="#GET请求" class="headerlink" title="GET请求"></a>GET请求</h2><pre><code>from http.server import BaseHTTPRequestHandler, HTTPServer
 import os
 from urllib.parse import urlparse
@@ -314,14 +314,18 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
                 self.send_error(404, &apos;File Not Found: %s&apos; % self.path)
 
 def run():
-    port = 8000
-    print(&apos;starting server, port&apos;, port)
+    try:
+        port = 8000
+        print(&apos;starting server, port&apos;, port)
 
-    #Server settings
-    server_address = (&apos;&apos;, port)
-    httpd = HTTPServer(server_address, testHTTPServer_RequestHandler)
-    print(&apos;running server...&apos;)
-    httpd.serve_forever()
+        #Server settings
+        server_address = (&apos;&apos;, port)
+        httpd = HTTPServer(server_address, testHTTPServer_RequestHandler)
+        print(&apos;running server...&apos;)
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        print(&apos;^C received, shutting down the web server&apos;)
+        httpd.socket.close()
 
 if __name__ == &apos;__main__&apos;:
     run()
@@ -334,7 +338,31 @@ if __name__ == &apos;__main__&apos;:
 <p><img src="https://i.imgur.com/rnglJMG.png" alt=""></p>
 <p>且使用抓包工具（如Fiddler等）获取header信息：</p>
 <p><img src="https://i.imgur.com/MBnD7Vh.png" alt=""></p>
-<h2 id="添加POST请求及响应"><a href="#添加POST请求及响应" class="headerlink" title="添加POST请求及响应"></a>添加POST请求及响应</h2><pre><code>def do_POST(self):
+<p> <strong>os.path.splitext(filepath):</strong></p>
+<p>（文件路径，文件扩展名（可能为空））</p>
+<pre><code>&gt;&gt;&gt; help(os.path.splitext)
+Help on function splitext in module ntpath:
+
+splitext(p)
+    Split the extension from a pathname.
+
+    Extension is everything from the last dot to the end, ignoring
+    leading dots.  Returns &quot;(root, ext)&quot;; ext may be empty.
+</code></pre><p>例：</p>
+<pre><code>&gt;&gt;&gt; filepath
+&apos;/s&apos;
+&gt;&gt;&gt; filename, fileext = os.path.splitext(filepath)
+&gt;&gt;&gt; filename
+&apos;/s&apos;
+&gt;&gt;&gt; fileext
+&apos;&apos;
+&gt;&gt;&gt; filepath = filepath + &apos;/index.html&apos;
+&gt;&gt;&gt; filename, fileext = os.path.splitext(filepath)
+&gt;&gt;&gt; filename
+&apos;/s/index&apos;
+&gt;&gt;&gt; fileext
+&apos;.html&apos;
+</code></pre><h2 id="添加POST请求及响应"><a href="#添加POST请求及响应" class="headerlink" title="添加POST请求及响应"></a>添加POST请求及响应</h2><pre><code>def do_POST(self):
     datas = self.rfile.read(int(self.headers[&apos;content-length&apos;]))
 
     self.send_response(200)
@@ -352,7 +380,7 @@ if __name__ == &apos;__main__&apos;:
 <p>python BaseHTTPServer模块 - 运维之路  <a href="http://www.361way.com/basehttpserver/5790.html" target="_blank" rel="noopener">http://www.361way.com/basehttpserver/5790.html</a></p>
 <p>python 基于BaseHTTPServer的web服务器搭建(二） - nanxiaoting的博客 - CSDN博客  <a href="https://blog.csdn.net/nanxiaoting/article/details/81225601" target="_blank" rel="noopener">https://blog.csdn.net/nanxiaoting/article/details/81225601</a></p>
 <p>python web服务器（一） - nanxiaoting的博客 - CSDN博客  <a href="https://blog.csdn.net/nanxiaoting/article/details/81203281" target="_blank" rel="noopener">https://blog.csdn.net/nanxiaoting/article/details/81203281</a></p>
-<h1 id="BaseHTTPServer源代码解析"><a href="#BaseHTTPServer源代码解析" class="headerlink" title="BaseHTTPServer源代码解析"></a>BaseHTTPServer源代码解析</h1><p>BaseHTTPServer 这个模块提供了两个类让开发者实现 HTTP server：HTTPServer 和 BaseHTTPRequestHandler。</p>
+<h1 id="BaseHTTPServer源代码解析"><a href="#BaseHTTPServer源代码解析" class="headerlink" title="BaseHTTPServer源代码解析"></a>BaseHTTPServer源代码解析</h1><p>BaseHTTPServer（http.server） 这个模块提供了两个类让开发者实现 HTTP server：HTTPServer 和 BaseHTTPRequestHandler。</p>
 <p>HTTPServer 继承了 SocketServer.BaseServer，主要功能是：创建和监听 socket，把请求转发给 handler 去处理。主要的工作都是在 BaseHTTPRequestHandler 中处理的，它把和请求有关的信息都封装成自己的实例变量，可以在子类中直接使用。这些变量包括：</p>
 <ul>
 <li>client_address：客户端的地址，存放在一个 tuple 里 (host, port)</li>
@@ -379,7 +407,61 @@ if __name__ == &apos;__main__&apos;:
 <li>send_response（）：发送应答消息和状态码</li>
 </ul>
 <p>更多内容： 20.18. BaseHTTPServer — Basic HTTP server — Python 2.7.15 documentation  <a href="https://docs.python.org/2/library/basehttpserver.html" target="_blank" rel="noopener">https://docs.python.org/2/library/basehttpserver.html</a></p>
-<p><em>BaseHTTPServer类是在SocketServer的基础上创建出的一个简单的HTTP servers应用类，而通过BaseHTTPRequestHandler方法我们可以直接实现GET、POST等请求。由于其只是一个简单的SocketServer.TCPServer子类，它本身并不支持多线程或多进程，如果想使用多线程或多进程，需要结合threading模块去fork，这在后面也会提到。</em></p>
+<p><em>BaseHTTPServer类（http.server）是在SocketServer的基础上创建出的一个简单的HTTP servers应用类，而通过BaseHTTPRequestHandler方法我们可以直接实现GET、POST等请求。由于其只是一个简单的SocketServer.TCPServer子类，它本身并不支持多线程或多进程，如果想使用多线程或多进程，需要结合threading模块去fork，这在后面也会提到。</em></p>
+<p><strong>urlparse模块：</strong></p>
+<p>urlparse模块主要是把url拆分为6部分，并返回元组。并且可以把拆分后的部分再组成一个url。主要有函数有urljoin、urlsplit、urlunsplit、urlparse等。</p>
+<p>将urlstring解析成6个部分，它从urlstring中取得URL，并返回元组 (scheme, netloc, path, parameters, query, fragment)，但是实际上是基于namedtuple，是tuple的子类。它支持通过名字属性或者索引访问的部分URL，每个组件是一串字符，也有可能是空的。组件不能被解析为更小的部分，%后面的也不会被解析，分割符号并不是解析结果的一部分，除非用斜线转义，注意，返回的这个元组非常有用，例如可以用来确定网络协议(HTTP、FTP等等 )、服务器地址、文件路径，等等</p>
+<pre><code>&gt;&gt;&gt; help(urlparse)
+Help on function urlparse in module urllib.parse:
+
+urlparse(url, scheme=&apos;&apos;, allow_fragments=True)
+    Parse a URL into 6 components:
+    &lt;scheme&gt;://&lt;netloc&gt;/&lt;path&gt;;&lt;params&gt;?&lt;query&gt;#&lt;fragment&gt;
+    Return a 6-tuple: (scheme, netloc, path, params, query, fragment).
+    Note that we don&apos;t break the components up in smaller bits
+    (e.g. netloc is a single string) and we don&apos;t expand % escapes.
+
+参数:url    (原路径）
+    scheme（协议）
+解析内容：
+    schem（协议：http、https等）
+    netloc（host：如 www.baidu.com）
+    path （路径：/ 为根目录）
+    params（参数）
+    query(查询语句：如test=123)    
+    fragment
+</code></pre><p>如图所示：<br><img src="https://i.imgur.com/G9IA2VT.png" alt="">    </p>
+<p>（1）Python3中引入urlparse模块，这里只引入了urlparse方法，如果你想要用所有的方法，你需要import urllib.parse</p>
+<p>　　from urllib.parse import urlparse</p>
+<p>(2)我们将下面的url地址进行拆解，将拆解的结果存放到parsed中.</p>
+<p>　　parsed=urlparse(‘<a href="http://user:pass@Netloc:80/path;parameters?query=argument#fragment&#39;" target="_blank" rel="noopener">http://user:pass@Netloc:80/path;parameters?query=argument#fragment&#39;</a>)</p>
+<p>(3)之后，我们通过parsed的各个属性来访问不同的部分</p>
+<pre><code>print &apos;scheme  :&apos;+ parsed.scheme   #网络协议    
+print &apos;netloc  :&apos;+ parsed.netloc   #服务器位置（也可呢能有用户信息）    
+print &apos;path    :&apos;+ parsed.path     #网页文件在服务器中存放的位置    
+print &apos;params  :&apos;+ parsed.params   #可选参数    
+print &apos;query   :&apos;+ parsed.query    #连接符（&amp;）连接键值对
+print &apos;fragment:&apos;+ parsed.fragment #拆分文档中的特殊猫    
+print &apos;username:&apos;+ parsed.username #用户名    
+print &apos;password:&apos;+ parsed.password #密码    
+print &apos;hostname:&apos;+ parsed.hostname #服务器名称或者地址    
+print &apos;port    :&apos;, parsed.port     #端口（默认是80
+</code></pre><p>例：</p>
+<pre><code>&gt;&gt;&gt; from urllib.parse import urlparse
+&gt;&gt;&gt; url = urlparse(&apos;http://www.baidu.com/index.php?username=guol&apos;)
+&gt;&gt;&gt; print(url)
+ParseResult(scheme=&apos;http&apos;, netloc=&apos;www.baidu.com&apos;, path=&apos;/index.php&apos;, params=&apos;&apos;, query=&apos;username=guol&apos;, fragment=&apos;&apos;)
+&gt;&gt;&gt; print(url.netloc)
+www.baidu.com
+</code></pre><p><strong>urlunparse</strong></p>
+<p>从一个元组构建一个url，元组类似urlparse返回的，它接收元组(scheme, netloc, path, parameters, query, fragment)后，会重新组成一个具有正确格式的URL，以便供Python的其他HTML解析模块使用。</p>
+<pre><code>&gt;&gt;&gt; from urllib.parse import urlunparse
+&gt;&gt;&gt; url = urlparse(&apos;http://www.baidu.com/index.php?username=guol&apos;)
+&gt;&gt;&gt; print(url)
+ParseResult(scheme=&apos;http&apos;, netloc=&apos;www.baidu.com&apos;, path=&apos;/index.php&apos;, params=&apos;&apos;, query=&apos;username=guol&apos;, fragment=&apos;&apos;)
+&gt;&gt;&gt; print(urlunparse(url))
+http://www.baidu.com/index.php?username=guol
+</code></pre><p>其他相关模块：Urlparse模块 - CEMaster - 博客园  <a href="https://www.cnblogs.com/cemaster/p/6435711.html" target="_blank" rel="noopener">https://www.cnblogs.com/cemaster/p/6435711.html</a></p>
 
                 <hr>
                 
