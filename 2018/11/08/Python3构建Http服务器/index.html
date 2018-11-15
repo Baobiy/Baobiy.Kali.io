@@ -330,6 +330,9 @@ def run():
 if __name__ == &apos;__main__&apos;:
     run()
 </code></pre><p><em>注： Content-type与所获取文件的类型（mimetype中）对应，注意获取文件的位置。</em></p>
+<h3 id="get中需要显示html图片"><a href="#get中需要显示html图片" class="headerlink" title="get中需要显示html图片"></a>get中需要显示html图片</h3><p>如：ico</p>
+<p>1、需在html中，head头部中添加“<link rel="icon" href="favicon.ico">”；</p>
+<p>2、静态路径：显示时对应文件类型（mimetype），如：“image/x-icon”</p>
 <p>结果及控制台显示：</p>
 <p><img src="https://i.imgur.com/WP5jGZE.png" alt=""></p>
 <p>可以利用HTTP模拟器（如：Advanced REST等）进行get请求模拟，添加自定义header或参数</p>
@@ -376,7 +379,64 @@ splitext(p)
 <p><img src="https://i.imgur.com/YokM8AX.png" alt=""></p>
 <p>响应：</p>
 <p><img src="https://i.imgur.com/joSm2Xt.png" alt=""></p>
-<p>相关链接： Python BaseHTTPServer 介绍 - Python - 伯乐在线  <a href="http://python.jobbole.com/87392/" target="_blank" rel="noopener">http://python.jobbole.com/87392/</a></p>
+<h3 id="POST-获取文件并解析（cgi）"><a href="#POST-获取文件并解析（cgi）" class="headerlink" title="POST 获取文件并解析（cgi）"></a>POST 获取文件并解析（cgi）</h3><p>例：</p>
+<pre><code>def do_POST(self):
+    #datas = self.rfile.read(int(self.headers[&apos;Content-length&apos;]))
+    form  = cgi.FieldStorage(
+        fp=self.rfile,                
+        headers=self.headers,
+        environ={&apos;REQUEST_METHOD&apos;:&apos;POST&apos;,
+                 &apos;CONTENT_TYPE&apos;: self.headers[&apos;Content-type&apos;],
+                 }
+    )
+    #print(&apos;form: &apos;,form)
+
+    self.send_response(200)
+    self.send_header(&apos;Content-type&apos;,&apos;multipart/form-data&apos;)
+    self.send_header(&apos;PostTest&apos;,&apos;get post datas&apos;)
+    #self.send_header(&apos;Accept-Language&apos;,&apos;zh-CN,zh;q=0.9&apos;)
+    #self.send_header(&apos;Accept-Encoding&apos;,&apos;gzip, deflate, br&apos;)
+    self.end_headers()
+
+    for field in form.keys():
+        field_item = form[field]
+        #print(&apos;field_item:&apos;,field_item )
+        filename =field_item.filename
+        #print(&apos;filename:&apos;, filename)
+        filevalue = field_item.value
+        #print(&apos;filevalue:&apos;,filevalue)
+        filesize = len(filevalue)
+        #print(&apos;filesize:&apos;,filesize)
+        self.wfile.write(filevalue)        #post内容
+        with open(filename,&apos;wb&apos;) as f:
+            f.write(filevalue)            #下载文件
+</code></pre><p>cgi.FieldStorage()主要参数：</p>
+<pre><code> fp  : file pointer; default: sys.stdin.buffer
+    (not used when the request method is GET)
+    Can be :
+        1、a TextIOWrapper object
+        2、an object whose read() and readline() methods return bytes
+headers  : header dictionary-like object; default:
+        taken from environ as per CGI spec
+outerboundary  : terminating multipart boundary
+        (for internal use only)
+environ  : environment dictionary; default: os.environ
+keep_blank_values: flag indicating whether blank values in
+         percent-encoded forms should be treated as blank strings.
+        A true value indicates that blanks should be retained as
+        blank strings.  The default false value indicates that blank values are to be ignored and treated as if they were not included.
+ strict_parsing: flag indicating what to do with parsing errors.
+        If false (the default), errors are silently ignored.
+        If true, errors raise a ValueError exception.
+limit : used internally to read parts of multipart/form-data forms,
+        to exit from the reading loop when reached. It is the difference
+        between the form content-length and the number of bytes already
+        read
+ encoding, errors : the encoding and error handler used to decode the
+        binary stream to strings. Must be the same as the charset defined
+        for the page sending the form (content-type : meta http-equiv or
+        header)
+</code></pre><p>相关链接： Python BaseHTTPServer 介绍 - Python - 伯乐在线  <a href="http://python.jobbole.com/87392/" target="_blank" rel="noopener">http://python.jobbole.com/87392/</a></p>
 <p>python BaseHTTPServer模块 - 运维之路  <a href="http://www.361way.com/basehttpserver/5790.html" target="_blank" rel="noopener">http://www.361way.com/basehttpserver/5790.html</a></p>
 <p>python 基于BaseHTTPServer的web服务器搭建(二） - nanxiaoting的博客 - CSDN博客  <a href="https://blog.csdn.net/nanxiaoting/article/details/81225601" target="_blank" rel="noopener">https://blog.csdn.net/nanxiaoting/article/details/81225601</a></p>
 <p>python web服务器（一） - nanxiaoting的博客 - CSDN博客  <a href="https://blog.csdn.net/nanxiaoting/article/details/81203281" target="_blank" rel="noopener">https://blog.csdn.net/nanxiaoting/article/details/81203281</a></p>
@@ -462,6 +522,7 @@ ParseResult(scheme=&apos;http&apos;, netloc=&apos;www.baidu.com&apos;, path=&apo
 &gt;&gt;&gt; print(urlunparse(url))
 http://www.baidu.com/index.php?username=guol
 </code></pre><p>其他相关模块：Urlparse模块 - CEMaster - 博客园  <a href="https://www.cnblogs.com/cemaster/p/6435711.html" target="_blank" rel="noopener">https://www.cnblogs.com/cemaster/p/6435711.html</a></p>
+<p>socket编程：python基础之socket与socketserver - MnCu - 博客园  <a href="https://www.cnblogs.com/MnCu8261/p/5546823.html" target="_blank" rel="noopener">https://www.cnblogs.com/MnCu8261/p/5546823.html</a></p>
 
                 <hr>
                 
@@ -490,7 +551,7 @@ http://www.baidu.com/index.php?username=guol
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#python3-os-path-realpath-file-和-os-path-cwd-方法的区别"><span class="toc-text">python3 os.path.realpath(file) 和 os.path.cwd() 方法的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Python中获取路径os-getcwd-和os-path-dirname-os-path-realpath-file-的区别和对比"><span class="toc-text">Python中获取路径os.getcwd()和os.path.dirname(os.path.realpath(file))的区别和对比</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#http服务器获取显示html及ico"><span class="toc-text">http服务器获取显示html及ico</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GET请求"><span class="toc-text">GET请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加POST请求及响应"><span class="toc-text">添加POST请求及响应</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BaseHTTPServer源代码解析"><span class="toc-text">BaseHTTPServer源代码解析</span></a>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#python3-os-path-realpath-file-和-os-path-cwd-方法的区别"><span class="toc-text">python3 os.path.realpath(file) 和 os.path.cwd() 方法的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Python中获取路径os-getcwd-和os-path-dirname-os-path-realpath-file-的区别和对比"><span class="toc-text">Python中获取路径os.getcwd()和os.path.dirname(os.path.realpath(file))的区别和对比</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#http服务器获取显示html及ico"><span class="toc-text">http服务器获取显示html及ico</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GET请求"><span class="toc-text">GET请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#get中需要显示html图片"><span class="toc-text">get中需要显示html图片</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加POST请求及响应"><span class="toc-text">添加POST请求及响应</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#POST-获取文件并解析（cgi）"><span class="toc-text">POST 获取文件并解析（cgi）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BaseHTTPServer源代码解析"><span class="toc-text">BaseHTTPServer源代码解析</span></a>
                 </div>
             </div>
         </div>
