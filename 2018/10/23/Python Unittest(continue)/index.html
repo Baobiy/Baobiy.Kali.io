@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My personal blog">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Baobiy" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Python unittest(持续记录)｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2018/10/23/Python Unittest(continue)/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Baobiy
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Python unittest(持续记录)</h1>
+                    
+                    <h2 class="subheading">Python Unittest</h2>
+                    
+                    <span class="meta">
+                         作者 Baobiy
+                        <span>
+                          日期 2018-10-23
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Python"
+                           title="Python">Python</a>
+                        
+                        <a class="tag" href="/tags/#unittest"
+                           title="unittest">unittest</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Python unittest(持续记录)
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="selenium-IDE"><a href="#selenium-IDE" class="headerlink" title="selenium IDE"></a>selenium IDE</h1><p>selenium IDE是嵌入到firefox中的一个插件，本文使用 Firefox54.0.1 (64 位)，<br>selenium IDE2.9.1，最新版firefox中安装selenium IDE后，缺少很多功能（比如文件导出为不同格式) 因此更倾向于使用 2.9.1.</p>
+<h2 id="selenium-IDE的安装-及介绍"><a href="#selenium-IDE的安装-及介绍" class="headerlink" title="selenium IDE的安装 及介绍"></a>selenium IDE的安装 及介绍</h2><p>通过firefox 浏览器访问selenium 下载页面：<a href="http://docs.seleniumhq.org/download/" target="_blank" rel="noopener">http://docs.seleniumhq.org/download/</a></p>
+<p>或通过网页搜索：selenium_ide-2.9.1-fx.xpi，直接下载后拖拽进浏览器，会弹出是否需要安装的提示框，点击安装，重启浏览器即可。</p>
+<p>安装后在工具中寻找。</p>
+<p><img src="https://i.imgur.com/2YBrnwd.png" alt=""></p>
+<p>各个部分介绍：</p>
+<pre><code>1---文件(File)：创建、打开和保存测试案例和测试案例集。
+编辑(Edit)：复制、粘贴、删除、撤销和选择测试案例中的所有命令。
+Options (设置): 用于设置seleniunm IDE。
+2---用来填写被测网站的地址。
+3---速度控制：控制案例的运行速度。
+4---运行所有：运行一个测试案例集中的所有案例。
+5---运行：运行当前选定的测试案例。
+6---暂停/恢复：暂停和恢复测试案例执行。
+7---|单步：可以运行一个案例中的一行命令。
+8---录制：点击之后，开始记录你对浏览器的操作。
+9---案例集列表。
+10---测试脚本；table 标签：用表格形式展现命令及参数。source 标签：用原始方式展现，默
+认是HTML 语言格式，也可以用其他语言展示。
+11---查看脚本运行通过/失败的个数。
+12---当选中前命令对应参数。
+13---日志/参考/UI 元素/Rollup
+日志：当你运行测试时，错误和信息将会自定显示。
+参考：当在表格中输入和编辑selenese 命令时，面板中会显示对应的参考文档。
+UI 元素/Rollup：参考帮助菜单中的，UI-Element Documentation。
+</code></pre><h2 id="Selenium-IDE-脚本录制"><a href="#Selenium-IDE-脚本录制" class="headerlink" title="Selenium IDE 脚本录制"></a>Selenium IDE 脚本录制</h2><p>打开selenium IDE 录制按钮默认为启动状态， 在地址栏中输入要录制的URL （ 如，<br><a href="http://www.baidu.com）,脚本录制完成，关闭录制按钮。" target="_blank" rel="noopener">http://www.baidu.com）,脚本录制完成，关闭录制按钮。</a></p>
+<p>selenium IDE 为我们录制的脚本不是100%符合我们的需求的，所以，编辑录制的脚本是必不可少<br>的工作。</p>
+<p>1 编辑一行命令或注释。</p>
+<p>在Table 标签下选中某一行命令，命令由command、Target、value 三部分组成。可以对这三部分<br>内容那进行编辑。</p>
+<p><img src="https://i.imgur.com/gls8oOQ.png" alt=""></p>
+<p>2 插入命令</p>
+<p>在某一条命令上右击，选择“insert new command”命令，就可以插入一个空白，然后对空白<br>行进程编辑。</p>
+<p><img src="https://i.imgur.com/mCMc9Uj.png" alt=""></p>
+<p>3 插入注解</p>
+<p>以上面同样的方式右击选择“insert new comment”命令插入注解空白行，本行内容不被执行，可<br>以帮助我们更好的理解脚本，插入的内容以紫色字体显示。</p>
+<p><img src="https://i.imgur.com/4hiyjXR.png" alt=""></p>
+<p>4 移动命令或注解</p>
+<p>有时我们需要移动某行命令的顺序，我们只需要左击鼠标拖动到相应的位置即可。</p>
+<p><img src="https://i.imgur.com/RK5Oxdp.png" alt=""></p>
+<p>5 定位辅助</p>
+<p>当selenium IDE 录制脚本时，它会存储额外的信息，支持用户挑选其他格式的定位器来代替默认格<br>式的定位器，这种特殊性对于学习定位器很有用。<br><img src="https://i.imgur.com/JqyD1Gn.png" alt=""></p>
+<p>我们可以选择其他的命令来代替“name=btnG” 命令，当然，脚本依然是可以运行的。</p>
+<p>关于selenium IDE 的更多使用技巧不在不是本书的讨论重点，请读者参考其资料进行学习。</p>
+<h1 id="引入-unittest-框架"><a href="#引入-unittest-框架" class="headerlink" title="引入 unittest 框架"></a>引入 unittest 框架</h1><p>通过seleinium IDE 完成脚本的录制之后，可以将其导出为加了python unittest 单元测试框架的相应脚本。</p>
+<p><img src="https://i.imgur.com/VomiVMk.png" alt=""></p>
+<p>将脚本导出，保存为baidu.py ，通过python IDLE 编辑器打开。</p>
+<pre><code>    # -*- coding: utf-8 -*-
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoAlertPresentException
+import unittest, time, re
+
+class Baidu(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Firefox()
+        self.driver.implicitly_wait(30)
+        self.base_url = &quot;https://www.baidu.com/&quot;
+        self.verificationErrors = []
+        self.accept_next_alert = True
+
+    def test_baidu(self):
+        driver = self.driver
+        driver.get(self.base_url + &quot;/&quot;)
+        driver.find_element_by_id(&quot;kw&quot;).click()
+        driver.find_element_by_id(&quot;kw&quot;).clear()
+        driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;test&quot;)
+        driver.find_element_by_id(&quot;su&quot;).click()
+        driver.find_element_by_link_text(u&quot;test_百度翻译&quot;).click()
+
+    def is_element_present(self, how, what):
+        try: self.driver.find_element(by=how, value=what)
+        except NoSuchElementException as e: return False
+        return True
+
+    def is_alert_present(self):
+        try: self.driver.switch_to_alert()
+        except NoAlertPresentException as e: return False
+        return True
+
+    def close_alert_and_get_its_text(self):
+        try:
+            alert = self.driver.switch_to_alert()
+            alert_text = alert.text
+            if self.accept_next_alert:
+                alert.accept()
+            else:
+                alert.dismiss()
+            return alert_text
+        finally: self.accept_next_alert = True
+
+    def tearDown(self):
+        self.driver.quit()
+        self.assertEqual([], self.verificationErrors)
+
+if __name__ == &quot;__main__&quot;:
+    unittest.main()
+</code></pre><p>#引入方法分析</p>
+<pre><code>import unittest
+</code></pre><p>首先要引入unittest框架包</p>
+<pre><code>class Baidu(unittest.TestCase):
+</code></pre><p>Baidu类继承unittest.TestCase 类，从TestCase类继承是告诉unittest模块的方式，这是一个测试案例。</p>
+<pre><code>def setUp(self):
+    self.driver = webdriver.Firefox()
+    self.base_url = &quot;http://www.baidu.com/&quot;**
+</code></pre><p>setUp 用于设置初始化的部分，在测试用例执行前，这个方法中的函数将先被调用。这里将浏览器的调用和URL 的访问放到初始化部分。</p>
+<pre><code>self.verificationErrors = []
+</code></pre><p>脚本运行时，错误的信息将被打印到这个列表中。</p>
+<pre><code>self.accept_next_alert = True
+</code></pre><p>是否继续接受下一个警告。</p>
+<pre><code>def test_baidu(self):
+    driver = self.driver
+    driver.get(self.base_url + &quot;/&quot;)
+    driver.find_element_by_id(&quot;kw&quot;).click()
+    driver.find_element_by_id(&quot;kw&quot;).clear()
+    driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;test&quot;)
+    driver.find_element_by_id(&quot;su&quot;).click()
+</code></pre><p>test_baidu 中放置的就是我们的测试脚本了，这部分我们并不陌生；因为我们执行的脚本就在这里。</p>
+<pre><code>def is_element_present(self, how, what):
+    try: self.driver.find_element(by=how, value=what)
+    except NoSuchElementException as e: return False
+    return True
+</code></pre><p><code>is_element_present</code> 函数用来查找页面元素是否存在， try…except…. 为python 语言的异常捕捉。</p>
+<p><code>is_element_present</code> 函数在这里用处不大，通常删除，因为判断页面元素是否存在一般都加在testcase 中。</p>
+<pre><code>def is_alert_present(self):
+    try: self.driver.switch_to_alert()
+    except NoAlertPresentException as e: return False
+    return True
+</code></pre><p>对弹窗异常的处理</p>
+<pre><code>def close_alert_and_get_its_text(self):
+    try:
+        alert = self.driver.switch_to_alert()
+        alert_text = alert.text
+        if self.accept_next_alert:
+            alert.accept()
+        else:
+            alert.dismiss()
+        return alert_text
+    finally: self.accept_next_alert = True
+</code></pre><p>关闭警告以及对得到文本框的处理，if 判断语句前面已经多次使用，并不陌生；try….finally…为python的异常处理。</p>
+<pre><code>def tearDown(self):
+    self.driver.quit()
+    self.assertEqual([], self.verificationErrors)
+</code></pre><p>这个是难点，对前面verificationErrors 方法获得的列表进行比较；如查verificationErrors 的列表不为空，输出列表中的报错信息。</p>
+<pre><code>if __name__ == &quot;__main__&quot;:
+    unittest.main()
+</code></pre><p>unitest.main()函数用来测试类中以test 开头的测试用例</p>
+<p>这样一一分析下来，我们对unittest 框架有了初步的了解。运行脚本，因为引入了unittest 框架，<br>所以控制台输出了用例的执行个数、时间以及是否OK 等信息。</p>
+<p><img src="https://i.imgur.com/bJXXIwg.png" alt=""></p>
+<h1 id="Unittest-单元测试框架解析"><a href="#Unittest-单元测试框架解析" class="headerlink" title="Unittest 单元测试框架解析"></a>Unittest 单元测试框架解析</h1><p>widget.py（被测试类）</p>
+<pre><code>    #coding=utf-8
+
+class Widget:
+    def __init__(self, size=(40, 40)):
+        self._size = size
+
+    def getSize(self):
+        return self._size
+
+    def resize(self, width, height):
+        if width &lt; 0 or height &lt; 0:
+            raise (ValueError, &quot;illegal size&quot;)
+        self._size = (width, height)
+
+    def dispose(self):
+        pass
+</code></pre><p>auto.py（测试类）</p>
+<pre><code>#coding = utf-8
+
+from widget import Widget
+import unittest
+
+class WidgetTestCase(unittest.TestCase):
+    def setUp(self):
+        self.widget = Widget()
+
+    def testSize(self):
+        self.assertEqual(self.widget.getSize(),(40, 40))
+
+    def testResize(self):
+        self.widget.resize(100, 100)
+        self.assertEqual(self.widget.getSize(),(100, 100))
+
+    def tearDown(self):
+        self.widget.dispose()
+        self.widget = None
+
+def suite():
+    suite = unittest.TestSuite()
+    suite.addTest(WidgetTestCase(&quot;testSize&quot;))
+    suite.addTest(WidgetTestCase(&quot;testResize&quot;))
+    return suite
+    #return unittest.makeSuite(WidgetTestCase, &quot;test&quot;)
+
+if __name__ == &apos;__main__&apos;:
+    #suite = suite()
+
+    #runner = unittest.TextTestRunner()
+    #runner.run(suite)
+    #unittest.main(defaultTest=&apos;suite&apos;)
+    unittest.main()
+</code></pre><ol>
+<li>用import语句引入unittest模块</li>
+<li>让所有执行测试的类都继承于TestCase类，可以将TestCase看成是对特定类进行测试的方法的集合</li>
+<li><p>SetUp()方法中进行测试前的初始化工作，tearDown（）方法中执行测试后的清除工作（资源释放）。SetUp（）和tearDown（）都是TestCase类中定义的方法</p>
+<pre><code>setUp() + tearDown() ：在每个测试方法执行前以及执行后执行一次，setUp用来为测试准备环境，tearDown用来清理环境，准备之后的测试
+setUpClass() 与 tearDownClass()：在所有case执行之前准备一次环境，并在所有case执行结束之后再清理环境    
+</code></pre></li>
+<li><p>在testSize（）中调用assertEqual（）方法，对Widget类中getSize（）方法的返回值和预期值进行比较，确保两者是相等的，assertEqual（）也是TestCase类中定义的方法。可以对widget.py多方法测试（如：再加入一个testResize（）来对size进行重新赋值）</p>
+</li>
+<li>提供名为suite（）的全局方法，PyUnit在执行测试的过程调用suit（）方法来确定有多少个测试用例需要被执行，可以将TestSuite看成是包含所有测试用例的一个容器。</li>
+<li>完整的单元测试很少只执行一个测试用例，通常都需要编写多个测试用例来对某一个软件功能进行比较完整的测试，这些相关的测试用例称为一个测试用例集（即PyUnit中的TestSuite类）。suite（）作为整个单元测试的入口，PyUnit通过调用它来完成整个测试过程。</li>
+<li><p>如果用于测试的类中所有测试方法都以test开头，甚至可以用PyUnit模块提供的makeSuite（）方法来构造一个：</p>
+<pre><code>def suite():
+    return unittest.makeSuite(WidgetTestCase, &quot;test&quot;)
+</code></pre></li>
+<li><p>PyUnit 使用TestRunner 类作为测试用例的基本执行环境，来驱动整个单元测试过程。在进行单元测试时一般不直接使用TestRunner 类，而是使用其子类TextTestRunner 来完成测试，并将测试结果以文本方式显示出来：</p>
+<pre><code>runner = unittest.TextTestRunner()
+runner.run(suite)
+</code></pre></li>
+<li><p>PyUnit 模块中定义了一个名为main 的全局方法，使用它可以很方便地将一个单元测试模块变成可<br>以直接运行的测试脚本，main()方法使用TestLoader 类来搜索所有包含在该模块中的测试方法，并自<br>动执行它们。如果Python 程序员能够按照约定（以test 开头）来命名所有的测试方法，那就只需要在<br>测试模块的最后加入如下几行代码即可:</p>
+<pre><code>if __name__ == &apos;__main__&apos;:
+        unittest.main()
+</code></pre></li>
+<li><p>自动搜索指定目录下的case，构造测试集，执行顺序是命名顺序，（默认按ASCII码顺序加载测试用例），(pattern=’test_*.py’匹配test开头的所有脚本)</p>
+<p>test_dir = os.path.join(os.getcwd())<br>discover = unittest.defaultTestLoader.discover(test_dir, pattern=‘test_*.py’)<br>runner = unittest.TextTestRunner()<br>runner.run(discover)</p>
+</li>
+</ol>
+<p>相关链接：python接口自动化测试(七)-unittest-批量用例管理 - 贺满 - 博客园  <a href="https://www.cnblogs.com/puresoul/p/7490737.html" target="_blank" rel="noopener">https://www.cnblogs.com/puresoul/p/7490737.html</a></p>
+<h1 id="批量执行测试用例"><a href="#批量执行测试用例" class="headerlink" title="批量执行测试用例"></a>批量执行测试用例</h1><p>通过对前面对unittest 框架的学习我们了解到，可以在一个.py 文件里编写多个测试用例，然后执行<br>文件里的所有用例，这显然是一个不错的做法，我们可以将一些相关的用例放到一个文件里，unittest 支持这么做，但假如我们成百上千的用例呢，放一.py 文件显然有些不太合理。<br>比较合理的做法是把相关的几条用例放到一个.py 文件里，把所有.py 文件放到一个文件夹下，然后通<br>过一个程序执行文件夹下面的所有用例。</p>
+<p><img src="https://i.imgur.com/TzIuE0h.png" alt=""></p>
+<p>编写baidu.py 文件放入test_case 文件夹下：</p>
+<pre><code>    #coding=utf-8
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoAlertPresentException
+import unittest, time, re
+
+class Baidu(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+        self.driver.implicitly_wait(30)
+        self.base_url = &quot;https://www.baidu.com&quot;
+        self.verificationErrors = []
+        self.accept_next_alert = True
+
+    def test_baidu_search(self):
+        driver = self.driver
+        driver.get(self.base_url + &quot;/&quot;)
+        driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;selenium webdriver&quot;)
+        driver.find_element_by_id(&quot;su&quot;).click()
+        time.sleep(2)
+        driver.close()
+
+    def test_baidu_set(self):
+        driver = self.driver
+        driver.get(self.base_url + &quot;/&quot;)
+
+        driver.find_element_by_link_text(u&quot;设置&quot;).click()
+        driver.find_element_by_link_text(u&quot;搜索设置&quot;).click()
+        time.sleep(2)
+        Select(driver.find_element_by_id(&quot;nr&quot;)).select_by_visible_text(u&quot;每页显示20条&quot;)
+        time.sleep(2)
+
+        driver.find_element_by_link_text(u&quot;保存设置&quot;).click()
+        time.sleep(2)
+        driver.switch_to_alert().accept()
+
+    def tearDown(self):
+        self.driver.quit()
+        self.assertEqual([], self.verificationErrors)
+
+if __name__ == &apos;__main__&apos;:
+    unittest.main()
+</code></pre><p>下面编写test_case.py 点文件来读取test_case 文件夹下的文件：</p>
+<pre><code>    #coding=utf-8
+import os
+
+caselist = os.listdir(&quot;D:\\PythonTestFiles\\seleniumTest\\Unittest\\test_case&quot;)
+for a in caselist:
+    s = a.split(&apos;.&apos;)[1]
+    if s == &quot;py&quot;:
+        os.system(&quot;D:\\PythonTestFiles\\seleniumTest\\Unittest\\test_case\\%s 1&gt;&gt;log.txt 2&gt;&amp;1&quot;%a)
+</code></pre><p>注：</p>
+<pre><code>os.system（）执行命令，文件
+os.system(cmd)的返回值只会有0(成功),1,2
+区别于os.popen（）
+os.popen(cmd)会吧执行的cmd的输出作为值返回。
+1&gt;&gt;log.txt 将日志重定向到log.txt文件中
+2&gt;&amp;1 ： 
+    2 与 &gt; 结合，代表错误重定向，而1则代表错误重定向到一个文件，而不是代表标准输出；
+    2&gt;&amp;1，&amp;与1结合，就代表标准输出了，就变成错误重定向到标准输出。
+（1&gt;&gt;log.txt 2&gt;&amp;1） 整体结果就是：将日志存入log.txt文件。
+</code></pre><h2 id="使用Select定位"><a href="#使用Select定位" class="headerlink" title="使用Select定位"></a>使用Select定位</h2><pre><code>Select(driver.find_element_by_id(&quot;nr&quot;)).select_by_visible_text(u&quot;每页显示20条&quot;)
+</code></pre><blockquote>
+<p>相关链接：selenium+Python(select定位) - Silence&amp;QH - 博客园  <a href="https://www.cnblogs.com/101718qiong/p/7929731.html" target="_blank" rel="noopener">https://www.cnblogs.com/101718qiong/p/7929731.html</a></p>
+</blockquote>
+<p>例：百度搜索设置显示条数：</p>
+<pre><code>&lt;select name=&quot;NR&quot; id=&quot;nr&quot;&gt;
+    &lt;option value=&quot;10&quot; selected=&quot;&quot;&gt;每页显示10条&lt;/option&gt;
+    &lt;option value=&quot;20&quot;&gt;每页显示20条&lt;/option&gt;
+    &lt;option value=&quot;50&quot;&gt;每页显示50条&lt;/option&gt;&lt;/select&gt;
+</code></pre><p>导入Select方法：</p>
+<pre><code>from selenium.webdriver.support.select import Select
+</code></pre><p>Select对象：</p>
+<pre><code>element  = driver.find_element_by_id(&quot;nr)
+Select(element).select_by_index(2)
+#Select(element).select_by_value(20)
+#Select(element).select_by_visible_text(u&quot;每页显示20条&quot;)
+</code></pre><h3 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h3><p><strong>二次定位</strong></p>
+<p>基本思路，先定位 select 框，再定位 select 里的选项</p>
+<p>可以有两种写法：第一种是分不够一步一步定位，第二种是直接一个语句定位两次，如例所示</p>
+<p>Select定位有三种方式：</p>
+<pre><code>select_by_index() :通过索引定位
+select_by_value() :通过 value 值定位
+select_by_visible_text() :通过文本值定位
+</code></pre><p>除了上三种方法，还包括的功能：</p>
+<pre><code>deselect_all() ：取消所有选项
+deselect_by_index() ：取消对应 index 选项
+deselect_by_value() ：取消对应 value 选项
+deselect_by_visible_text() ：取消对应文本选项
+first_selected_option() ：返回第一个选项
+all_selected_options() ：返回所有的选项
+</code></pre><h1 id="生成HTMl报告"><a href="#生成HTMl报告" class="headerlink" title="生成HTMl报告"></a>生成HTMl报告</h1><p>相关链接：python接口自动化测试(八)-unittest-生成测试报告 - 贺满 - 博客园  <a href="https://www.cnblogs.com/puresoul/p/7490881.html" target="_blank" rel="noopener">https://www.cnblogs.com/puresoul/p/7490881.html</a></p>
+<h2 id="引入HTMLTestRunner"><a href="#引入HTMLTestRunner" class="headerlink" title="引入HTMLTestRunner"></a>引入HTMLTestRunner</h2><p>这个模块不能通过pip安装，需要下载后导入py文件到安装路径site-packages下</p>
+<pre><code>查看安装路径： import sys
+            sys.path
+</code></pre><p>python3.x ：</p>
+<p>HTMLTestRunner修改Python3的版本-猴子请来的救兵-51CTO博客  <a href="http://blog.51cto.com/hzqldjb/1590802" target="_blank" rel="noopener">http://blog.51cto.com/hzqldjb/1590802</a></p>
+<p>修改后HTMLTestRunner下载地址：<a href="http://pan.baidu.com/s/1tp3Ts" target="_blank" rel="noopener">http://pan.baidu.com/s/1tp3Ts</a></p>
+<p>使用生成报告例（只给出使用部分代码）：</p>
+<pre><code>...        
+import HTMLTestRunner
+...
+if __name__ == &apos;__main__&apos;:
+    #定义一个测试容器
+    test = unittest.TestSuite()
+
+    #将测试用例，加入到测试容器中
+    test.addTest(Baidu(&quot;test_baidu_search&quot;))
+
+    #定义个报告存放的路径，支持相对路径
+    file_path = &quot;D:\\PythonTestFiles\\seleniumTest\\Unittest\\result.html&quot;
+    file_result = open(file_path, &quot;wb&quot;)
+
+    #定义测试报告
+    runner = HTMLTestRunner.HTMLTestRunner(stream=file_result, title=u&quot;Search Report for Baidu&quot;,description=u&quot;Test Case exec Situation&quot;)
+
+    #运行测试用例
+    runner.run(test)
+    file_result.close()
+</code></pre><p>注：对比 TextTestRunner</p>
+<p>运行生成后报告如下：</p>
+<p><img src="https://i.imgur.com/I5Czt3N.png" alt=""></p>
+<p>参考链接： Python3 unittest单元测试 - 毛斯钢 - 博客园  <a href="https://www.cnblogs.com/znyyy/p/8086281.html" target="_blank" rel="noopener">https://www.cnblogs.com/znyyy/p/8086281.html</a></p>
+<p>Python3 Selenium自动化web测试 ==&gt; 第一节 起始点之Python单元测试框架 unittest - 脚本_驱动_测试 - 博客园  <a href="https://www.cnblogs.com/wuzhiming/p/8858305.html" target="_blank" rel="noopener">https://www.cnblogs.com/wuzhiming/p/8858305.html</a></p>
+<p>unittest详解（二） 跳过用例的执行(skip) - eastonliu - 博客园  <a href="https://www.cnblogs.com/eastonliu/p/9145231.html" target="_blank" rel="noopener">https://www.cnblogs.com/eastonliu/p/9145231.html</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/10/25/Fiddler工具使用介绍（持续。。。）/" data-toggle="tooltip" data-placement="top"
+                           title="Fiddler 工具使用记录(持续记录)">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/10/23/Github Pages和Hexo简明教程/" data-toggle="tooltip" data-placement="top"
+                           title="Github Pages和Hexo简明教程">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium-IDE"><span class="toc-text">selenium IDE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#selenium-IDE的安装-及介绍"><span class="toc-text">selenium IDE的安装 及介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selenium-IDE-脚本录制"><span class="toc-text">Selenium IDE 脚本录制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引入-unittest-框架"><span class="toc-text">引入 unittest 框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Unittest-单元测试框架解析"><span class="toc-text">Unittest 单元测试框架解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#批量执行测试用例"><span class="toc-text">批量执行测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Select定位"><span class="toc-text">使用Select定位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定位"><span class="toc-text">定位</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成HTMl报告"><span class="toc-text">生成HTMl报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引入HTMLTestRunner"><span class="toc-text">引入HTMLTestRunner</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Baobiy 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>
