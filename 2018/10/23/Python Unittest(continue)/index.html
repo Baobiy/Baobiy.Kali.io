@@ -375,34 +375,50 @@ if __name__ == &apos;__main__&apos;:
     #runner.run(suite)
     #unittest.main(defaultTest=&apos;suite&apos;)
     unittest.main()
-</code></pre><ol>
-<li>用import语句引入unittest模块</li>
-<li>让所有执行测试的类都继承于TestCase类，可以将TestCase看成是对特定类进行测试的方法的集合</li>
-<li><p>SetUp()方法中进行测试前的初始化工作，tearDown（）方法中执行测试后的清除工作（资源释放）。SetUp（）和tearDown（）都是TestCase类中定义的方法</p>
+</code></pre><p>1、 用import语句引入unittest模块</p>
+<p>2、 让所有执行测试的类都继承于TestCase类，可以将TestCase看成是对特定类进行测试的方法的集合</p>
+<p>3、 SetUp()方法中进行测试前的初始化工作，tearDown（）方法中执行测试后的清除工作（资源释放）。SetUp（）和tearDown（）都是TestCase类中定义的方法</p>
 <pre><code>setUp() + tearDown() ：在每个测试方法执行前以及执行后执行一次，setUp用来为测试准备环境，tearDown用来清理环境，准备之后的测试
 setUpClass() 与 tearDownClass()：在所有case执行之前准备一次环境，并在所有case执行结束之后再清理环境    
-</code></pre></li>
-<li><p>在testSize（）中调用assertEqual（）方法，对Widget类中getSize（）方法的返回值和预期值进行比较，确保两者是相等的，assertEqual（）也是TestCase类中定义的方法。可以对widget.py多方法测试（如：再加入一个testResize（）来对size进行重新赋值）</p>
-</li>
-<li>提供名为suite（）的全局方法，PyUnit在执行测试的过程调用suit（）方法来确定有多少个测试用例需要被执行，可以将TestSuite看成是包含所有测试用例的一个容器。</li>
-<li>完整的单元测试很少只执行一个测试用例，通常都需要编写多个测试用例来对某一个软件功能进行比较完整的测试，这些相关的测试用例称为一个测试用例集（即PyUnit中的TestSuite类）。suite（）作为整个单元测试的入口，PyUnit通过调用它来完成整个测试过程。</li>
-<li><p>如果用于测试的类中所有测试方法都以test开头，甚至可以用PyUnit模块提供的makeSuite（）方法来构造一个：</p>
+</code></pre><p>4、 在testSize（）中调用assertEqual（）方法，对Widget类中getSize（）方法的返回值和预期值进行比较，确保两者是相等的，assertEqual（）也是TestCase类中定义的方法。可以对widget.py多方法测试（如：再加入一个testResize（）来对size进行重新赋值）</p>
+<p>5、 提供名为suite（）的全局方法，PyUnit在执行测试的过程调用suit（）方法来确定有多少个测试用例需要被执行，可以将TestSuite看成是包含所有测试用例的一个容器。</p>
+<pre><code>test suite（测试套件）的作用是批量运行多个测试用例，此外还可以做的操作是：
+    调整测试用例执行顺序
+    多个test suite中的test case执行
+</code></pre><p>6、 完整的单元测试很少只执行一个测试用例，通常都需要编写多个测试用例来对某一个软件功能进行比较完整的测试，这些相关的测试用例称为一个测试用例集（即PyUnit中的TestSuite类）。suite（）作为整个单元测试的入口，PyUnit通过调用它来完成整个测试过程。</p>
+<p>7、 如果用于测试的类中所有测试方法都以test开头，甚至可以用PyUnit模块提供的makeSuite（）方法来构造一个：</p>
 <pre><code>def suite():
     return unittest.makeSuite(WidgetTestCase, &quot;test&quot;)
-</code></pre></li>
-<li><p>PyUnit 使用TestRunner 类作为测试用例的基本执行环境，来驱动整个单元测试过程。在进行单元测试时一般不直接使用TestRunner 类，而是使用其子类TextTestRunner 来完成测试，并将测试结果以文本方式显示出来：</p>
+</code></pre><p>8、 PyUnit 使用TestRunner 类作为测试用例的基本执行环境，来驱动整个单元测试过程。在进行单元测试时一般不直接使用TestRunner 类，而是使用其子类TextTestRunner 来完成测试，并将测试结果以文本方式显示出来：</p>
 <pre><code>runner = unittest.TextTestRunner()
 runner.run(suite)
-</code></pre></li>
-<li><p>PyUnit 模块中定义了一个名为main 的全局方法，使用它可以很方便地将一个单元测试模块变成可<br>以直接运行的测试脚本，main()方法使用TestLoader 类来搜索所有包含在该模块中的测试方法，并自<br>动执行它们。如果Python 程序员能够按照约定（以test 开头）来命名所有的测试方法，那就只需要在<br>测试模块的最后加入如下几行代码即可:</p>
+</code></pre><p>TextTestRunner（）：</p>
+<pre><code>&gt;&gt;&gt; help(unittest.TextTestRunner)
+Help on class TextTestRunner in module unittest.runner:
+
+class TextTestRunner(builtins.object)
+|  A test runner class that displays results in textual form.
+|  
+|  It prints out the names of tests as they are run, errors as they
+|  occur, and a summary of the results at the end of the test run.
+Methods defined here:
+|  
+|  __init__(self, stream=None, descriptions=True, verbosity=1, failfast=False, buffer=False, resultclass=None, warnings=None, *, tb_locals=False)
+|      Construct a TextTestRunner.
+</code></pre><p>参数 verbosity：</p>
+<pre><code>verbosity参数可以控制输出的错误报告的详细程度，只有3个取值：
+0 (quiet): 只显示执行的用例的总数和全局的执行结果。
+1 (default): 默认值，显示执行的用例的总数和全局的执行结果，并对每个用例的执行结果（成功T或失败F）有个标注。
+2 (verbose): 显示执行的用例的总数和全局的执行结果，并输出每个用例的详细的执行结果。
+</code></pre><p>9、 PyUnit 模块中定义了一个名为main 的全局方法，使用它可以很方便地将一个单元测试模块变成可<br>以直接运行的测试脚本，main()方法使用TestLoader 类来搜索所有包含在该模块中的测试方法，并自<br>动执行它们。如果Python 程序员能够按照约定（以test 开头）来命名所有的测试方法，那就只需要在<br>测试模块的最后加入如下几行代码即可:</p>
 <pre><code>if __name__ == &apos;__main__&apos;:
         unittest.main()
-</code></pre></li>
-<li><p>自动搜索指定目录下的case，构造测试集，执行顺序是命名顺序，（默认按ASCII码顺序加载测试用例），(pattern=’test_*.py’匹配test开头的所有脚本)</p>
-<p>test_dir = os.path.join(os.getcwd())<br>discover = unittest.defaultTestLoader.discover(test_dir, pattern=‘test_*.py’)<br>runner = unittest.TextTestRunner()<br>runner.run(discover)</p>
-</li>
-</ol>
-<p>相关链接：python接口自动化测试(七)-unittest-批量用例管理 - 贺满 - 博客园  <a href="https://www.cnblogs.com/puresoul/p/7490737.html" target="_blank" rel="noopener">https://www.cnblogs.com/puresoul/p/7490737.html</a></p>
+</code></pre><p>10、 自动搜索指定目录下的case，构造测试集，执行顺序是命名顺序，（默认按ASCII码顺序加载测试用例），(pattern=’test_*.py’匹配test开头的所有脚本)</p>
+<pre><code>test_dir = os.path.join(os.getcwd())
+discover = unittest.defaultTestLoader.discover(test_dir, pattern=‘test_*.py’)
+runner = unittest.TextTestRunner()
+runner.run(discover)
+</code></pre><p>相关链接：python接口自动化测试(七)-unittest-批量用例管理 - 贺满 - 博客园  <a href="https://www.cnblogs.com/puresoul/p/7490737.html" target="_blank" rel="noopener">https://www.cnblogs.com/puresoul/p/7490737.html</a></p>
 <h1 id="批量执行测试用例"><a href="#批量执行测试用例" class="headerlink" title="批量执行测试用例"></a>批量执行测试用例</h1><p>通过对前面对unittest 框架的学习我们了解到，可以在一个.py 文件里编写多个测试用例，然后执行<br>文件里的所有用例，这显然是一个不错的做法，我们可以将一些相关的用例放到一个文件里，unittest 支持这么做，但假如我们成百上千的用例呢，放一.py 文件显然有些不太合理。<br>比较合理的做法是把相关的几条用例放到一个.py 文件里，把所有.py 文件放到一个文件夹下，然后通<br>过一个程序执行文件夹下面的所有用例。</p>
 <p><img src="https://i.imgur.com/TzIuE0h.png" alt=""></p>
 <p>编写baidu.py 文件放入test_case 文件夹下：</p>
@@ -534,6 +550,66 @@ if __name__ == &apos;__main__&apos;:
 <p>参考链接： Python3 unittest单元测试 - 毛斯钢 - 博客园  <a href="https://www.cnblogs.com/znyyy/p/8086281.html" target="_blank" rel="noopener">https://www.cnblogs.com/znyyy/p/8086281.html</a></p>
 <p>Python3 Selenium自动化web测试 ==&gt; 第一节 起始点之Python单元测试框架 unittest - 脚本_驱动_测试 - 博客园  <a href="https://www.cnblogs.com/wuzhiming/p/8858305.html" target="_blank" rel="noopener">https://www.cnblogs.com/wuzhiming/p/8858305.html</a></p>
 <p>unittest详解（二） 跳过用例的执行(skip) - eastonliu - 博客园  <a href="https://www.cnblogs.com/eastonliu/p/9145231.html" target="_blank" rel="noopener">https://www.cnblogs.com/eastonliu/p/9145231.html</a></p>
+<h1 id="忽略某个测试用例不执行，也就是跳过某个用例不执行"><a href="#忽略某个测试用例不执行，也就是跳过某个用例不执行" class="headerlink" title="忽略某个测试用例不执行，也就是跳过某个用例不执行"></a>忽略某个测试用例不执行，也就是跳过某个用例不执行</h1><pre><code>import unittest
+import sys
+
+class TestStringMethods(unittest.TestCase):
+    @unittest.skipIf(&apos;F&apos;==&apos;f&apos;,&apos;Execute if the judgement condition is not satisfied&apos;)
+    def test_upper2(self):
+        self.assertEqual(&apos;foo&apos;.upper(), &apos;FOO&apos;)
+        print(&apos;test_upper2&apos;)
+
+    @unittest.skipIf(&apos;F&apos;==&apos;f&apos;.upper(), &apos;If the condition is satisfited,it will not executed&apos;)
+    def test_upper(self):
+        self.assertEqual(&apos;foo&apos;.upper(), &apos;FOO&apos;)
+        print(&apos;test_upper&apos;)
+
+    @unittest.skip(&apos;Ignore this test case and do not execute&apos;)
+    def test_isupper(self):
+        self.assertTrue(&apos;FOO&apos;.isupper())
+        self.assertFalse(&apos;Foo&apos;.isupper())
+        print(&apos;test_isupper&apos;)
+
+    @unittest.skipUnless(sys.platform.startswith(&apos;Linux&apos;), &apos;we need window&apos;)
+    def test_split(self):
+        s = &apos;hello world&apos;
+        self.assertEqual(s.split(), [&apos;hello&apos;, &apos;world&apos;])
+        with self.assertRaises(TypeError):
+            s.split(2)
+        print(&apos;test_split&apos;)
+
+if __name__ == &apos;__main__&apos;:
+    suite1 = unittest.TestSuite()
+    suite1.addTests([TestStringMethods(&apos;test_upper2&apos;),TestStringMethods(&apos;test_split&apos;),TestStringMethods(&apos;test_isupper&apos;),TestStringMethods(&apos;test_upper&apos;)])
+    runner2 = unittest.TextTestRunner(verbosity=2)
+    runner2.run(suite1)
+</code></pre><p>执行结果：</p>
+<pre><code>&gt;&gt;&gt; 
+test_upper2 (__main__.TestStringMethods) ... test_upper2
+ok
+test_split (__main__.TestStringMethods) ... skipped &apos;we need window&apos;
+test_isupper (__main__.TestStringMethods) ... skipped &apos;Ignore this test case and do not execute&apos;
+test_upper (__main__.TestStringMethods) ... skipped &apos;If the condition is satisfited,it will not executed&apos;
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.508s
+
+OK (skipped=3)
+</code></pre><p>unittest提供的跳过一些用例的方法：</p>
+<pre><code>@unittest.skip(reason)：强制跳转。reason是跳转原因
+@unittest.skipIf(condition, reason)：condition为True的时候跳转
+@unittest.skipUnless(condition, reason)：condition为False的@unittest.expectedFailure：如果test失败了，这个test不计入失败的case数目时候跳转
+</code></pre><p>相关其他的实例：unittest详解（二） 跳过用例的执行(skip) - eastonliu - 博客园  <a href="https://www.cnblogs.com/eastonliu/p/9145231.html" target="_blank" rel="noopener">https://www.cnblogs.com/eastonliu/p/9145231.html</a></p>
+<h2 id="将运行结果保存到文件中"><a href="#将运行结果保存到文件中" class="headerlink" title="将运行结果保存到文件中"></a>将运行结果保存到文件中</h2><pre><code>if __name__ == &apos;__main__&apos;:
+suite1 = unittest.TestSuite()
+suite1.addTests([TestStringMethods(&apos;test_upper2&apos;),TestStringMethods(&apos;test_split&apos;),TestStringMethods(&apos;test_isupper&apos;),TestStringMethods(&apos;test_upper&apos;)])
+#runner2 = unittest.TextTestRunner(verbosity=2)
+#runner2.run(suite1)
+
+with open(&apos;result.txt&apos;, &apos;a+&apos;, encoding=&apos;utf-8&apos;) as f:
+    runner2 = unittest.TextTestRunner(stream=f, verbosity=2)
+    runner2.run(suite1)
+</code></pre><p>输出：<br>    &gt;&gt;&gt;<br>    test_upper2<br>    &gt;&gt;&gt;</p>
 
                 <hr>
                 
@@ -567,7 +643,7 @@ if __name__ == &apos;__main__&apos;:
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium-IDE"><span class="toc-text">selenium IDE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#selenium-IDE的安装-及介绍"><span class="toc-text">selenium IDE的安装 及介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selenium-IDE-脚本录制"><span class="toc-text">Selenium IDE 脚本录制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引入-unittest-框架"><span class="toc-text">引入 unittest 框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Unittest-单元测试框架解析"><span class="toc-text">Unittest 单元测试框架解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#批量执行测试用例"><span class="toc-text">批量执行测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Select定位"><span class="toc-text">使用Select定位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定位"><span class="toc-text">定位</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成HTMl报告"><span class="toc-text">生成HTMl报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引入HTMLTestRunner"><span class="toc-text">引入HTMLTestRunner</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium-IDE"><span class="toc-text">selenium IDE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#selenium-IDE的安装-及介绍"><span class="toc-text">selenium IDE的安装 及介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selenium-IDE-脚本录制"><span class="toc-text">Selenium IDE 脚本录制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引入-unittest-框架"><span class="toc-text">引入 unittest 框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Unittest-单元测试框架解析"><span class="toc-text">Unittest 单元测试框架解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#批量执行测试用例"><span class="toc-text">批量执行测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Select定位"><span class="toc-text">使用Select定位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定位"><span class="toc-text">定位</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成HTMl报告"><span class="toc-text">生成HTMl报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引入HTMLTestRunner"><span class="toc-text">引入HTMLTestRunner</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#忽略某个测试用例不执行，也就是跳过某个用例不执行"><span class="toc-text">忽略某个测试用例不执行，也就是跳过某个用例不执行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#将运行结果保存到文件中"><span class="toc-text">将运行结果保存到文件中</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
