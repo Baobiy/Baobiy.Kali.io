@@ -544,7 +544,8 @@ if __name__ == &apos;__main__&apos;:
     #运行测试用例
     runner.run(test)
     file_result.close()
-</code></pre><p>注：对比 TextTestRunner</p>
+</code></pre><p>定义HTMLTestRunner 测试报告，stream 定义报告所写入的文件；title 为报告的标题；<br>description 为报告的说明与描述。（verbosity同TextTestRunner）</p>
+<p>注：对比 TextTestRunner</p>
 <p>运行生成后报告如下：</p>
 <p><img src="https://i.imgur.com/I5Czt3N.png" alt=""></p>
 <p>参考链接： Python3 unittest单元测试 - 毛斯钢 - 博客园  <a href="https://www.cnblogs.com/znyyy/p/8086281.html" target="_blank" rel="noopener">https://www.cnblogs.com/znyyy/p/8086281.html</a></p>
@@ -610,6 +611,114 @@ with open(&apos;result.txt&apos;, &apos;a+&apos;, encoding=&apos;utf-8&apos;) as
     runner2 = unittest.TextTestRunner(stream=f, verbosity=2)
     runner2.run(suite1)
 </code></pre><p>输出：<br>    &gt;&gt;&gt;<br>    test_upper2<br>    &gt;&gt;&gt;</p>
+<h2 id="报告文件名取当前时间"><a href="#报告文件名取当前时间" class="headerlink" title="报告文件名取当前时间"></a>报告文件名取当前时间</h2><p>每次运行测试之前之前都要手动的去修改报告的名称，如果有修改就会把之前的报告覆盖，这样做就<br>会显示得很麻烦，那么有没有办法使每次生成的报告名称都不一样，为了更好的取分报告可以在报告中添<br>加当前的时间，这样我们要想查找某天某时所生成的报告就会变得非常容易。</p>
+<p><strong>time.time()</strong> 获取当前时间戳</p>
+<p><strong>time.localtime()</strong> 当前时间的struct_time 形式</p>
+<p><strong>time.ctime()</strong> 当前时间的字符串形式</p>
+<p><strong>time.strftime(“%Y-%m-%d %H:%M:%S”, time.localtime())</strong></p>
+<p>实例：</p>
+<pre><code>&gt;&gt;&gt; import time
+&gt;&gt;&gt; time.time()
+    1542964210.3512118
+&gt;&gt;&gt; time.ctime()
+    &apos;Fri Nov 23 17:10:17 2018&apos;
+&gt;&gt;&gt; time.localtime()
+    time.struct_time(tm_year=2018, tm_mon=11, tm_mday=23, tm_hour=17, tm_min=10, tm_sec=36, tm_wday=4, tm_yday=327, tm_isdst=0)
+&gt;&gt;&gt; time.strftime(&quot;%Y%m%d%H%M%S&quot;, time.localtime())
+    &apos;20181123171129&apos;
+&gt;&gt;&gt; time.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;, time.localtime())
+    &apos;2018-11-23 17:12:16&apos;
+</code></pre><p>引入测试文件：</p>
+<pre><code>...
+import time
+...
+now = time.strftime(&quot;%Y-%m-%d-%H_%M_%S&quot;, time.localtime(time.time()))
+
+filename = &apos;D:\\PythonTestFiles\\seleniumTest\\Unittest\\report\\&apos;+now+&apos;result.html&apos;
+fp = open(filename, &apos;wb&apos;)
+
+runner1 = HTMLTestRunner(stream=fp, title=u&apos;Test Result(Baidu,Youdao)&apos;, description=u&apos;Situation of Test Case&apos;)
+runner1.run(testunit)
+
+fp.close()
+</code></pre><p>执行后生成报告文件名称如图：<br><img src="https://i.imgur.com/76DHzWX.png" alt=""></p>
+<pre><code>__init__.py文件解析
+要弄明白这个问题，首先要知道，python 在执行import 语句时，到底进行了什么操作，按照python 的文档，它执行了如下操作：    
+第1 步，创建一个新的，空的module 对象（它可能包含多个module）；
+第2 步，把这个 module 对象插入sys.module 中
+第3 步，装载 module 的代码（如果需要，首先必须编译）
+第4 步，执行新的module 中对应的代码。
+在执行第3 步时，首先要找到module 程序所在的位置，搜索的顺序是：
+    当前路径（以及从当前目录指定的sys.path），然后是PYTHONPATH，然后是python 的安装设置相关的默认路径。正因为存在这样的顺序，如果当前路径或PYTHONPATH 中存在与标准module 同样的module，则会覆盖标准module。也就是说，如果当前目录下存在xml.py，那么执行import xml 时，导入的是当前目录下的module，而不是系统标准的xml。
+了解了这些，我们就可以先构建一个package，以普通module 的方式导入，就可以直接访问此package中的各个module 了。python 中的package 必须包含一个__init__.py 的文件。
+
+为了标识一下目录是可引用的包，那么就需要在目录下创建一个__init__.py 文件。
+其实__init__.py 文件中可以有内容；我们在导入一个包时，实际上导入了它的__init__.py 文件。
+在__init__.py 文件中添加导入包。
+
+import baidu
+import youdao
+
+在all_tests.py中只需加入路径，导入全部包:
+import sys
+sys.path.append(&apos;\test_case&apos;)
+from test_case import *
+
+注：
+在我的python3环境下，sys.path只添加到相对路径后，在PyScripter中执行后在__init__.py执行时仍会报错：
+...
+Error： File &quot;D:\PythonTestFiles\seleniumTest\Unittest\test_case\__init__.py&quot;, line 1, in &lt;module&gt;
+import baidu
+ModuleNotFoundError: No module named &apos;baidu&apos;
+解决办法是，sys.path.append时加入绝对路径：
+sys.path.append(&apos;D:\\PythonTestFiles\\seleniumTest\\Unittest\\test_case&apos;),则解决问题。
+
+all_tests.py完整代码：
+
+import unittest
+from HTMLTestRunner import HTMLTestRunner
+import time
+
+import sys
+sys.path.append(&apos;D:\\PythonTestFiles\\seleniumTest\\Unittest\\test_case&apos;)
+#print(sys.path )
+from test_case import *
+
+testunit = unittest.TestSuite()
+
+testunit.addTest(unittest.makeSuite(baidu.Baidu))
+testunit.addTest(unittest.makeSuite(youdao.Youdao))
+
+#runner = unittest.TextTestRunner()
+#runner.run(testunit)
+
+now = time.strftime(&quot;%Y-%m-%d-%H_%M_%S&quot;, time.localtime(time.time()))
+
+filename = &apos;D:\\PythonTestFiles\\seleniumTest\\Unittest\\report\\&apos;+now+&apos;result.html&apos;
+fp = open(filename, &apos;wb&apos;)
+
+runner1 = HTMLTestRunner(stream=fp, title=u&apos;Test Result(Baidu,Youdao)&apos;, description=u&apos;Situation of Test Case&apos;)
+runner1.run(testunit)
+
+fp.close()
+</code></pre><h3 id="discover解决用例的读取"><a href="#discover解决用例的读取" class="headerlink" title="discover解决用例的读取"></a>discover解决用例的读取</h3><p>unittest 的TestLoader 成员下面提供了discover()方法可解决用例文件自动添加到测试套件中。通过文件的名称来判断是否为测试用例文件。</p>
+<pre><code>TestLoader：测试用例加载器，其包括多个加载测试用例的方法。返回一个测试套件。
+
+discover(start_dir，pattern=&apos;test*.py&apos;，top_level_dir=None)
+找到指定目录下所有测试模块，并可递归查到子目录下的测试模块，只有匹配到文件名才能被加载。
+如果启动的不是顶层目录，那么顶层目录必须要单独指定。
+
+start_dir ：要测试的模块名或测试用例目录。
+pattern=&apos;test*.py&apos; ：表示用例文件名的匹配原则。星号“*”表示任意多个字符。
+
+这里需要说明一个测试用例的创建规则：我们在实际的测试用开发中用例的创建也应该分两个阶段，
+用例刚在目录下被创建，可命名为aa.py ，当用例创建完成并且运行稳定后再添加到测试套件中。那么可以将aa.py 重新命名为start_aa.py ，那么测试套件在运行时只识别并运行start 开头的.py 文件。
+
+理解了这个规则，我们就可以按照一个约定来命名自己用例文件名。这里我们将baidu.py 、youdao.py和webcoud.py 三个文件重命名为以start_开头。
+
+top_level_dir=None：测试模块的顶层目录。如果没顶层目录（也就是说测试用例不是放在多级目录中），默认为None。
+</code></pre><p>最后的整个包结构：<br><img src="https://i.imgur.com/zexr43W.png" alt=""></p>
+<p>test_case 目录用于存具体的用例，/test_case/public 目录存入测试用例所调用的公共模块；data<br>目录用于存放参数化的数据；report 目录用于存放测试报告，，all_case.py 文件执行test_case目录中的测试用例</p>
 
                 <hr>
                 
@@ -643,7 +752,7 @@ with open(&apos;result.txt&apos;, &apos;a+&apos;, encoding=&apos;utf-8&apos;) as
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium-IDE"><span class="toc-text">selenium IDE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#selenium-IDE的安装-及介绍"><span class="toc-text">selenium IDE的安装 及介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selenium-IDE-脚本录制"><span class="toc-text">Selenium IDE 脚本录制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引入-unittest-框架"><span class="toc-text">引入 unittest 框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Unittest-单元测试框架解析"><span class="toc-text">Unittest 单元测试框架解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#批量执行测试用例"><span class="toc-text">批量执行测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Select定位"><span class="toc-text">使用Select定位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定位"><span class="toc-text">定位</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成HTMl报告"><span class="toc-text">生成HTMl报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引入HTMLTestRunner"><span class="toc-text">引入HTMLTestRunner</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#忽略某个测试用例不执行，也就是跳过某个用例不执行"><span class="toc-text">忽略某个测试用例不执行，也就是跳过某个用例不执行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#将运行结果保存到文件中"><span class="toc-text">将运行结果保存到文件中</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium-IDE"><span class="toc-text">selenium IDE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#selenium-IDE的安装-及介绍"><span class="toc-text">selenium IDE的安装 及介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selenium-IDE-脚本录制"><span class="toc-text">Selenium IDE 脚本录制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引入-unittest-框架"><span class="toc-text">引入 unittest 框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Unittest-单元测试框架解析"><span class="toc-text">Unittest 单元测试框架解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#批量执行测试用例"><span class="toc-text">批量执行测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Select定位"><span class="toc-text">使用Select定位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定位"><span class="toc-text">定位</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成HTMl报告"><span class="toc-text">生成HTMl报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引入HTMLTestRunner"><span class="toc-text">引入HTMLTestRunner</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#忽略某个测试用例不执行，也就是跳过某个用例不执行"><span class="toc-text">忽略某个测试用例不执行，也就是跳过某个用例不执行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#将运行结果保存到文件中"><span class="toc-text">将运行结果保存到文件中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#报告文件名取当前时间"><span class="toc-text">报告文件名取当前时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#discover解决用例的读取"><span class="toc-text">discover解决用例的读取</span></a></li></ol></li></ol></li></ol>
                 </div>
             </div>
         </div>
