@@ -719,6 +719,143 @@ pattern=&apos;test*.py&apos; ：表示用例文件名的匹配原则。星号“
 top_level_dir=None：测试模块的顶层目录。如果没顶层目录（也就是说测试用例不是放在多级目录中），默认为None。
 </code></pre><p>最后的整个包结构：<br><img src="https://i.imgur.com/zexr43W.png" alt=""></p>
 <p>test_case 目录用于存具体的用例，/test_case/public 目录存入测试用例所调用的公共模块；data<br>目录用于存放参数化的数据；report 目录用于存放测试报告，，all_case.py 文件执行test_case目录中的测试用例</p>
+<h3 id="获取最新的report文件"><a href="#获取最新的report文件" class="headerlink" title="获取最新的report文件"></a>获取最新的report文件</h3><p>如，report存按时间生成的report.html，可以设置获取最新的report。</p>
+<pre><code>import os, datetime, time
+
+result_dir = &apos;D:\\PythonTestFiles\\seleniumTest\\Unittest\\report&apos;
+
+lists = os.listdir(result_dir)
+lists.sort(key=lambda fn: os.path.getmtime(result_dir+&quot;\\&quot;+fn) if not
+            os.path.isdir(result_dir+&quot;\\&quot;+fn) else 0)
+
+print(&apos;newest file is: &apos; + lists[-1])
+file = os.path.join(result_dir, lists[-1])
+print(file)
+</code></pre><p>解析：</p>
+<p><strong>os.listdir()</strong></p>
+<p>用于获取目录下的所有文件列表</p>
+<p><strong>lists.sort(key=lambda fn: os.path.getmtime(result_dir+”\“+fn) if not os.path.isdir(result_dir+”\“+fn) else 0)</strong></p>
+<p>在这段代码中，这一条语句是比较复杂难懂的，我们将其拆开来分析。</p>
+<pre><code>lists.sort()
+Python 列表有一个内置的列表。sort()方法用于改变列表中元素的位置。还有一个sorted()内置函数，建立了一种新的迭代排序列表。
+
+总结： sorted 和list.sort 都接受key, reverse定制。但是区别是。list.sort()是列表中的方法，只能用于列表。而sorted可以用于任何可迭代的对象。list.sort()是在原序列上进行修改，不会产生新的序列。所以如果你不需要旧的序列，可以选择list.sort()。 sorted() 会返回一个新的序列。旧的对象依然存在。
+
+key=lambda fn:
+key 是带一个参数的函数，用来为每个元素提取比较值. 默认为None, 即直接比较每个元素
+lambda 提供了一个运行时动态创建函数的方法。我这里创建了fn 函数。
+
+下面一个小例子来演示通过sort()方法对一数组进排序：
+    #定位一个数组
+&gt;&gt;&gt; lists=[&apos;c.txt&apos;,&apos;b.txt&apos;,&apos;d.txt&apos;,&apos;a.txt&apos;]
+&gt;&gt;&gt; lists
+[&apos;c.txt&apos;, &apos;b.txt&apos;, &apos;d.txt&apos;, &apos;a.txt&apos;]
+    #取数组中的key 做排序
+&gt;&gt;&gt; lists.sort(key=lambda ls:ls[0])
+&gt;&gt;&gt; print lists
+[&apos;a.txt&apos;, &apos;b.txt&apos;, &apos;c.txt&apos;, &apos;d.txt&apos;]
+&gt;&gt;&gt; lists.sort(key=lambda ls:ls[1])
+&gt;&gt;&gt; lists
+[&apos;c.txt&apos;, &apos;b.txt&apos;, &apos;d.txt&apos;, &apos;a.txt&apos;]
+lists:lists[0] 表示取的是每个元组中的前半部分，即为：c、b、d、a ，所以可进行排序。
+lists:lists[1] 表示取的是每个元组中的后半部分，即为：txt ，不能有效的进行排序规律，所以按照数组的原样输出。
+</code></pre><p><strong>os.path.getmtime()</strong></p>
+<p>getmtime()返回文件列表中最新文件的时间（最新文件的时间最大，所以我们会得到一个最大时间）</p>
+<p><strong>os.path.isdir()</strong></p>
+<p>isdir()函数判断某一路径是否为目录。</p>
+<p>经过sort()复杂的运算，我们获得了最新的lists 文件列表，这个文件列表是根据文件的创建时间进行<br>排序的。</p>
+<p><strong>lists[-1]</strong></p>
+<p>-1 表示取文件列表中的最大值，也就是最新被创建的文件。</p>
+<p><strong>os.path.join()</strong></p>
+<p>join()方法用来连接字符串，通过路径与文件名的拼接，我们将得到目录下最新被创建的的文件名的完<br>整路径。</p>
+<p>运行newfile.py 得到如下结果：</p>
+<pre><code>&gt;&gt;&gt; 
+newest file is: 2018-11-26-11_37_26result.html
+D:\PythonTestFiles\seleniumTest\Unittest\repor\2018-11-26-11_37_26result.html
+</code></pre><p>#多进程/多线程 #</p>
+<h2 id="threading-模块"><a href="#threading-模块" class="headerlink" title="threading 模块"></a>threading 模块</h2><p>threading模块支持守护进程（python3以上已没有thread模块）</p>
+<p>例：</p>
+<pre><code>import threading
+from time import sleep, ctime
+
+loops = [4, 2]
+
+def loop(nloop, nsec):
+    print(&apos;start loop&apos;, nloop, &apos;at:&apos;, ctime())
+    sleep(nsec)
+    print(&apos;loop&apos;, nloop, &apos;done at:&apos;, ctime())
+
+def main():
+    print(&apos;starting at:&apos;, ctime())
+    threads = []
+    nloops = range(len(loops))
+
+    #create threads
+    for i in nloops:
+        t = threading.Thread(target=loop, args=(i, loops[i]))
+        threads.append(t)
+
+    #start threads
+    for i in nloops:
+        threads[i].start()
+
+    #wait for ends of all threads
+    for i in nloops:
+        threads[i].join()
+
+    print(&apos;all end:&apos;, ctime())
+
+if __name__ == &apos;__main__&apos;:
+    main()
+</code></pre><p><strong>start()</strong></p>
+<p>可是线程活动</p>
+<p><strong>join()</strong></p>
+<p>等待线程的终止</p>
+<p>所有的线程都创建了之后，再一起调用start()函数启动，而不是创建一个启动一个。而且，不用再管理一堆锁（分配锁，获得锁，释放锁，检查锁的状态等），只要简单地对每个线程调用join()函数就可以了。</p>
+<p>join()会等到线程结束，或者在给了timeout参数的时候，等到超时为止。join()的另一个比较重要的方面是它可以完成不用调用。一旦线程启动后，就会一直运行，直到线程的函数结束，退出为止。</p>
+<p>使用可调用的类：</p>
+<pre><code>import threading
+from time import sleep, ctime
+
+loops = [4, 2]
+
+class ThreadFunc(object):
+    def __init__(self,func,args,name=&apos;&apos;):
+        self.name = name
+        self.func = func
+        self.args = args
+
+    def __call__(self):
+        #apply(self.func, self.args)  #in python3,apply() not exists
+        self.func(*self.args)
+
+def loop(nloop, nsec):
+    print(&apos;start loop&apos;, nloop, &apos;at:&apos;, ctime())
+    sleep(nsec)
+    print(&apos;loop&apos;, nloop, &apos;done at&apos;, ctime())
+
+def main():
+    print(&apos;starting at:&apos;, ctime())
+    threads = []
+    nloops = range(len(loops))
+
+    for i in nloops:
+        t = threading.Thread(
+                target=ThreadFunc(loop, (i,loops[i]), loop.__name__))
+        threads.append(t)
+
+    for i in nloops:
+        threads[i].start()
+
+    for i in nloops:
+        threads[i].join()
+
+    print(&apos;all end:&apos;, ctime())
+
+if __name__ == &apos;__main__&apos;:
+    main()
+</code></pre><p><strong>APPLY()</strong></p>
+<p>python2有一个叫做apply()的全局函数，它使用一个函数f和一个列表[a,b,c]作为参数，返回值是f(a,b,c).可以直接调用这个函数，在列表前添加一个星号作为参数传递给它来完成同样的事情。在python3里，apply()函数不再存在；必须使用星号标记。</p>
 
                 <hr>
                 
@@ -752,7 +889,7 @@ top_level_dir=None：测试模块的顶层目录。如果没顶层目录（也�
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium-IDE"><span class="toc-text">selenium IDE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#selenium-IDE的安装-及介绍"><span class="toc-text">selenium IDE的安装 及介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selenium-IDE-脚本录制"><span class="toc-text">Selenium IDE 脚本录制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引入-unittest-框架"><span class="toc-text">引入 unittest 框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Unittest-单元测试框架解析"><span class="toc-text">Unittest 单元测试框架解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#批量执行测试用例"><span class="toc-text">批量执行测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Select定位"><span class="toc-text">使用Select定位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定位"><span class="toc-text">定位</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成HTMl报告"><span class="toc-text">生成HTMl报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引入HTMLTestRunner"><span class="toc-text">引入HTMLTestRunner</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#忽略某个测试用例不执行，也就是跳过某个用例不执行"><span class="toc-text">忽略某个测试用例不执行，也就是跳过某个用例不执行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#将运行结果保存到文件中"><span class="toc-text">将运行结果保存到文件中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#报告文件名取当前时间"><span class="toc-text">报告文件名取当前时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#discover解决用例的读取"><span class="toc-text">discover解决用例的读取</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium-IDE"><span class="toc-text">selenium IDE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#selenium-IDE的安装-及介绍"><span class="toc-text">selenium IDE的安装 及介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selenium-IDE-脚本录制"><span class="toc-text">Selenium IDE 脚本录制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引入-unittest-框架"><span class="toc-text">引入 unittest 框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Unittest-单元测试框架解析"><span class="toc-text">Unittest 单元测试框架解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#批量执行测试用例"><span class="toc-text">批量执行测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Select定位"><span class="toc-text">使用Select定位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定位"><span class="toc-text">定位</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成HTMl报告"><span class="toc-text">生成HTMl报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引入HTMLTestRunner"><span class="toc-text">引入HTMLTestRunner</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#忽略某个测试用例不执行，也就是跳过某个用例不执行"><span class="toc-text">忽略某个测试用例不执行，也就是跳过某个用例不执行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#将运行结果保存到文件中"><span class="toc-text">将运行结果保存到文件中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#报告文件名取当前时间"><span class="toc-text">报告文件名取当前时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#discover解决用例的读取"><span class="toc-text">discover解决用例的读取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取最新的report文件"><span class="toc-text">获取最新的report文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#threading-模块"><span class="toc-text">threading 模块</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
