@@ -854,8 +854,177 @@ def main():
 
 if __name__ == &apos;__main__&apos;:
     main()
-</code></pre><p><strong>APPLY()</strong></p>
-<p>python2有一个叫做apply()的全局函数，它使用一个函数f和一个列表[a,b,c]作为参数，返回值是f(a,b,c).可以直接调用这个函数，在列表前添加一个星号作为参数传递给它来完成同样的事情。在python3里，apply()函数不再存在；必须使用星号标记。</p>
+</code></pre><blockquote>
+<pre><code>**APPLY()**
+
+python2有一个叫做apply()的全局函数，它使用一个函数f和一个列表[a,b,c]作为参数，返回值是f(a,b,c).可以直接调用这个函数，在列表前添加一个星号作为参数传递给它来完成同样的事情。在python3里，apply()函数不再存在；必须使用星号标记。
+
+![](https://i.imgur.com/GL3KcSE.png)
+
+(相关链接：http://cache.baiducontent.com/c?m=9d78d513d9810ae902b0c8690c66d6711925d3217e899b013894cd47c9221d030671e2c83a3f554196d27c1050f31902b7a57765377471eac4d5cd1d86e2d57467c03a766d188c4617d81cacdc46529b66cf04&amp;p=882a9645dcd218e709be9b7c4f4c93&amp;newp=917fc91d85cc43be03bd9b7d0d1cc9231610db2151d4d5116b82c825d7331b001c3bbfb423261000d3ce7c6201a94a5be8f732763d0923a3dda5c91d9fb4c57479997c&amp;user=baidu&amp;fm=sc&amp;query=python3+apply&amp;qid=975390f700007b4d&amp;p1=1)
+</code></pre></blockquote>
+<p>创建新线程的时候，Thread 对象会调用我们的ThreadFunc 对象，这时会用到一个特殊函数<strong>call</strong>()。由于我们已经有了要用的参数，所以就不用再传到Thread()的构造函数中。由于我们有一个参数的元组，这时要在代码中使用apply()函数。</p>
+<p>我们传了一个可调用的类(的实例)，而不是仅传一个函数</p>
+<p><strong><strong>init</strong>()</strong></p>
+<p>方法在类的一个对象被建立时运行。这个方法可以用来对你的对象做一些初始化</p>
+<p><strong>apply()</strong></p>
+<p>apply(func [, args [, kwargs ]]) 函数用于当函数参数已经存在于一个元组或字典中时，间接地调用函数。args 是一个包含将要提供给函数的按位置传递的参数的元组。如果省略了args，任何参数都不会被传递，kwargs 是一个包含关键字参数的字典。</p>
+<h2 id="multiprocessing-模块"><a href="#multiprocessing-模块" class="headerlink" title="multiprocessing 模块"></a>multiprocessing 模块</h2><p>multiprocessing 使用类似于threading 模块的API ，multiprocessing 提供了本地和远程的并发性，有效的通过全局解释锁(Global Interceptor Lock, GIL)来使用进程(而不是线程)。由于GIL 的存在，在CPU 密集型的程序当中，使用多线程并不能有效地利用多核CPU 的优势，因为一个解释器在同一时刻只会有一个线程在执行。所以，multiprocessing 模块可以充分的利用硬件的多处理器来进行工作。它支持Unix 和Windows 系统上的运行。</p>
+<pre><code>from multiprocessing import Process
+
+def f(name):
+    print(&apos;hello&apos;, name)
+
+if __name__ == &apos;__main__&apos;:
+    p = Process(target=f, args=(&apos;bob&apos;,))
+    p.start()
+    p.join()
+运行结果：
+hello bob
+</code></pre><p>与threading.Thread 类似，它可以利用multiprocessing.Process 对象来创建一个进程。</p>
+<p>Process 对象与Thread 对象的用法相同，也有start(), run(), join()的方法。</p>
+<pre><code>multiprocessing.Process(group=None, target=None, name=None, args=(), kwargs={})
+</code></pre><p>target 表示调用对象，args 表示调用对象的位置参数元组。kwargs 表示调用对象的字典。Name 为别名。group 实质上不使用。</p>
+<p>扩展理解：</p>
+<pre><code>在*nix 上面创建的新的进程使用的是fork：
+一个进程，包括代码、数据和分配给进程的资源。fork()函数通过系统调用创建一个与原来进程几乎
+完全相同的进程，也就是两个进程可以做完全相同的事，但如果初始参数或者传入的变量不同，两个进程
+也可以做不同的事。
+这意味着子进程开始执行的时候具有与父进程相同的全部内容。请记住这点，这个将是下面我们讨论
+基于继承的对象共享的基础。所谓基于继承的对象共享，是说在创建子进程之前由父进程初始化的某些对
+象可以在子进程当中直接访问到。在Windows 平台上，因为没有fork 语义的系统调用，基于继承的共
+享对象比*nix 有更多的限制，最主要就是体现在要求Process 的__init__当中的参数必须可以Pickle。
+但是，并不是所有的对象都是可以通过继承来共享，只有multiprocessing 库当中的某些对象才可以。
+例如Queue，同步对象，共享变量，Manager 等等。
+在一个multiprocessing 库的典型使用场景下，所有的子进程都是由一个父进程启动起来的，这个父
+进程称为master 进程。这个父进程非常重要，它会管理一系列的对象状态，一旦这个进程退出，子进程
+很可能会处于一个很不稳定的状态，因为它们共享的状态也许已经被损坏掉了。因此，这个进程最好尽可
+能做最少的事情，以便保持其稳定性。
+</code></pre><p><strong>获取进程ID</strong></p>
+<p>process2.py</p>
+<pre><code>from multiprocessing import Process
+import os
+
+def info(title):
+    print(title)
+    print(&apos;module name:&apos;, __name__)
+    if hasattr(os, &apos;getppid&apos;):
+        print(&apos;parent process:&apos;, os.getppid())
+    print(&apos;process id:&apos;, os.getpid())
+
+def f(name):
+    info(&apos;function f&apos;)
+    print(&apos;hello&apos;, name)
+
+if __name__ == &apos;__main__&apos;:
+    info(&apos;main line&apos;)
+    p = Process(target=f, args=(&apos;bob&apos;,))
+    p.start()
+    p.join()
+
+运行结果：
+&gt;&gt;&gt; 
+main line
+module name: __main__
+parent process: 7940
+process id: 2416
+function f
+module name: __mp_main__
+parent process: 2416
+process id: 7888
+hello bob
+</code></pre><p>multiprocessing 提供了threading 包中没有的IPC(比如Pipe 和Queue)，效率上更高。应优先<br>考虑Pipe 和Queue，避免使用Lock/Event/Semaphore/Condition 等同步方式(因为它们占据的不<br>是用户进程的资源)。</p>
+<p><strong>hasattr(object, name)</strong></p>
+<p>判断对象object 是否包含名为name 的特性（hasattr 是通过调用getattr(object, name)是否抛出异常来实现的）。hasattr(os, ‘getppid’) 用于判断系统是否包含getppid。</p>
+<p>getpid()得到本身进程id，getppid()得到父进程进程id，如果已经是父进程，得到系统进程<br>id。</p>
+<p>Process.PID 中保存有PID，如果进程还没有start()，则PID 为None。</p>
+<h2 id="Pipe和queue"><a href="#Pipe和queue" class="headerlink" title="Pipe和queue"></a>Pipe和queue</h2><p>multiprocessing 包中有Pipe 类和Queue 类来分别支持这两种IPC 机制。Pipe 和Queue 可以<br>用来传送常见的对象。</p>
+<p>（ 1 ） Pipe 可以是单向(half-duplex) ， 也可以是双向(duplex) 。我们通过<br>mutiprocessing.Pipe(duplex=False)创建单向管道(默认为双向)。一个进程从PIPE 一端输入<br>对象，然后被PIPE 另一端的进程接收，单向管道只允许管道一端的进程输入，而双向管道则允许从两端<br>输入。</p>
+<p>pipe.py</p>
+<pre><code>import multiprocessing
+
+def procl(pipe):
+    pipe.send(&apos;hello&apos;)
+    print(&apos;procl rec:&apos;, pipe.recv())
+
+def proc2(pipe):
+    print(&apos;proc2 rec:&apos;, pipe.recv())
+    pipe.send(&apos;hello, too&apos;)
+
+pipe = multiprocessing.Pipe()
+
+p1 = multiprocessing.Process(target=proc1, args=(pipe[0], ))
+p2 = multiprocessing.Process(target=proc2, args=(pipe[1], ))
+
+p1.start()
+p2.start()
+p1.join()
+p2.join()
+</code></pre><p><strong>注：本程序只能在Linux/Unix运行</strong></p>
+<p>运行结果：</p>
+<pre><code>‘proc2 rec:’，‘hello’
+‘proc2 rec:’，‘hello,too’
+</code></pre><p>这里的Pipe 是双向的。Pipe 对象建立的时候，返回一个含有两个元素的表，每个元素代表Pipe<br>的一端(Connection 对象)。我们对Pipe 的某一端调用send()方法来传送对象，在另一端使用recv()<br>来接收。</p>
+<p>（2） Queue 与Pipe 相类似，都是先进先出的结构。但Queue 允许多个进程放入，多个进程从队<br>列取出对象。Queue 使用mutiprocessing.Queue(maxsize)创建，maxsize 表示队列中可以存放对<br>象的最大数量。</p>
+<p>queue.py</p>
+<pre><code>import os
+import multiprocessing
+import time
+
+#input worker
+def inputQ(queue):
+    info = str(os.getpid()) + &apos;(put):&apos; + str(time.time())
+    queue.put(info)
+
+#output worker
+def outputQ(queue, lock):
+    info =queue.get()
+    lock.acquire()
+    print(str(os.getpid()) + &apos;(get):&apos; + info)
+    lock.release()
+
+#Main
+record1 = []        #store input process
+record2 = []        #store output process
+lock = multiprocessing.lock()
+queue = multiprocessing.Queue(3)
+
+#input processes
+for i in range(10):
+    process = multiprocessing.Process(target=inputQ, args=(queue,))
+    process.start()
+    record1.append(process)
+
+#output process
+for i in range(10):
+    process = multiprocessing.Process(target=outputQ, args=(queue,lock))
+    process.start()
+    record2.append(process)
+
+for p in record1:
+    p.join()
+
+queue.close()
+
+for p in record2:
+    p.join()
+</code></pre><p><strong>注：本程序只能在Linux/Unix运行</strong></p>
+<p>运行结果：</p>
+<pre><code>2702(get):2689(put):1387947815.56
+2704(get):2691(put):1387947815.58
+2706(get):2690(put):1387947815.56
+2707(get):2694(put):1387947815.59
+2708(get):2692(put):1387947815.61
+2709(get):2697(put):1387947815.6
+2703(get):2698(put):1387947815.61
+2713(get):2701(put):1387947815.65
+2716(get):2699(put):1387947815.63
+2717(get):2700(put):1387947815.62
+</code></pre><h1 id="多进程执行测试用例"><a href="#多进程执行测试用例" class="headerlink" title="多进程执行测试用例"></a>多进程执行测试用例</h1><p>因为多进程与多线程特性在python 中当中也属于比较高级的应用，对于初学者来说比理解起来有一定<br>难度，所以在介绍python 的多进程与多线程时我们通过相当的篇幅和实例来进行讲解，目的是为了让读<br>者深入的理解python 的多进程与多线程。</p>
+<p>对文件结构调整：</p>
+<p><img src="https://i.imgur.com/S4qkE1W.png" alt=""></p>
+<p>编写 all_tests_process</p>
+<p>（注：python3中已弃掉commands，改用subprocess）</p>
 
                 <hr>
                 
@@ -889,7 +1058,7 @@ if __name__ == &apos;__main__&apos;:
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium-IDE"><span class="toc-text">selenium IDE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#selenium-IDE的安装-及介绍"><span class="toc-text">selenium IDE的安装 及介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selenium-IDE-脚本录制"><span class="toc-text">Selenium IDE 脚本录制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引入-unittest-框架"><span class="toc-text">引入 unittest 框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Unittest-单元测试框架解析"><span class="toc-text">Unittest 单元测试框架解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#批量执行测试用例"><span class="toc-text">批量执行测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Select定位"><span class="toc-text">使用Select定位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定位"><span class="toc-text">定位</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成HTMl报告"><span class="toc-text">生成HTMl报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引入HTMLTestRunner"><span class="toc-text">引入HTMLTestRunner</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#忽略某个测试用例不执行，也就是跳过某个用例不执行"><span class="toc-text">忽略某个测试用例不执行，也就是跳过某个用例不执行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#将运行结果保存到文件中"><span class="toc-text">将运行结果保存到文件中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#报告文件名取当前时间"><span class="toc-text">报告文件名取当前时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#discover解决用例的读取"><span class="toc-text">discover解决用例的读取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取最新的report文件"><span class="toc-text">获取最新的report文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#threading-模块"><span class="toc-text">threading 模块</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#selenium-IDE"><span class="toc-text">selenium IDE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#selenium-IDE的安装-及介绍"><span class="toc-text">selenium IDE的安装 及介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selenium-IDE-脚本录制"><span class="toc-text">Selenium IDE 脚本录制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引入-unittest-框架"><span class="toc-text">引入 unittest 框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Unittest-单元测试框架解析"><span class="toc-text">Unittest 单元测试框架解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#批量执行测试用例"><span class="toc-text">批量执行测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Select定位"><span class="toc-text">使用Select定位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定位"><span class="toc-text">定位</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成HTMl报告"><span class="toc-text">生成HTMl报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引入HTMLTestRunner"><span class="toc-text">引入HTMLTestRunner</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#忽略某个测试用例不执行，也就是跳过某个用例不执行"><span class="toc-text">忽略某个测试用例不执行，也就是跳过某个用例不执行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#将运行结果保存到文件中"><span class="toc-text">将运行结果保存到文件中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#报告文件名取当前时间"><span class="toc-text">报告文件名取当前时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#discover解决用例的读取"><span class="toc-text">discover解决用例的读取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取最新的report文件"><span class="toc-text">获取最新的report文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#threading-模块"><span class="toc-text">threading 模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#multiprocessing-模块"><span class="toc-text">multiprocessing 模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pipe和queue"><span class="toc-text">Pipe和queue</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多进程执行测试用例"><span class="toc-text">多进程执行测试用例</span></a></li></ol>
                 </div>
             </div>
         </div>
