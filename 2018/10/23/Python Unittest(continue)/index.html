@@ -1025,6 +1025,63 @@ for p in record2:
 <p><img src="https://i.imgur.com/S4qkE1W.png" alt=""></p>
 <p>编写 all_tests_process</p>
 <p>（注：python3中已弃掉commands，改用subprocess）</p>
+<pre><code>import unittest, time, os, multiprocessing
+#import commands
+import subprocess
+from email.mime.text import MIMEText
+import HTMLTestRunner
+import sys
+sys.path.append(&apos;\selenium_process&apos;)
+
+def EEEcreatsuite1():
+    casedir = []
+    listaa = os.listdir(&quot;D:\\PythonTestFiles\\seleniumTest\\selenium_process&quot;)
+    for xx in listaa:
+        if &quot;thread&quot; in xx:
+            casedir.append(xx)
+    #print(casedir)
+
+    suite = []
+    for n in casedir:
+        testunit = unittest.TestSuite()
+        discover = unittest.defaultTestLoader.discover(str(n),
+                    pattern=&apos;start_*.py&apos;,
+                    top_level_dir=r&apos;D:\\&apos;)
+        for test_suite in discover:
+            for test_case in test_suite:
+                testunit.addTests(test_case)
+                #print(testunit)
+        suite.append(testunit)
+    return suite, casedir
+
+def EEEmultiRunCase(suite,casedir):
+    now = time.strftime(&apos;%Y-%m-%d-%H_%M_%S&apos;, time.localtime(time.time()))
+    filename = &apos;D:\\PythonTestFiles\\seleniumTest\\selenium_process\\report&apos;+now+&apos;result.html&apos;
+    fp = open(filename, &apos;wb&apos;)
+
+    proclist = []
+    s = 0
+    for i in suite:
+        runner = HTMLTestRunner.HTMLTestRunner(
+                stream=fp,
+                title=str(casedir[s]+u&apos;Test Report&apos;),
+                description=u&apos;Test Case Running Situation:&apos;
+                )
+
+    proc = multiprocessing.Process(target=runner.run, args=(i,))
+    proclist.append(proc)
+    s = s + 1
+    for proc in proclist:
+        proc.start()
+    for proc in proclist:
+        proc.join()
+    fp.close()
+
+if __name__ == &apos;__main__&apos;:
+    runtmp = EEEcreatsuite1()
+    EEEmultiRunCase(runtmp[0],runtmp[1])
+</code></pre><p><a href="https://www.cnblogs.com/zhming26/p/6283361.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhming26/p/6283361.html</a></p>
+<p><a href="http://www.cnblogs.com/busui/p/7283137.html?utm_source=itdadao&amp;utm_medium=referral" target="_blank" rel="noopener">http://www.cnblogs.com/busui/p/7283137.html?utm_source=itdadao&amp;utm_medium=referral</a></p>
 
                 <hr>
                 
@@ -1110,7 +1167,7 @@ for p in record2:
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Baobiy 2018
+                    Copyright &copy; Baobiy 2019
                     <br>
                     <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
                     <br>
